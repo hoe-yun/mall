@@ -1,18 +1,18 @@
 package vo;
 
 public class Nostice {
-	private int nosticeNo;
+	private int noticeNo;
 	private int managerNo;
-	private String nosticeTitle;
-	private String nosticeContent;
+	private String noticeTitle;
+	private String noticeContent;
 	private String createdate;
 	private String updatedate;
 	
-	public int getNosticeNo() {
-		return nosticeNo;
+	public int getNoticeNo() {
+		return noticeNo;
 	}
-	public void setNosticeNo(int nosticeNo) {
-		this.nosticeNo = nosticeNo;
+	public void setNoticeNo(int noticeNo) {
+		this.noticeNo = noticeNo;
 	}
 	public int getManagerNo() {
 		return managerNo;
@@ -20,17 +20,17 @@ public class Nostice {
 	public void setManagerNo(int managerNo) {
 		this.managerNo = managerNo;
 	}
-	public String getNosticeTitle() {
-		return nosticeTitle;
+	public String getNoticeTitle() {
+		return noticeTitle;
 	}
-	public void setNosticeTitle(String nosticeTitle) {
-		this.nosticeTitle = nosticeTitle;
+	public void setNoticeTitle(String noticeTitle) {
+		this.noticeTitle = noticeTitle;
 	}
-	public String getNosticeContent() {
-		return nosticeContent;
+	public String getNoticeContent() {
+		return noticeContent;
 	}
-	public void setNosticeContent(String nosticeContent) {
-		this.nosticeContent = nosticeContent;
+	public void setNoticeContent(String noticeContent) {
+		this.noticeContent = noticeContent;
 	}
 	public String getCreatedate() {
 		return createdate;

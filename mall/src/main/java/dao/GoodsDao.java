@@ -25,6 +25,6 @@ public class GoodsDao {
 	list.add(g);
 	
 	}
-	return list;
+	return list; 
   }	
 }

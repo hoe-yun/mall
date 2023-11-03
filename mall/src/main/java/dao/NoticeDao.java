@@ -4,7 +4,7 @@ import java.util.*;
 import vo.*;
 
 public class NoticeDao {
-	// controller : noticeList.jsp
+	// controller : noticeList.jsp , noticeOne.jsp
 	public ArrayList<Nostice> selectNoticeList(int beginRow, int rowPerPage) throws Exception{
 		ArrayList<Nostice> list = new ArrayList<>();
 		
@@ -14,8 +14,8 @@ public class NoticeDao {
 		String dbuser = "root";
 		String dbpw = "java1234";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
-	
-		String sql = "SELECT notice_no noticeNo, manager_no managerNo, notice_title noticeTitle, notice_content noticeContent,createdate,updatedate FROM nostice LIMIT ?,?";
+		// noticeList 출력을 위한 nostice DB SELECT QUERY
+		String sql = "SELECT notice_no noticeNo, manager_no managerNo, notice_title noticeTitle, notice_content noticeContent,createdate,updatedate FROM nostice order by notice_no DESC LIMIT ?,?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1,beginRow);
 		stmt.setInt(2,rowPerPage);
@@ -34,17 +34,43 @@ public class NoticeDao {
 		//end model code : model date >> ArrayList<Nostice> list
 		return list;
 	}
-	//controller : insertNoticeAction.jsp
-	public int insertNotice(Nostice notice) throws Exception{
-		int row = 0;
-		//model code
+	//controller : noticeOne.jsp
+	public Nostice noticeOne(int noticeNo) throws Exception{
+		Nostice n = new Nostice();
 		// model code
 		Class.forName("org.mariadb.jdbc.Driver");
 		String url = "jdbc:mariadb://localhost:3306/mall";
 		String dbuser = "root";
 		String dbpw = "java1234";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
-		
+		// noticeOne을 출력하기 위한 SELECT QUERY
+		String sql = "SELECT notice_no noticeNo, manager_no managerNo, notice_title noticeTitle, notice_content noticeContent,createdate,updatedate FROM nostice WHERE notice_no = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, noticeNo);
+		ResultSet rs = stmt.executeQuery();
+		while(rs.next()) {
+			n = new Nostice();
+			n.setNoticeNo(rs.getInt("noticeNo"));
+			n.setManagerNo(rs.getInt("managerNo"));
+			n.setNoticeTitle(rs.getString("noticeTitle"));
+			n.setNoticeContent(rs.getString("noticeContent"));
+			n.setCreatedate(rs.getString("createdate"));
+			n.setUpdatedate(rs.getString("updatedate"));
+			
+		}
+		//end model code : model date >> ArrayList<Nostice> list
+		return n;
+	}
+	//controller : insertNoticeAction.jsp
+	public int insertNotice(Nostice notice) throws Exception{
+		int row = 0;
+		// model code
+		Class.forName("org.mariadb.jdbc.Driver");
+		String url = "jdbc:mariadb://localhost:3306/mall";
+		String dbuser = "root";
+		String dbpw = "java1234";
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		// notice 추가를 위한 INSERT QUERY
 		String sql = "INSERT INTO nostice(manager_no,notice_title,notice_content,createdate,updatedate) VALUES (?,?,?,NOW(),NOW())";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1,notice.getManagerNo());
@@ -52,6 +78,22 @@ public class NoticeDao {
 		stmt.setString(3, notice.getNoticeContent());
 		row = stmt.executeUpdate();
 		//end model code
+		return row;
+	}
+	//controller : delectNoticeAction.jsp
+	public int deleteNotice(int noticeNo) throws Exception {
+		int row = 0;
+		Class.forName("org.mariadb.jdbc.Driver");
+		String url = "jdbc:mariadb://localhost:3306/mall";
+		String dbuser = "root";
+		String dbpw = "java1234";
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		// notice 삭제를 위한 DELETE QUERY
+		String sql ="DELETE FROM nostice WHERE notice_no=?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, noticeNo);
+		System.out.println(stmt + "<- stmt delectTest()");
+		row = stmt.executeUpdate();
 		return row;
 	}
 }

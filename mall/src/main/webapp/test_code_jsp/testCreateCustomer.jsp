@@ -1,19 +1,23 @@
+<%@page import="dto.CreateCustomerDto"%>
+<%@page import="vo.Customer"%>
 <%@page import="dao.CustomerDao"%>
-<%@page import="vo.CreateCustomerVo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-CreateCustomerVo createCustomerVo = new CreateCustomerVo();
+CreateCustomerDto dto = new CreateCustomerDto();
 
-createCustomerVo.setCustomerId("testId");
-createCustomerVo.setCustomerPw("1234");
-createCustomerVo.setAddress("testadrr");
-createCustomerVo.setCustomerName("testName");
-createCustomerVo.setCustomerPhone("010-1234-1234");
+
+
+
+dto.setId("testId");
+dto.setPw("1234");
+dto.setName("testName");
+dto.setPhone("010-1234-1234");
+dto.setAddr("testadrr");
 
 CustomerDao customerDao = new CustomerDao();
 
-customerDao.createCumstomer(createCustomerVo);
+int genCusNo = customerDao.createCumstomer(dto);
 
 %>
 <!DOCTYPE html>
@@ -23,6 +27,6 @@ customerDao.createCumstomer(createCustomerVo);
 <title>Insert title here</title>
 </head>
 <body>
-
+	<%=genCusNo%>
 </body>
 </html>

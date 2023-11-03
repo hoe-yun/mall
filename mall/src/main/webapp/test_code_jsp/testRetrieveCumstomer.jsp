@@ -1,16 +1,15 @@
+<%@page import="vo.CustomerPwHistory"%>
+<%@page import="dto.RetrieveCustomerAllInfoDto"%>
 <%@page import="vo.CustomerAddr"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="vo.RetrieveCumstomerInfoVo"%>
 <%@page import="dao.CustomerDao"%>
-<%@page import="vo.CreateCustomerVo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
 
 CustomerDao customerDao = new CustomerDao();
+RetrieveCustomerAllInfoDto dto = customerDao.retrieveCustomerAllInfoByCusNo(1);
 
- RetrieveCumstomerInfoVo retrieveCumstomerVo = customerDao.retrieveCumstomerInfo(1);
- ArrayList<CustomerAddr> addrList = customerDao.retrieveCumstomerAddr(1);
 %>
 <!DOCTYPE html>
 <html>
@@ -19,18 +18,44 @@ CustomerDao customerDao = new CustomerDao();
 <title>Insert title here</title>
 </head>
 <body>
-<%
-	out.print(retrieveCumstomerVo.getCustomerId());
-	out.print(retrieveCumstomerVo.getCustomerName());
-	out.print(retrieveCumstomerVo.getCustomerPhone());
-
-%>
+<%=dto.getCustomerNo()%>
+	<br>
+<%=dto.getCustomerId()%>
+	<br>
+<%=dto.getCustomerPw()%>
+	<br>
+<%=dto.getCreatedateCustomer()%>
+	<br>
+<%=dto.getUpdatedateCustomer() %>
+	<br>
+<%=dto.getActive()%>
+	<br>
+<%=dto.getCustomerName()%>
+	<br>
+<%=dto.getCustomerPhone()%>
+	<br>
+<%=dto.getCreatedateCustomerDetail()%>
+	<br>
+<%=dto.getUpdatedateCustomerDetail() %>
+	<br>
+<%=dto.getCustomerAddrList()%>
+	<br>
+<%=dto.getCustomerPwHistoryList()%>
 	<br>
 <%
- for( CustomerAddr s : addrList){
-	 out.print(s.getCustomerAddrNo() + s.getAddress());
- }
+	for(CustomerAddr ca : dto.getCustomerAddrList()){
+		out.print(ca.getCustomerAddrNo()+" "+ca.getCustomerNo()+" "+ca.getAddress()+" "+ca.getCreatedate()+" "+ca.getUpdatedate()+"<br>");
+		
+	}
 %>
+
+<%
+	for(CustomerPwHistory ca : dto.getCustomerPwHistoryList()){
+		out.print(ca.getCustomerPwHistoryNo()+" "+ca.getCustomerNo()+" "+ca.getCustomerPw()+" "+ca.getCreatedate()+"<br>");
+		
+	}
+%>
+	
 
 </body>
 </html>

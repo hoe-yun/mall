@@ -254,10 +254,8 @@
                             <div class="product__item">
                                 <div class="product__item__pic set-bg" data-setbg="img/product/<%=g.getGoodsTitle() %>.png">
                                     <ul class="product__hover">
-                                        <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                                        <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a>
+                                        <li><a href="./productDetail.jsp"><img src="img/icon/search.png" alt=""><span>Detail</span></a></li>
                                         </li>
-                                        <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
                                     </ul>
                                 </div>
                                 <div class="product__item__text">

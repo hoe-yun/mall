@@ -199,13 +199,13 @@
 						            <li>전화번호 <span id="userPhone"><%=customerInfo.get("customerPhone") %></span></li>
 						            <li>가입일 <span id="joinDate"><%=customerInfo.get("createdate") %></span></li>
 						        </ul>
-						        <ul class="checkout__total__all">
+						        <ul id="updatePwForm" class="checkout__total__all">
 						            <li><button type="button" class="site-btn p-1" id="updateInfo" onclick="editUserInfo()">고객정보 수정하기</button></li>
 						            <li><button type="button" class="site-btn p-1" id="updatePw" >비밀번호 변경하기</button></li>
 						        </ul>
 						        <div class="checkout__input__checkbox">
 						        </div>
-						        <p>보안을 위해 이전에 사용되지 않은 <br> 비밀번호로 변경 가능합니다.</p>
+						        <p id="pwAlert">보안을 위해 이전에 사용되지 않은 <br> 비밀번호로 변경 가능합니다.</p>
 						
 						        <button type="button" id="deleteCustomer" class="site-btn">회원탈퇴하기</button>
 						    </div>
@@ -348,7 +348,7 @@
         });
 		
 		//주소장 수정해제
-		$('.form-control').each(function() {
+		$('.form-control[name=address]').each(function() {
 	        $(this).click(function() {
 	            $(this).prop("readonly", false); 
 	        });
@@ -372,7 +372,45 @@
             });
         });
         
+        $('#updatePw').click(function () {
+			$('#updateInfo').remove();
+			$('#updatePw').remove();
+			$('#deleteCustomer').remove();
+			
+			$('#updatePwForm').append('<input id="currentPw" class="form-control my-2" type="password" placeholder="현재 비밀번호">');
+			$('#updatePwForm').append('<input id="newPw" class="form-control my-2" type="password" placeholder="신규 비밀번호">');
+			$('#updatePwForm').append('<input id="newPwCheck" class="form-control my-2" type="password" placeholder="신규 비밀번호 재입력">');
+			$('#updatePwForm').append('<button type="button" class="site-btn p-1" id="validatePw" >비밀번호 수정</button>');
+			$('#updatePwForm').append('<button onclick="location.reload()" class="site-btn p-1" >취소</button>');
+			
+			$('#validatePw').click(function () {
+				if($('#newPw').val() != $('#newPwCheck').val()){
+					$('#pwAlert').text('신규 비밀번호 확인이 일치하지 않습니다.');
+				}else{
+					$('#pwAlert').text('');
+					if($('#currentPw').val() == $('#newPw').val()){
+						$('#pwAlert').text('현재 비밀번호와 다른 신규 비밀번호를 입력해주세요.');
+					}else{
+						let newPw = $('#newPw').val();
+						let currentPw = $('#currentPw').val();
+						$.post("customerPwValid.jsp",{
+							customerNo : 1,
+							currentPw: currentPw,
+							newPw: newPw
+			            }, function () {
+			            	alet('비밀번호가 변경되었습니다');
+			            	location.reload();
+						}).fail(function () {
+							$('#pwAlert').text('비밀번호가 맞지 않거나 신규 비밀번호가 예전에 사용된 비밀번호입니다.');
+						});
+					}
+				}
+				
+			});
+        });
+        
 		
+        
 </script>
 </body>
 

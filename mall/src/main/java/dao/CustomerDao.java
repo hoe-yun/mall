@@ -169,4 +169,26 @@ public class CustomerDao {
 		return updateCheck;
 	}
 	
+	public int vaildateUpdatePw(int customerNo, String currentPw, String newPw) throws SQLException {
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		String sql = """
+					SELECT COUNT(*) validate FROM customer c INNER JOIN customer_pw_history ch ON c.customer_no = ch.customer_no 
+					 WHERE c.customer_no = ? AND c.customer_pw = PASSWORD(?) AND (ch.customer_pw = PASSWORD(?) OR ch.customer_pw = PASSWORD(?))""";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, customerNo);
+		stmt.setString(2, currentPw);
+		stmt.setString(3, currentPw);
+		stmt.setString(4, newPw);
+		ResultSet rs = stmt.executeQuery();
+		int validate = 0;
+		if(rs.next()) {
+			validate = rs.getInt(1);
+		}
+		rs.close();
+		stmt.close();
+		conn.close();
+		return validate;
+		
+	}
+	
 }

@@ -13,6 +13,7 @@
 	GoodsDao goodsDao = new GoodsDao();
 	ArrayList<Goods> list = goodsDao.selectArrayList(goodsTitle, goodsPrice);
 	
+	
 %>
 
 <!DOCTYPE html>
@@ -114,7 +115,8 @@
                 <div class="row d-flex justify-content-center">
                     <div class="col-lg-8">
                         <div class="product__details__text">
-                            <h4>나이키 에어맥스 95</h4>
+                        <%for(Goods g : list){%>
+                            <h4><%=g.getgoodsTitle() %></h4>
                             <div class="rating">
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
@@ -123,7 +125,8 @@
                                 <i class="fa fa-star-o"></i>
                                 <span> - 5 Reviews</span>
                             </div>
-                            <h3>$270.00 <span>70.00</span></h3>
+                            <h3><%= g.getgoodsPrice() %> <span>70.00</span></h3>
+                            <%}%>
                             <p>Coat with quilted lining and an adjustable hood. Featuring long sleeves with adjustable
                                 cuff tabs, adjustable asymmetric hem with elastic side tabs and a front zip fastening
                             with placket.</p>

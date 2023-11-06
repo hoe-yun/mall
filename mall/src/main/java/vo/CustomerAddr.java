@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
+//작성자 :정인호
 public class CustomerAddr {
 	private int customerAddrNo;
 	private int customerNo;

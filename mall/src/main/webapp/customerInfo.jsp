@@ -3,26 +3,37 @@
 <%@page import="dao.CustomerDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%
+<% 
+	//작성자 : 정인호	
+	//고객 정보 페이지
+
 	request.setCharacterEncoding("utf-8");
+	
+	int customerNo = (int)session.getAttribute("customerNo");// 세션정보 확인
 
 	CustomerDao dao = new CustomerDao();
+	
+	//고객상세정보 업데이트 시도 체크
 	if(request.getParameter("newName") != null){
-		dao.updateCustomerInfo(1, request.getParameter("newName"), request.getParameter("newPhone"));
+		dao.updateCustomerInfo(customerNo, request.getParameter("newName"), request.getParameter("newPhone"));
 	}	
+	//고객 주소 삭제시도 체크
 	if(request.getParameter("deleteAddrNo") != null){
 		dao.deleteCustomerAddr(Integer.parseInt(request.getParameter("deleteAddrNo")));
 		response.sendRedirect("customerInfo.jsp");
 	}
+	//고객 주소 생성시도 체크
 	if(request.getParameter("newAddr") != null && request.getParameter("newAddr").equals("new")){
 		dao.createCustomerAddr(Integer.parseInt(request.getParameter("customerNo")));
 	}
+	//고객 주소 수정시도 체크
 	if(request.getParameter("updateAddrNo") != null){
 		dao.updateCustomerAddr(Integer.parseInt(request.getParameter("updateAddrNo")), request.getParameter("address"));
 	}
-
-	HashMap<String,Object> customerInfo = dao.retrieveCustomerInfo(1);
-	ArrayList<HashMap<String, Object>> AddrList = dao.retrieveCustomerAddrList(1);
+	// 고객 상세정보 vo
+	HashMap<String,Object> customerInfo = dao.retrieveCustomerInfo(customerNo);
+	// 고객 주소 조회 vo
+	ArrayList<HashMap<String, Object>> AddrList = dao.retrieveCustomerAddrList(customerNo); 
 	
 %>
 <!DOCTYPE html>
@@ -56,7 +67,9 @@
     <div id="preloder">
         <div class="loader"></div>
     </div>
-
+    <div>
+    	<input id="customerNo" readonly="readonly" hidden="true" value="<%=customerNo%>"> 
+    </div>
     <!-- Header Section Begin -->
     <header class="header">
         <div class="header__top">
@@ -70,7 +83,7 @@
                     <div class="col-lg-6 col-md-5">
                         <div class="header__top__right">
                             <div id="signMenu" class="header__top__links">
-                                <a href="#" id="signIn">Sign in</a>
+                                <a href="customerLogin.jsp" id="signIn">Sign in</a>
                                 <a href="#">FAQs</a>
                             </div>
                             <div class="header__top__hover">
@@ -308,6 +321,7 @@
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/main.js"></script>
     <script>
+    	//고객정보 변경시도
 		function editUserInfo() {
 		    // 고객 정보를 입력 폼으로 바꿉니다.
 		    console.log('editUserInfo()');
@@ -323,57 +337,50 @@
 		    document.querySelector('#updatePw').remove();
 		    document.querySelector('#deleteCustomer').remove();
 		};
-		
+		//고객정보 변경
 		function updateUserInfo(){
 			let newName = $('#newUserName').val();
             let newPhone = $('#newUserPhone').val();
 
-            $.post("customerInfo.jsp",
+            $.post("customerInfo.jsp", // 변경정보 비동기 post요청
             {
                 newName: newName,
                 newPhone: newPhone
             },function(){
-                location.reload();
+                location.reload(); // 새로고침 
             });
 			
 		}
 		
-        function signIn() {
-            console.log('signIn');
-            $('#signMenu').html('<form method="post" > <input type="text" name="id" placeholder="ID"> <input type="password" name="pw" placeholder="PW">  <button type="summit">Sign in</button> </form>');
-        };
-
-		$('#signIn').click(function () {
-            signIn();
-        });
 		
-		//주소장 수정해제
+		//주소 입력 폼 readonly 해제
 		$('.form-control[name=address]').each(function() {
 	        $(this).click(function() {
 	            $(this).prop("readonly", false); 
 	        });
 	    });
 		
-		console.log($('a[name=deleteAddress]'));
-		
+		//주소가 하나 남았을 때 삭제버튼을 없애기
 		if($('a[name=deleteAddress]').length == 1){
             $('a[name=deleteAddress]').first().remove();
         }
 		
+		//빈 주소를 하나 추가하기
         $('#createAddr').click(function () {
-            let newAddr = 1;
+            let customerNo = $('#customerNo').val();
 
-            $.post("customerInfo.jsp",
+            $.post("customerInfo.jsp", //비동기 포스트요청
             {
-                customerNo: newAddr,
+                customerNo: customerNo,
                 newAddr: "new"
             },function(){
-                location.reload();
+                location.reload(); // 성공 후 새로고침
             });
         });
-        
-        $('#updatePw').click(function () {
-			$('#updateInfo').remove();
+		
+     	// 고객 비밀번호 수정시도
+        $('#updatePw').click(function () { 
+			$('#updateInfo').remove(); //다른 버튼 없애기 및 비밀번호 확인창 생성
 			$('#updatePw').remove();
 			$('#deleteCustomer').remove();
 			
@@ -382,7 +389,7 @@
 			$('#updatePwForm').append('<input id="newPwCheck" class="form-control my-2" type="password" placeholder="신규 비밀번호 재입력">');
 			$('#updatePwForm').append('<button type="button" class="site-btn p-1" id="validatePw" >비밀번호 수정</button>');
 			$('#updatePwForm').append('<button onclick="location.reload()" class="site-btn p-1" >취소</button>');
-			
+			//비밀번호 밸리데이션
 			$('#validatePw').click(function () {
 				if($('#newPw').val() != $('#newPwCheck').val()){
 					$('#pwAlert').text('신규 비밀번호 확인이 일치하지 않습니다.');
@@ -393,19 +400,42 @@
 					}else{
 						let newPw = $('#newPw').val();
 						let currentPw = $('#currentPw').val();
-						$.post("customerPwValid.jsp",{
-							customerNo : 1,
+						
+						$.post("customerPwValid.jsp",{ // 비동기 post 수정요청
+							customerNo : $('#customerNo').val(),
 							currentPw: currentPw,
 							newPw: newPw
 			            }, function () {
-			            	alet('비밀번호가 변경되었습니다');
-			            	location.reload();
+			            	alert('비밀번호가 변경되었습니다'); 
+			            	location.reload(); 
 						}).fail(function () {
 							$('#pwAlert').text('비밀번호가 맞지 않거나 신규 비밀번호가 예전에 사용된 비밀번호입니다.');
 						});
 					}
 				}
-				
+			});
+        });
+     	
+        //회원탈퇴 시도
+        $('#deleteCustomer').click(function() {
+        	$('#updateInfo').remove(); //다른 버튼 없애기 및 비밀번호 확인창 생성
+			$('#updatePw').remove();
+			$('#deleteCustomer').remove();
+			$('#pwAlert').text('');
+			$('#updatePwForm').append('<input id="deleteCustomerCheck" class="form-control my-2" type="password" placeholder=" 회원탈퇴, 비밀번호입력">');
+			$('#updatePwForm').append('<button id="deleteCustomerConfirm" class="site-btn p-1" >회원탈퇴 확인</button>');
+			$('#updatePwForm').append('<button onclick="location.reload()" class="site-btn p-1" >취소</button>');
+			
+			$('#deleteCustomerConfirm').click(function () {
+				$.post("customerDelete.jsp",{
+					customerNo : $('#customerNo').val(), 
+					currentPw: $('#deleteCustomerCheck').val()
+				}, function () {
+            		alert('회원탈퇴가 완료되었습니다.');
+					location.href="customerLogin.jsp";
+				}).fail(function () {
+					$('#pwAlert').text('비밀번호가 맞지않습니다.');
+				});
 			});
         });
         

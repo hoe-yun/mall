@@ -3,18 +3,18 @@
     pageEncoding="UTF-8"%>
     
 <% // 작성자 : 정인호 
+	// 회원탈퇴 진행
 	int customerNo = Integer.parseInt(request.getParameter("customerNo"));
 	String currentPw = request.getParameter("currentPw");
-	String newPw = request.getParameter("newPw");
 	
 	CustomerDao dao = new CustomerDao();
-	int validation = dao.vaildateUpdatePw(customerNo, currentPw, newPw);
+	int validation = dao.deleteCustomer(customerNo, currentPw);
 	
 	if(validation == 1){
 		System.out.println(" updateCustomerPw 성공");
 		response.setStatus(200);
 	}else{
-		System.out.println(" updateCustomerPw 실패"); // 비밀번호가 이전에 사용되었음
+		System.out.println(" updateCustomerPw 실패");
 		response.setStatus(400);
 	}
 	return;

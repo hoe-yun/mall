@@ -5,10 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-
+//작성자 : 정인호
 public class CustomerDomain {
 	
-	/*회원가입 로직*/
+	/*회원가입용 VO 중첩정적클래스*/
 	public static class CreateCustomerVo{
 		private String id;
 		private String pw;
@@ -16,7 +16,7 @@ public class CustomerDomain {
 		private String phone;
 		private String addr;
 		
-
+		//생성자
 		public CreateCustomerVo(String id, String pw, String name, String phone, String addr) {
 			super();
 			this.id = id;
@@ -25,7 +25,8 @@ public class CustomerDomain {
 			this.phone = phone;
 			this.addr = addr;
 		}
-
+		
+		//회원가입를 위한 stmtList생성메소드 
 		public ArrayList<PreparedStatement> getStmtList(Connection conn) throws SQLException {
 			ArrayList<PreparedStatement> stmtList = new ArrayList<>();
 			
@@ -62,6 +63,9 @@ public class CustomerDomain {
 			
 			return stmtList;
 		}
-		
+
+		public String getId() {
+			return id;
+		}
 	}
 }

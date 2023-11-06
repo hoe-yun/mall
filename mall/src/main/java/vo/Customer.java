@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-// author : 정인호
+// 작성자 : 정인호
 public class Customer {
 	private int customerNo; //pk
 	private String customerId;

@@ -66,7 +66,7 @@
                 <div class="col-lg-6 col-md-6">
                     <nav class="header__menu mobile-menu">
                         <ul>
-                            <li><a href="./index.html">홈</a></li>
+                            <li><a href="./Home.jsp">홈</a></li>
                             <li><a href="./productList.jsp">쇼핑</a></li>
                             <li><a href="#">페이지</a>
                                 <ul class="dropdown">

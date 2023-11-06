@@ -254,13 +254,13 @@
                             <div class="product__item">
                                 <div class="product__item__pic set-bg" data-setbg="img/product/<%=g.getGoodsTitle() %>.png">
                                     <ul class="product__hover">
-                                        <li><a href="./productDetail.jsp"><img src="img/icon/search.png" alt=""><span>Detail</span></a></li>
+                                        <li><a href="./productDetail.jsp?goodsNo=<%=g.getGoodsNo()%>" ><img src="img/icon/search.png" alt=""><span>Detail</span></a></li>
                                         </li>
                                     </ul>
                                 </div>
                                 <div class="product__item__text">
                                     <h6><%=g.getGoodsNo()%>.<%=g.getGoodsTitle() %></h6>
-                                    <a href="#" class="add-cart">+ Add To Cart</a>
+                                    <a href="./productCart.jsp?goodsNo=<%=g.getGoodsNo()%>" class="add-cart">+ Add To Cart</a>
                                     <div class="rating">
                                         <i class="fa fa-star-o"></i>
                                         <i class="fa fa-star-o"></i>

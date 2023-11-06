@@ -4,7 +4,7 @@ import java.util.*;
 import vo.*;
 
 public class NoticeDao {
-	// controller : noticeList.jsp , noticeOne.jsp
+	// controller : noticeList.jsp
 	public ArrayList<Nostice> selectNoticeList(int beginRow, int rowPerPage) throws Exception{
 		ArrayList<Nostice> list = new ArrayList<>();
 		
@@ -34,7 +34,7 @@ public class NoticeDao {
 		//end model code : model date >> ArrayList<Nostice> list
 		return list;
 	}
-	//controller : noticeOne.jsp
+	//controller : noticeOne.jsp, updateNoticeForm.jsp
 	public Nostice noticeOne(int noticeNo) throws Exception{
 		Nostice n = new Nostice();
 		// model code
@@ -43,7 +43,7 @@ public class NoticeDao {
 		String dbuser = "root";
 		String dbpw = "java1234";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
-		// noticeOne을 출력하기 위한 SELECT QUERY
+		// notice 정보를 출력하기 위한 SELECT QUERY
 		String sql = "SELECT notice_no noticeNo, manager_no managerNo, notice_title noticeTitle, notice_content noticeContent,createdate,updatedate FROM nostice WHERE notice_no = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, noticeNo);
@@ -58,7 +58,7 @@ public class NoticeDao {
 			n.setUpdatedate(rs.getString("updatedate"));
 			
 		}
-		//end model code : model date >> ArrayList<Nostice> list
+		//end model code
 		return n;
 	}
 	//controller : insertNoticeAction.jsp
@@ -94,6 +94,25 @@ public class NoticeDao {
 		stmt.setInt(1, noticeNo);
 		System.out.println(stmt + "<- stmt delectTest()");
 		row = stmt.executeUpdate();
+		//end model code
 		return row;
 	}
-}
+	//controller : updateNoticeAction.jsp
+	public int updateNotice(Nostice notice)throws Exception {
+		int row = 0;
+		Class.forName("org.mariadb.jdbc.Driver");
+		String url = "jdbc:mariadb://localhost:3306/mall";
+		String dbuser = "root";
+		String dbpw = "java1234";
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		// notice 수정을 위한 UPDATE QUERY
+		String sql = "UPDATE nostice SET notice_title = ?, notice_content = ?, updatedate = NOW() WHERE notice_no =?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1,notice.getNoticeTitle());
+		stmt.setString(2, notice.getNoticeContent());
+		stmt.setInt(3, notice.getNoticeNo());
+		row = stmt.executeUpdate();
+		//end model code
+		return row;
+	}
+}	

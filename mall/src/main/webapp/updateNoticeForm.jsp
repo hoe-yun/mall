@@ -1,11 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="java.sql.*" %>
-<%@ page import="java.util.*" %>
-<%@ page import="dao.*" %>
-<%@ page import="vo.*" %>
-
 <!DOCTYPE html>
+<%@ page import="vo.Nostice" %>
+<%@ page import="dao.NoticeDao" %>
 <html lang="zxx">
 
 <head>
@@ -29,25 +26,18 @@
     <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
-<%   
-    // controller code
-	int currentPage = 1;
-	if(request.getParameter("currentPage") != null){
-		currentPage = Integer.parseInt(request.getParameter("currentPage"));
-	}
-	int rowPerPage = 10;
-	int beginRow = (currentPage-1)*rowPerPage;
-	// model 호출코드 
+    
+<%
+	int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
 	NoticeDao noticeDao = new NoticeDao();
-	ArrayList<Nostice> list = noticeDao.selectNoticeList(beginRow,rowPerPage);
-	// end controller code
+	Nostice notice = noticeDao.noticeOne(noticeNo);
 %>
 </head>
 <body>
 	<!-- 상단 메뉴바/ inc폴더안에 menu.jsp파일로 분리하여 불러오기  -->
- 	<jsp:include page="/inc/menu.jsp"></jsp:include>
-  
-    <!-- Breadcrumb Section Begin -->
+	 	<jsp:include page="/inc/menu.jsp"></jsp:include>
+	 	
+	<!-- Breadcrumb Section Begin -->
     <section class="breadcrumb-option">
         <div class="container">
             <div class="row">
@@ -60,59 +50,37 @@
         </div>
     </section>
     <!-- Breadcrumb Section End -->
-    
-	<br><br>
-	
-	<!-- Notice List Table Section Begin -->
-	<section>
-		<div class="container">
-			<div class="col-lg-12">
-				<table class="col-lg-12 table table-hover">
-					<thead>
-						<tr>
-							<th width=5%>No.</th>
-							<th width=60%>Title</th>
-							<th width=15%>CREATE</th>
-							<th width=15%>UPDATE</th>
-							<th width=5%>X</th>
-						</tr>
-					</thead>
-					<tbody>
-					<% 
-						for(Nostice notice : list){
-					%>
-						<tr>
-							<td><%=notice.getNoticeNo() %></td>
-							<td><a class="text-dark" href="<%=request.getContextPath()%>/noticeOne.jsp?noticeNo=<%=notice.getNoticeNo() %>"><%=notice.getNoticeTitle() %></a></td>
-							<td><%=notice.getCreatedate() %></td>
-							<td><%=notice.getUpdatedate() %></td>
-							<td><a class="btn btn-danger" href="<%=request.getContextPath()%>/delectNoticeAction.jsp?noticeNo=<%=notice.getNoticeNo() %>">X</a></td>
-						</tr>
-					<%
-						}
-					%>
-					</tbody>
-				</table>
-				<br>
-				<a href="<%=request.getContextPath()%>/managerOne.jsp" class="primary-btn" style=float:left>return to Management</a>
-				<a href="<%=request.getContextPath()%>/insertNoticeForm.jsp" class="primary-btn" style=float:right>add notice</a>
-				<div class="row">
-                    <div class="col-lg-12">
-                        <div class="product__pagination">
-                            <a href="<%=request.getContextPath()%>/noticeList.jsp?currentPage=<%=currentPage-1%>"><span class="arrow_left"></span></a>
-                            <a href="<%=request.getContextPath()%>/noticeList.jsp?currentPage=<%=currentPage %>"><%=currentPage %></a>
-                            <a href="<%=request.getContextPath()%>/noticeList.jsp?currentPage=<%=currentPage+1%>"><span class="arrow_right"></span></a>
-                        </div>
+	<!-- Contact Section Begin -->
+    <section class="contact spad">
+        <div class="container">
+            <div class="row">
+                 <div class="section-title">
+                    <span>notice</span>
+                    <h2>Edit Notice</h2>
+                 </div>
+                <div class="col-lg-12">
+                    <div class="contact__form">
+                        <form action="<%=request.getContextPath()%>/updateNoticeAction.jsp?noticeNo=<%=notice.getNoticeNo() %>">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <input type="text" value="<%=notice.getNoticeTitle() %>" name="noticeTitle">
+                                </div>
+                                <div class="col-lg-6">
+                                    <input type="number" value="<%=notice.getNoticeNo() %>" name="noticeNo" readonly="readonly">
+                                </div>
+                             	<div class="col-lg-12">
+                                    <textarea  name="noticeContent"><%=notice.getNoticeContent() %></textarea>
+                                    <button type="submit" class="site-btn" style=float:right>Edit Notice</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
-			</div>
-		</div>
-	</section>
-	<!-- Notice List Table Section End -->
-	
-	<br><br>
-	
- 	<!-- Footer Section Begin -->
+            </div>
+        </div>
+    </section>
+    <!-- Contact Section End -->
+	<!-- Footer Section Begin -->
     <footer class="footer">
         <div class="container">
             <div class="row">
@@ -191,15 +159,15 @@
     <!-- Search End --> 
     
 	<!-- Js Plugins -->
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery.nice-select.min.js"></script>
-    <script src="js/jquery.nicescroll.min.js"></script>
-    <script src="js/jquery.magnific-popup.min.js"></script>
-    <script src="js/jquery.countdown.min.js"></script>
-    <script src="js/jquery.slicknav.js"></script>
-    <script src="js/mixitup.min.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/main.js"></script>
+	    <script src="js/jquery-3.3.1.min.js"></script>
+	    <script src="js/bootstrap.min.js"></script>
+	    <script src="js/jquery.nice-select.min.js"></script>
+	    <script src="js/jquery.nicescroll.min.js"></script>
+	    <script src="js/jquery.magnific-popup.min.js"></script>
+	    <script src="js/jquery.countdown.min.js"></script>
+	    <script src="js/jquery.slicknav.js"></script>
+	    <script src="js/mixitup.min.js"></script>
+	    <script src="js/owl.carousel.min.js"></script>
+	    <script src="js/main.js"></script>
 </body>
 </html>

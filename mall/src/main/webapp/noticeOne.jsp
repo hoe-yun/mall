@@ -102,7 +102,7 @@
                 		<a href="<%=request.getContextPath()%>/noticeList.jsp" class="primary-btn" style=float:right>notice List</a>
           	 		</div>
           	 		<div>	
-          	 			<a href="#" class="primary-btn" style=float:right>notice edit</a>
+          	 			<a href="<%=request.getContextPath()%>/updateNoticeForm.jsp?noticeNo=<%=noticeNo %>" class="primary-btn" style=float:right>notice edit</a>
 					</div>
            </div>
            <div class="blog__details__btns">

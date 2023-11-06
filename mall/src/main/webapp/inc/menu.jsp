@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+  <!-- 정인호 수정 U231106 : 로그인링크, customerInfo링크 -->
+
   <!-- Page Preloder -->
     <div id="preloder">
         <div class="loader"></div>
@@ -48,7 +50,8 @@
                     <div class="col-lg-6 col-md-5">
                         <div class="header__top__right">
                             <div class="header__top__links">
-                                <a href="#">Sign in</a>
+                                <a href="./customerLogin.jsp">Log in</a>
+                                <a href="./customerInfo.jsp">My Info</a>
                                 <a href="#">FAQs</a>
                             </div>
                         </div>

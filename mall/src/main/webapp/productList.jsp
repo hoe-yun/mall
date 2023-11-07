@@ -252,15 +252,16 @@
                    
                         <div class="col-lg-4 col-md-6 col-sm-6" >
                             <div class="product__item">
-                                <div class="product__item__pic set-bg" data-setbg="img/product/<%=g.getGoodsTitle() %>.png">
+                                <div class="product__item__pic set-bg" data-setbg="img/product/<%=g.getGoodsTitle() %>.png"
+                                style="background-image: url(&quot;img/product/<%=g.getGoodsTitle() %>.png&quot;);">
                                     <ul class="product__hover">
                                         <li><a href="./productDetail.jsp?goodsNo=<%=g.getGoodsNo()%>" ><img src="img/icon/search.png" alt=""><span>Detail</span></a></li>
                                         </li>
                                     </ul>
                                 </div>
                                 <div class="product__item__text">
-                                    <h6><%=g.getGoodsNo()%>.<%=g.getGoodsTitle() %></h6>
-                                    <a href="./productCart.jsp?goodsNo=<%=g.getGoodsNo()%>" class="add-cart">+ Add To Cart</a>
+                                    <h6><%=g.getGoodsNo()%>.<%=g.getGoodsTitle() %></h6><span>품절여부 :<%=g.getSoldout()%></span>
+                                    <a href="./InsertCartAction.jsp?goodsNo=<%=g.getGoodsNo()%>" class="add-cart" action="<%=request.getContextPath()%>/InsertCartAction.jsp">+ Add To Cart</a>
                                     <div class="rating">
                                         <i class="fa fa-star-o"></i>
                                         <i class="fa fa-star-o"></i>

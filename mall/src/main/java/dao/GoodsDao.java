@@ -15,7 +15,7 @@ public class GoodsDao {
 	Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 	
 	//상품명,가격,솔드아웃여부,메모 쿼리문
-	String sql = "SELECT goods_no goodsNo, goods_title goodsTitle, goods_Price goodsPrice, soldout, goods_memo goodsMemo FROM goods";
+	String sql = "SELECT goods_no goodsNo, goods_title goodsTitle, goods_Price goodsPrice, soldout, goods_memo goodsMemo, soldout FROM goods";
 	PreparedStatement stmt = conn.prepareStatement(sql);
 	ResultSet rs = stmt.executeQuery();
 	
@@ -26,6 +26,7 @@ public class GoodsDao {
 	g.setGoodsTitle(rs.getString("goodsTitle"));
 	g.setGoodsPrice(rs.getInt("goodsPrice"));
 	g.setGoodsMemo(rs.getString("goodsMemo"));
+	g.setSoldout(rs.getString("soldout"));
 	list.add(g);
 	
 	//DB자원반납

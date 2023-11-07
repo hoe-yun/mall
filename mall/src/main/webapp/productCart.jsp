@@ -8,10 +8,12 @@
 	int goodsNo=0;
 	String goodsTitle = null;
 	int goodsPrice = 0;
+	int quantity = 0;
+	int cartNo = 0;
 	String goodsMemo = null;
-	GoodsDao goodsDao = new GoodsDao();
 	ProductCartDao dao = new ProductCartDao();
-	ProductCart Detail = dao.selectProductDetail(request.getParameter("goodsTitle"), goodsPrice, Integer.parseInt(request.getParameter("goodsNo")));
+	ArrayList<ProductCart> list = dao.selectArrayList(request.getParameter("goodsTitle"), goodsPrice, Integer.parseInt(request.getParameter("goodsNo")), quantity, cartNo);
+	
 %>
 
 <!DOCTYPE html>
@@ -78,14 +80,15 @@
                                 </tr>
                             </thead>
                             <tbody>
+                            <% for(ProductCart p : list) {%>
                                 <tr>
                                     <td class="product__cart__item">
                                         <div class="product__cart__item__pic">
-                                            <img src="img/product/<%=Detail.getGoodsTitle() %>.png" alt="" width="120" height="90">
+                                            <img src="img/product/<%=p.getGoodsTitle() %>.png" alt="" width="120" height="90">
                                         </div>
                                         <div class="product__cart__item__text">
-                                            <h6><%=Detail.getGoodsTitle() %></h6>
-                                            <h5><%=Detail.getGoodsPrice() %></h5>
+                                            <h6><%=p.getGoodsTitle() %></h6>
+                                            <h5><%=p.getGoodsPrice() %></h5>
                                         </div>
                                     </td>
                                     <td class="quantity__item">
@@ -95,69 +98,11 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="cart__price"><%=Detail.getGoodsPrice() %></td>
+                                    <td class="cart__price"><%=p.getGoodsPrice() %></td>
                                     <td class="cart__close"><i class="fa fa-close"></i></td>
                                 </tr>
-                                <tr>
-                                    <td class="product__cart__item">
-                                        <div class="product__cart__item__pic">
-                                            <img src="img/shopping-cart/cart-2.jpg" alt="">
-                                        </div>
-                                        <div class="product__cart__item__text">
-                                            <h6>Diagonal Textured Cap</h6>
-                                            <h5>$98.49</h5>
-                                        </div>
-                                    </td>
-                                    <td class="quantity__item">
-                                        <div class="quantity">
-                                            <div class="pro-qty-2">
-                                                <input type="text" value="1">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="cart__price">$ 32.50</td>
-                                    <td class="cart__close"><i class="fa fa-close"></i></td>
-                                </tr>
-                                <tr>
-                                    <td class="product__cart__item">
-                                        <div class="product__cart__item__pic">
-                                            <img src="img/shopping-cart/cart-3.jpg" alt="">
-                                        </div>
-                                        <div class="product__cart__item__text">
-                                            <h6>Basic Flowing Scarf</h6>
-                                            <h5>$98.49</h5>
-                                        </div>
-                                    </td>
-                                    <td class="quantity__item">
-                                        <div class="quantity">
-                                            <div class="pro-qty-2">
-                                                <input type="text" value="1">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="cart__price">$ 47.00</td>
-                                    <td class="cart__close"><i class="fa fa-close"></i></td>
-                                </tr>
-                                <tr>
-                                    <td class="product__cart__item">
-                                        <div class="product__cart__item__pic">
-                                            <img src="img/shopping-cart/cart-4.jpg" alt="">
-                                        </div>
-                                        <div class="product__cart__item__text">
-                                            <h6>Basic Flowing Scarf</h6>
-                                            <h5>$98.49</h5>
-                                        </div>
-                                    </td>
-                                    <td class="quantity__item">
-                                        <div class="quantity">
-                                            <div class="pro-qty-2">
-                                                <input type="text" value="1">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="cart__price">$ 30.00</td>
-                                    <td class="cart__close"><i class="fa fa-close"></i></td>
-                                </tr>
+                                <%} %>
+                                
                             </tbody>
                         </table>
                     </div>

@@ -166,10 +166,10 @@
                             <div class="product__details__cart__option">
                                 <div class="quantity">
                                     <div class="pro-qty">
-                                        <input type="text" value="1">
+                                        <input type="text" name="quantity" value="1">
                                     </div>
                                 </div>
-                                <a href="./productCart.jsp?goodsNo=<%=Detail.getGoodsNo()%>" class="primary-btn">장바구니 추가</a>
+                                <a href="./InsertCartAction.jsp?goodsNo=<%=Detail.getGoodsNo()%>" class="primary-btn">장바구니 추가</a>
                             </div>
                             <div class="product__details__btns__option">
                                 <a href="#"><i class="fa fa-heart"></i> add to wishlist</a>

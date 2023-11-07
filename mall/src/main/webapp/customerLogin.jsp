@@ -48,21 +48,23 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6">
-                    <div class="contact__form">
+                <div class="col-lg-5 col-md-5">
+                    <div >
                        <div class="row">
                            <div class="col-lg-12">
-                               <input type="text" id="customerId" placeholder="ID">
+                               <input class="form-control form-control-lg my-3" type="text" id="customerId" placeholder="ID">
                            </div>
                            <div class="col-lg-12">
-                               <input type="password" id="customerPw" placeholder="PW">
-                               <button id="loginBtn" type="button" class="site-btn mr-5">로그인</button>
-                               <a href="customerCreate.jsp" class="site-btn">회 원 가 입</a>
+                               <input class="form-control form-control-lg mb-4" type="password" id="customerPw" placeholder="PW">
+                               <button id="loginBtn" type="button" class="site-btn my-2 mr-2">LOG IN</button>
+                               <a href="customerCreate.jsp" class="site-btn">CREATE ACCOUNT</a>
                                <br>
-   							<button id="forgotPwBtn" type="button" class="btn btn-light my-5">I FORGOT PASSWORD</button>
+   								<button id="forgotPwBtn" type="button" class="btn btn-light btn-sm my-3">I FORGOT PASSWORD</button>
                            </div>
                        </div>
                     </div>
+                </div>
+                <div class="col-lg-1 col-md-1">
                 </div>
             </div>
         </div>

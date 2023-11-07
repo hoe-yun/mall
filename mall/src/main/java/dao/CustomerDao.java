@@ -2,16 +2,7 @@ package dao;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import dto.CreateCustomerDto;
-import dto.RetrieveCustomerAllInfoDto;
-import dto.UpdateCumtomerDto;
-import vo.Customer;
-import vo.CustomerAddr;
-import vo.CustomerDetail;
-import vo.CustomerDomain;
 import vo.CustomerDomain.CreateCustomerVo;
-import vo.CustomerPwHistory;
 
 //customer 기본키 엔터티의 DAO
 //작성자 정인호

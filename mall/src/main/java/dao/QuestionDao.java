@@ -14,7 +14,7 @@ public class QuestionDao {
 		String dbpw = "java1234";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		//question 및 questionComment 정보 출력을 위한 SELETE QUERY
-		String sql ="SELECT q.question_no questionNo, q.goods_no goodsNo, q.customer_no customerNo, q.question_title questionTitle, q.question_content questionContent, qc.comment comment,q.createdate qCreatedate, q.updatedate qUpdatedate,qc.createdate qcCreatedate, qc.updatedate qcUpdatedate FROM question q INNER JOIN question_comment qc ON q.question_no = qc.question_no WHERE goods_no = ?";
+		String sql ="SELECT q.question_no questionNo, q.goods_no goodsNo, q.customer_no customerNo, q.question_title questionTitle, q.question_content questionContent, qc.comment comment,q.createdate qCreatedate, q.updatedate qUpdatedate,qc.createdate qcCreatedate, qc.updatedate qcUpdatedate FROM question q LEFT JOIN question_comment qc ON q.question_no = qc.question_no WHERE goods_no = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, goodsNo);
 		ResultSet rs = stmt.executeQuery();
@@ -40,8 +40,8 @@ public class QuestionDao {
 		//end model code
 		return list;
 	}
-	//controller : updateQuestionForm.jsp
-	public Question questionOne(int goodsNo) throws Exception{
+	//controller : updateQuestionForm.jsp , questionOne.jsp
+	public Question questionOne(int questionNo) throws Exception{
 		Question q = new Question();
 		// model code
 		Class.forName("org.mariadb.jdbc.Driver");
@@ -50,9 +50,9 @@ public class QuestionDao {
 		String dbpw = "java1234";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		//question 정보 출력을 위한 SELETE QUERY
-		String sql ="SELECT question_no questionNo, goods_no goodsNo, customer_no customerNo, question_title questionTitle, question_content questionContent,createdate,updatedate FROM question WHERE goods_no = ?";
+		String sql ="SELECT question_no questionNo, goods_no goodsNo, customer_no customerNo, question_title questionTitle, question_content questionContent,createdate,updatedate FROM question WHERE question_no = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, goodsNo);
+		stmt.setInt(1, questionNo);
 		ResultSet rs = stmt.executeQuery();
 		while(rs.next()) {
 			q.setQuestionNo(rs.getInt("questionNo"));

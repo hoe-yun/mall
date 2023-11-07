@@ -12,11 +12,11 @@
 		int customerNo = dao.loginCustomer(request.getParameter("customerId"), request.getParameter("customerPw"));
 		if (customerNo != -1){
 			session.setAttribute("customerNo", customerNo);
-			System.out.println(" 로그인성공 session customerNo  : " + customerNo);
+			System.out.println(" 로그인성공 customerNo  : " + customerNo);
 			response.sendRedirect("customerInfo.jsp"); // 성공시 상세페이지로
 			
 		}else{
-			errorMsg = "로그인정보가 일치하지 않습니다.";
+			errorMsg = "<span>*Log in fail</span>로그인정보가 일치하지 않습니다.";
 		}
 	}
 
@@ -61,7 +61,7 @@
                         <div class="section-title">
                             <span>customer login </span>
                             <h2>로그인</h2>
-                            <p> <%=errorMsg %></p>
+                            <p id="errorMsg"><%=errorMsg %></p>
                         </div>
                     </div>
                 </div>
@@ -76,6 +76,8 @@
                                     <input type="password" name="customerPw" placeholder="PW">
                                     <button type="submit" class="site-btn mr-5">로그인</button>
                                     <a href="customerCreate.jsp" class="site-btn">회 원 가 입</a>
+                                    <br>
+        							<button id="forgotPwBtn" type="button" class="btn btn-light my-5">I FORGOT PASSWORD</button>
                                 </div>
                             </div>
                         </form>
@@ -85,85 +87,11 @@
         </div>
     </section>
     <!-- Contact Section End -->
-
-    <!-- Footer Section Begin -->
-    <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-6 col-sm-6">
-                    <div class="footer__about">
-                        <div class="footer__logo">
-                            <a href="#"><img src="img/footer-logo.png" alt=""></a>
-                        </div>
-                        <p>The customer is at the heart of our unique business model, which includes design.</p>
-                        <a href="#"><img src="img/payment.png" alt=""></a>
-                    </div>
-                </div>
-                <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
-                    <div class="footer__widget">
-                        <h6>Shopping</h6>
-                        <ul>
-                            <li><a href="#">Clothing Store</a></li>
-                            <li><a href="#">Trending Shoes</a></li>
-                            <li><a href="#">Accessories</a></li>
-                            <li><a href="#">Sale</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-3 col-sm-6">
-                    <div class="footer__widget">
-                        <h6>Shopping</h6>
-                        <ul>
-                            <li><a href="#">Contact Us</a></li>
-                            <li><a href="#">Payment Methods</a></li>
-                            <li><a href="#">Delivary</a></li>
-                            <li><a href="#">Return & Exchanges</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-3 offset-lg-1 col-md-6 col-sm-6">
-                    <div class="footer__widget">
-                        <h6>NewLetter</h6>
-                        <div class="footer__newslatter">
-                            <p>Be the first to know about new arrivals, look books, sales & promos!</p>
-                            <form action="#">
-                                <input type="text" placeholder="Your email">
-                                <button type="submit"><span class="icon_mail_alt"></span></button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="footer__copyright__text">
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        <p>Copyright Â©
-                            <script>
-                                document.write(new Date().getFullYear());
-                            </script>2020
-                            All rights reserved | This template is made with <i class="fa fa-heart-o"
-                                aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                        </p>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!-- Footer Section End -->
-
-    <!-- Search Begin -->
-    <div class="search-model">
-        <div class="h-100 d-flex align-items-center justify-content-center">
-            <div class="search-close-switch">+</div>
-            <form class="search-model-form">
-                <input type="text" id="search-input" placeholder="Search here.....">
-            </form>
-        </div>
-    </div>
-    <!-- Search End -->
-
+	
+	<!-- footer + searchbar -->
+    <jsp:include page="/inc/footer.jsp"></jsp:include>
+	<!-- footer + searchbar -->
+	
     <!-- Js Plugins -->
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
@@ -175,6 +103,11 @@
     <script src="js/mixitup.min.js"></script>
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/main.js"></script>
+    <script type="text/javascript">
+    	$('#forgotPwBtn').click(function () {
+			$('#errorMsg').text('비밀번호 분실시 관리자에게 문의바랍니다');
+		});
+    </script>
 </body>
 
 </html>

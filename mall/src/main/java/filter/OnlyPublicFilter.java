@@ -27,7 +27,6 @@ public class OnlyPublicFilter implements Filter{
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		System.out.println("log // filter do");
 		HttpServletRequest httpRequest = (HttpServletRequest)request; // HttpServletRequest는 ServletRequest를 상속한다. 예전엔 http가 없었음. 세션도 나중에 생김
 		HttpSession session = httpRequest.getSession();
 		Integer customerNo = (Integer) session.getAttribute("customerNo");

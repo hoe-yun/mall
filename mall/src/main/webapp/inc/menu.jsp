@@ -1,5 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<% 
+	/*로그인 세션체크 여부에 따라 로그인버튼 스위칭*/
+	String loginBtnIncMenu = "Log in";
+	String urlLoginBtnIncMenu = "./customerLogin.jsp";
+	Integer seesionCustomerNo = (Integer)session.getAttribute("customerNo");
+	if(seesionCustomerNo != null){
+		loginBtnIncMenu = "Log out";
+		urlLoginBtnIncMenu = "./customerLogout.jsp";
+	}
+
+%>	
   <!-- 정인호 수정 U231106 : 로그인링크, customerInfo링크 -->
 
   <!-- Page Preloder -->
@@ -12,16 +23,8 @@
     <div class="offcanvas-menu-wrapper">
         <div class="offcanvas__option">
             <div class="offcanvas__links">
-                <a href="#">Sign in</a>
+                <a href="<%=urlLoginBtnIncMenu%>"><%=loginBtnIncMenu%></a>
                 <a href="#">FAQs</a>
-            </div>
-            <div class="offcanvas__top__hover">
-                <span>Usd <i class="arrow_carrot-down"></i></span>
-                <ul>
-                    <li>USD</li>
-                    <li>EUR</li>
-                    <li>USD</li>
-                </ul>
             </div>
         </div>
         <div class="offcanvas__nav__option">
@@ -32,7 +35,7 @@
         </div>
         <div id="mobile-menu-wrap"></div>
         <div class="offcanvas__text">
-            <p>Free shipping, 30-day return or refund guarantee.</p>
+            <p>저희의 쇼핑몰 프로젝트에 오신 것을 환영합니다.</p>
         </div>
     </div>
     <!-- Offcanvas Menu End -->
@@ -50,7 +53,7 @@
                     <div class="col-lg-6 col-md-5">
                         <div class="header__top__right">
                             <div class="header__top__links">
-                                <a href="./customerLogin.jsp">Log in</a>
+                                <a href="<%=urlLoginBtnIncMenu%>"><%=loginBtnIncMenu%></a>
                                 <a href="./customerInfo.jsp">My Info</a>
                                 <a href="#">FAQs</a>
                             </div>

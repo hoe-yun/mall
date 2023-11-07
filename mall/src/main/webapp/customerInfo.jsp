@@ -13,23 +13,7 @@
 
 	CustomerDao dao = new CustomerDao();
 	
-	//고객상세정보 업데이트 시도 체크
-	if(request.getParameter("newName") != null){
-		dao.updateCustomerInfo(customerNo, request.getParameter("newName"), request.getParameter("newPhone"));
-	}	
-	//고객 주소 삭제시도 체크
-	if(request.getParameter("deleteAddrNo") != null){
-		dao.deleteCustomerAddr(Integer.parseInt(request.getParameter("deleteAddrNo")));
-		response.sendRedirect("customerInfo.jsp");
-	}
-	//고객 주소 생성시도 체크
-	if(request.getParameter("newAddr") != null && request.getParameter("newAddr").equals("new")){
-		dao.createCustomerAddr(Integer.parseInt(request.getParameter("customerNo")));
-	}
 	//고객 주소 수정시도 체크
-	if(request.getParameter("updateAddrNo") != null){
-		dao.updateCustomerAddr(Integer.parseInt(request.getParameter("updateAddrNo")), request.getParameter("address"));
-	}
 	// 고객 상세정보 vo
 	HashMap<String,Object> customerInfo = dao.retrieveCustomerInfo(customerNo);
 	// 고객 주소 조회 vo
@@ -100,23 +84,25 @@
                            	for(HashMap<String, Object> addr : AddrList ){
                            		addrListIndex += 1;
                            	%>
-                            <form action="customerInfo.jsp" method="post">
 	                            <div class="rounded border p-3 mb-2">
 		                            <div class="row">
 		                                <div class="col-lg-6">
 		                                    <div class="checkout__input">
 		                                        <p>배송지 등록일 </p>
-		                                        <input hidden="true" type="number" name="updateAddrNo" value="<%=addr.get("addrNo")%>">
 		                                        <input type="text" value="<%=addr.get("updatedate")%>" readonly="readonly">
 		                                    </div>
 		                                </div>
 		                            </div>
 		                            <div class="checkout__input">
-		                                <p>배송주소 &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; <button class="btn btn-light" type="submit">수정하기</button> <a name="deleteAddress" class="btn btn-light" href="customerInfo.jsp?deleteAddrNo=<%=addr.get("addrNo")%>">삭제하기</a></p>
+		                                <p>
+	                                        <input hidden="true" type="number" name="AddressNo" value="<%=addr.get("addrNo")%>">
+		                                	배송주소
+		                                	<button class="btn btn-light ml-5" type="button" name="updateAddressBtn">수정하기</button>
+		                                	<button class="btn btn-light" type="button" name="deleteAddressBtn">삭제하기</button>
+		                                </p>
 		                                <textarea class="form-control" rows="3" name="address" readonly="readonly"><%=addr.get("address")%></textarea>
 		                            </div>
 	                            </div>
-                            </form>
                             <%
                            	}
                             %>
@@ -124,7 +110,7 @@
                         	<div class="row">
                         		<div class="col-5"></div>
                         		<div class="col-2">
-                        		<button type="button" class="btn btn-light" id="createAddr" >&nbsp;&nbsp;+&nbsp;&nbsp;</button>
+                        		<button type="button" class="btn btn-light" id="createAddressEmptyBtn" >&nbsp;&nbsp;+&nbsp;&nbsp;</button>
                         		</div>
                         		<div class="col"></div>
                         	</div>
@@ -135,106 +121,30 @@
 						        <div class="checkout__order__products"></div>
 						        <ul class="checkout__total__products">
 						            <li>아이디 <span id="userId"><%=customerInfo.get("customerId") %></span></li>
-						            <li>이름 <span id="userName"><%=customerInfo.get("customerName") %></span></li>
-						            <li>전화번호 <span id="userPhone"><%=customerInfo.get("customerPhone") %></span></li>
+						            <li>이름 <span id="customerName"><%=customerInfo.get("customerName") %></span></li>
+						            <li>전화번호 <span id="customerPhone"><%=customerInfo.get("customerPhone") %></span></li>
 						            <li>가입일 <span id="joinDate"><%=customerInfo.get("createdate") %></span></li>
 						        </ul>
-						        <ul id="updatePwForm" class="checkout__total__all">
-						            <li><button type="button" class="site-btn p-1" id="updateInfo" onclick="editUserInfo()">고객정보 수정하기</button></li>
-						            <li><button type="button" class="site-btn p-1" id="updatePw" >비밀번호 변경하기</button></li>
+						        <ul id="customerInfoBtnForm" class="checkout__total__all">
+						            <li><button type="button" class="site-btn p-1" id="editCustomerInfoBtn" onclick="editCustomerInfo()">고객정보 수정하기</button></li>
+						            <li><button type="button" class="site-btn p-1" id="editCustomerPwBtn" >비밀번호 변경하기</button></li>
 						        </ul>
 						        <div class="checkout__input__checkbox">
 						        </div>
 						        <p id="pwAlert">보안을 위해 이전에 사용되지 않은 <br> 비밀번호로 변경 가능합니다.</p>
 						
-						        <button type="button" id="deleteCustomer" class="site-btn">회원탈퇴하기</button>
+						        <button type="button" id="deleteCustomerAccountBtn" class="site-btn">회원탈퇴하기</button>
 						    </div>
-					</div>
+						</div>
                     </div>
-                    
-                </form>
             </div>
         </div>
     </section>
     <!-- Checkout Section End -->
 
-    <!-- Footer Section Begin -->
-    <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-6 col-sm-6">
-                    <div class="footer__about">
-                        <div class="footer__logo">
-                            <a href="#"><img src="img/footer-logo.png" alt=""></a>
-                        </div>
-                        <p>The customer is at the heart of our unique business model, which includes design.</p>
-                        <a href="#"><img src="img/payment.png" alt=""></a>
-                    </div>
-                </div>
-                <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
-                    <div class="footer__widget">
-                        <h6>Shopping</h6>
-                        <ul>
-                            <li><a href="#">Clothing Store</a></li>
-                            <li><a href="#">Trending Shoes</a></li>
-                            <li><a href="#">Accessories</a></li>
-                            <li><a href="#">Sale</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-3 col-sm-6">
-                    <div class="footer__widget">
-                        <h6>Shopping</h6>
-                        <ul>
-                            <li><a href="#">Contact Us</a></li>
-                            <li><a href="#">Payment Methods</a></li>
-                            <li><a href="#">Delivary</a></li>
-                            <li><a href="#">Return & Exchanges</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-3 offset-lg-1 col-md-6 col-sm-6">
-                    <div class="footer__widget">
-                        <h6>NewLetter</h6>
-                        <div class="footer__newslatter">
-                            <p>Be the first to know about new arrivals, look books, sales & promos!</p>
-                            <form action="#">
-                                <input type="text" placeholder="Your email">
-                                <button type="submit"><span class="icon_mail_alt"></span></button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="footer__copyright__text">
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        <p>Copyright ©
-                            <script>
-                                document.write(new Date().getFullYear());
-                            </script>2020
-                            All rights reserved | This template is made with <i class="fa fa-heart-o"
-                            aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                        </p>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!-- Footer Section End -->
-
-    <!-- Search Begin -->
-    <div class="search-model">
-        <div class="h-100 d-flex align-items-center justify-content-center">
-            <div class="search-close-switch">+</div>
-            <form class="search-model-form">
-                <input type="text" id="search-input" placeholder="Search here.....">  
-            </form>
-        </div>
-    </div>
-    <!-- Search End -->
+  	<!-- footer + searchbar -->
+    <jsp:include page="/inc/footer.jsp"></jsp:include>
+	<!-- footer + searchbar -->
 
     <!-- Js Plugins -->
     <script src="js/jquery-3.3.1.min.js"></script>
@@ -248,76 +158,103 @@
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/main.js"></script>
     <script>
-    	//고객정보 변경시도
-		function editUserInfo() {
-		    // 고객 정보를 입력 폼으로 바꿉니다.
-		    console.log('editUserInfo()');
-		    let customerName = $('#userName').text();
-		    let customerPhone = $('#userPhone').text();
-		    document.getElementById('userName').innerHTML = '<input type="text" id="newUserName" value="'+ customerName +'">';
-		    document.getElementById('userPhone').innerHTML = '<input type="text" id="newUserPhone" value="'+ customerPhone +'">';
-		    
-		    // 수정 완료 버튼 추가
-		    document.querySelector('.checkout__total__all').innerHTML += '<li><button type="button" class="site-btn p-1" onclick="updateUserInfo()">저장</button></li>';
-		    //다른버튼제거
-		    document.querySelector('#updateInfo').remove();
-		    document.querySelector('#updatePw').remove();
-		    document.querySelector('#deleteCustomer').remove();
+    	//고객정보 수정
+		function editCustomerInfo() {
+		    // 고객정보 수정폼 변경
+		    let customerName = $('#customerName').text();
+		    let customerPhone = $('#customerPhone').text();
+		    $('#customerName').html('<input type="text" id="newCustomerName" value="'+ customerName +'">');
+		    $('#customerPhone').html('<input type="text" id="newCustomerPhone" value="'+ customerPhone +'">');
+		    // 수정 완료 버튼 추가, 다른버튼 제거
+		    $('#customerInfoBtnForm').append('<li><button type="button" class="site-btn p-1" onclick="updateUserInfo()">수정완료</button></li>');
+		    $('#editCustomerInfoBtn').remove();
+		    $('#editCustomerPwBtn').remove();
+		    $('#deleteCustomerAccountBtn').remove();
 		};
-		//고객정보 변경
+		//고객정보 수정 완료 버튼 누름
 		function updateUserInfo(){
-			let newName = $('#newUserName').val();
-            let newPhone = $('#newUserPhone').val();
-
-            $.post("customerInfo.jsp", // 변경정보 비동기 post요청
+			let newCustomerName = $('#newCustomerName').val();
+            let newCustomerPhone = $('#newCustomerPhone').val();
+            $.post("cutomerApiController.jsp", // 변경정보 비동기 post요청
             {
-                newName: newName,
-                newPhone: newPhone
+            	customerRequestTitle : "updateUserInfo",
+                newCustomerName : newCustomerName,
+                newCustomerPhone : newCustomerPhone
             },function(){
-                location.reload(); // 새로고침 
-            });
-			
+                location.reload(); // 성공. 새로고침 
+            }).fail(function () {
+				//실패
+			});
 		}
 		
 		
-		//주소 입력 폼 readonly 해제
+		//배송주소 입력 폼 readonly 해제
 		$('.form-control[name=address]').each(function() {
 	        $(this).click(function() {
-	            $(this).prop("readonly", false); 
+	            $(this).prop("readonly", false);
 	        });
-	    });
-		
-		//주소가 하나 남았을 때 삭제버튼을 없애기
-		if($('a[name=deleteAddress]').length == 1){
-            $('a[name=deleteAddress]').first().remove();
-        }
-		
-		//빈 주소를 하나 추가하기
-        $('#createAddr').click(function () {
-            let customerNo = $('#customerNo').val();
-
-            $.post("customerInfo.jsp", //비동기 포스트요청
+	    });		
+		//배송주소 가 하나 남았을 때 삭제버튼을 없애기
+		if($('button[name = deleteAddressBtn]').length == 1){
+            $('button[name = deleteAddressBtn]').first().remove();
+        }		
+		//배송주소 (비어있음)을 하나 추가
+        $('#createAddressEmptyBtn').click(function () {
+            $.post("cutomerApiController.jsp", //비동기 포스트요청
             {
-                customerNo: customerNo,
-                newAddr: "new"
+            	customerRequestTitle : "createAddressEmpty"
             },function(){
                 location.reload(); // 성공 후 새로고침
             });
         });
+		//배송주소 수정버튼클릭
+		console.log($('button[name = updateAddressBtn]'));
+		$('button[name=updateAddressBtn]').each(function () {
+			$(this).click(function(){
+				let addressNo = $(this).siblings().first().val();
+				let newAddress = $(this).parent().next().val();
+				$.post("cutomerApiController.jsp", // 변경정보 비동기 post요청
+			            {
+			            	customerRequestTitle : "updateAddressOne",
+			            	addressNo : addressNo,
+			                newAddress : newAddress
+			            },function(){
+			                location.reload(); // 성공. 새로고침 
+			            }).fail(function () {
+							//실패
+						});
+			});
+		});
+		//배송주소 삭제버튼클릭
+		console.log($('button[name = deleteAddressBtn]'));
+		$('button[name=deleteAddressBtn]').each(function () {
+			$(this).click(function(){
+				let addressNo = $(this).siblings().first().val();
+				$.post("cutomerApiController.jsp", // 변경정보 비동기 post요청
+			            {
+			            	customerRequestTitle : "deleteAddressOne",
+			            	addressNo : addressNo,
+			            },function(){
+			                location.reload(); // 성공. 새로고침 
+			            }).fail(function () {
+							//실패
+						});
+			});
+		});
 		
      	// 고객 비밀번호 수정시도
-        $('#updatePw').click(function () { 
-			$('#updateInfo').remove(); //다른 버튼 없애기 및 비밀번호 확인창 생성
-			$('#updatePw').remove();
-			$('#deleteCustomer').remove();
+        $('#editCustomerPwBtn').click(function () { 
+			$('#editCustomerInfoBtn').remove(); //다른 버튼 없애기 및 비밀번호 확인창 생성
+			$('#editCustomerPwBtn').remove();
+			$('#deleteCustomerAccountBtn').remove();
 			
-			$('#updatePwForm').append('<input id="currentPw" class="form-control my-2" type="password" placeholder="현재 비밀번호">');
-			$('#updatePwForm').append('<input id="newPw" class="form-control my-2" type="password" placeholder="신규 비밀번호">');
-			$('#updatePwForm').append('<input id="newPwCheck" class="form-control my-2" type="password" placeholder="신규 비밀번호 재입력">');
-			$('#updatePwForm').append('<button type="button" class="site-btn p-1" id="validatePw" >비밀번호 수정</button>');
-			$('#updatePwForm').append('<button onclick="location.reload()" class="site-btn p-1" >취소</button>');
-			//비밀번호 밸리데이션
-			$('#validatePw').click(function () {
+			$('#customerInfoBtnForm').append('<input id="currentPw" class="form-control my-2" type="password" placeholder="현재 비밀번호">');
+			$('#customerInfoBtnForm').append('<input id="newPw" class="form-control my-2" type="password" placeholder="신규 비밀번호">');
+			$('#customerInfoBtnForm').append('<input id="newPwCheck" class="form-control my-2" type="password" placeholder="신규 비밀번호 재입력">');
+			$('#customerInfoBtnForm').append('<button type="button" class="site-btn p-1" id="updateCustomerPwBtn" >비밀번호 수정</button>');
+			$('#customerInfoBtnForm').append('<button onclick="location.reload()" class="site-btn p-1" >취소</button>');
+			//비밀번호 수정 , 밸리데이션
+			$('#updateCustomerPwBtn').click(function () {
 				if($('#newPw').val() != $('#newPwCheck').val()){
 					$('#pwAlert').text('신규 비밀번호 확인이 일치하지 않습니다.');
 				}else{
@@ -328,8 +265,8 @@
 						let newPw = $('#newPw').val();
 						let currentPw = $('#currentPw').val();
 						
-						$.post("customerPwValid.jsp",{ // 비동기 post 수정요청
-							customerNo : $('#customerNo').val(),
+						$.post("cutomerApiController.jsp",{ // 비동기 post 수정요청
+							customerRequestTitle : "updateCustomerPw",
 							currentPw: currentPw,
 							newPw: newPw
 			            }, function () {
@@ -344,19 +281,19 @@
         });
      	
         //회원탈퇴 시도
-        $('#deleteCustomer').click(function() {
+        $('#deleteCustomerAccountBtn').click(function() {
         	$('#updateInfo').remove(); //다른 버튼 없애기 및 비밀번호 확인창 생성
-			$('#updatePw').remove();
-			$('#deleteCustomer').remove();
+			$('#editCustomerPwBtn').remove();
+			$('#deleteCustomerAccountBtn').remove();
 			$('#pwAlert').text('');
-			$('#updatePwForm').append('<input id="deleteCustomerCheck" class="form-control my-2" type="password" placeholder=" 회원탈퇴, 비밀번호입력">');
-			$('#updatePwForm').append('<button id="deleteCustomerConfirm" class="site-btn p-1" >회원탈퇴 확인</button>');
-			$('#updatePwForm').append('<button onclick="location.reload()" class="site-btn p-1" >취소</button>');
+			$('#customerInfoBtnForm').append('<input id="deleteCustomerCheckPw" class="form-control my-2" type="password" placeholder=" 회원탈퇴, 비밀번호입력">');
+			$('#customerInfoBtnForm').append('<button id="deleteCustomerAccountConfirmBtn" class="site-btn p-1" >회원탈퇴 확인</button>');
+			$('#customerInfoBtnForm').append('<button onclick="location.reload()" class="site-btn p-1" >취소</button>');
 			
-			$('#deleteCustomerConfirm').click(function () {
-				$.post("customerDelete.jsp",{
-					customerNo : $('#customerNo').val(), 
-					currentPw: $('#deleteCustomerCheck').val()
+			$('#deleteCustomerAccountConfirmBtn').click(function () {
+				$.post("cutomerApiController.jsp",{
+					customerRequestTitle : "deleteCustomerAccount",
+					currentPw: $('#deleteCustomerCheckPw').val()
 				}, function () {
             		alert('회원탈퇴가 완료되었습니다.');
 					location.href="customerLogin.jsp";
@@ -365,9 +302,6 @@
 				});
 			});
         });
-        
-		
-        
 </script>
 </body>
 

@@ -12,8 +12,6 @@ import vo.CustomerDetail;
 import vo.CustomerDomain;
 import vo.CustomerDomain.CreateCustomerVo;
 import vo.CustomerPwHistory;
-import vo.UpdateCumstomerAddrVo;
-import vo.UpdateCumstomerInfoVo;
 
 //customer 기본키 엔터티의 DAO
 //작성자 정인호
@@ -178,10 +176,11 @@ public class CustomerDao {
 	public int updateCustomerAddr(int addrNo, String newAddr) throws SQLException {
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		String sql = """
-					UPDATE customer_addr SET address = ? WHERE customer_addr_no = ?""";
+					UPDATE customer_addr SET address = ?, updatedate = NOW() WHERE customer_addr_no = ?""";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, newAddr);
 		stmt.setInt(2, addrNo);
+		System.out.println(" stmt --> " + stmt);
 		int updateCheck = stmt.executeUpdate();
 		stmt.close();
 		conn.close();

@@ -42,6 +42,7 @@
     <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
+    
 </head>
 
 <body>
@@ -253,8 +254,8 @@
                                 </div>
                                 <div class="tab-pane" id="tabs-7" role="tabpanel">
                                   <div class="product__details__tab__content">
-                                  <a href="#" class="primary-btn" style=float:left>add Question</a>
-                                  <table class="col-lg-12">
+                                  <a href="<%=request.getContextPath()%>/insertQuestionForm.jsp?goodsNo=<%=Detail.getGoodsNo() %>" class="primary-btn" style=float:left>add Question</a>
+                                  <table class="table col-lg-12">
                                   <%
                                   	for(HashMap<String,Object> q : list){
                                   %>
@@ -267,10 +268,11 @@
                                         </tr>
                                         <tr>
                                         	<td>
-                                        		<a href="#" class="primary-btn" style=float:left>Edit Question</a>
-                                        		<a href="#" class="primary-btn" style=float:right>Edit Comment</a>
-                                        		<a href="#" class="primary-btn" style=float:right>Add Comment</a>
+                                        		<a href="<%=request.getContextPath()%>/questionOne.jsp?questionNo=<%=q.get("questionNo") %>" class="primary-btn" style=float:right>자세히</a>
                                         	</td>
+                                        </tr>
+                                        <tr>
+                                        	<td ></td>
                                         </tr>
                                   <%
                                   	}

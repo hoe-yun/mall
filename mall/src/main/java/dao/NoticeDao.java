@@ -58,6 +58,10 @@ public class NoticeDao {
 			n.setUpdatedate(rs.getString("updatedate"));
 			
 		}
+		//DB자원반납
+		rs.close();
+		stmt.close();
+		conn.close();
 		//end model code
 		return n;
 	}
@@ -77,6 +81,9 @@ public class NoticeDao {
 		stmt.setString(2, notice.getNoticeTitle());
 		stmt.setString(3, notice.getNoticeContent());
 		row = stmt.executeUpdate();
+		//DB자원반납
+		stmt.close();
+		conn.close();
 		//end model code
 		return row;
 	}
@@ -94,6 +101,9 @@ public class NoticeDao {
 		stmt.setInt(1, noticeNo);
 		System.out.println(stmt + "<- stmt delectTest()");
 		row = stmt.executeUpdate();
+		//DB자원반납
+		stmt.close();
+		conn.close();
 		//end model code
 		return row;
 	}
@@ -112,6 +122,9 @@ public class NoticeDao {
 		stmt.setString(2, notice.getNoticeContent());
 		stmt.setInt(3, notice.getNoticeNo());
 		row = stmt.executeUpdate();
+		//DB자원반납
+		stmt.close();
+		conn.close();
 		//end model code
 		return row;
 	}

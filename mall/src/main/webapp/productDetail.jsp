@@ -13,6 +13,8 @@
 	GoodsDao goodsDao = new GoodsDao();
 	ProductCartDao dao = new ProductCartDao();
 	ProductCart Detail = dao.selectProductDetail(request.getParameter("goodsTitle"), goodsPrice, Integer.parseInt(request.getParameter("goodsNo")));
+	QuestionDao questionDao = new QuestionDao();
+	ArrayList<HashMap<String,Object>> list = questionDao.selectQuestion(Integer.parseInt(request.getParameter("goodsNo")));
 	
 	
 %>
@@ -251,15 +253,29 @@
                                 </div>
                                 <div class="tab-pane" id="tabs-7" role="tabpanel">
                                   <div class="product__details__tab__content">
-                                       <span>Question</span>
-                                        <textarea class="col-lg-12" readonly="readonly"></textarea>
-                                        <a href="#" class="primary-btn" style=float:right>add question</a>
-                                    </div>
-                                    <br>
-                                    <div class="product__details__tab__content">
-                                       <span>Comment</span>
-                                        <textarea class="col-lg-12" readonly="readonly"></textarea>
-                                        <a href="#" class="primary-btn" style=float:right>add comment</a>
+                                  <a href="#" class="primary-btn" style=float:left>add Question</a>
+                                  <table class="col-lg-12">
+                                  <%
+                                  	for(HashMap<String,Object> q : list){
+                                  %>
+                                  		<tr>
+                                       		<td height="100px">
+                                        		<textarea class="col-lg-12" rows="3" readonly="readonly">Question - <%=q.get("questionTitle")%> : <%=q.get("questionContent")%>
+                                        		
+                                        																	Comment - <%=q.get("comment")%></textarea>
+                                        	</td>
+                                        </tr>
+                                        <tr>
+                                        	<td>
+                                        		<a href="#" class="primary-btn" style=float:left>Edit Question</a>
+                                        		<a href="#" class="primary-btn" style=float:right>Edit Comment</a>
+                                        		<a href="#" class="primary-btn" style=float:right>Add Comment</a>
+                                        	</td>
+                                        </tr>
+                                  <%
+                                  	}
+                                  %>  
+                                  </table>
                                     </div>
                                 </div>
                             </div>

@@ -24,6 +24,10 @@ public class QuestionCommentDao {
 			qc.setCreatedate(rs.getString("createdate"));
 			qc.setUpdatedate(rs.getString("updatedate"));
 		}
+		//DB자원반납
+		rs.close();
+		stmt.close();
+		conn.close();
 		//end model code
 		return qc;
 	}
@@ -43,6 +47,9 @@ public class QuestionCommentDao {
 		stmt.setInt(2,comment.getManagerNo());
 		stmt.setString(3,comment.getComment());
 		row = stmt.executeUpdate();
+		//DB자원반납
+		stmt.close();
+		conn.close();
 		//end model code
 		return row;
 	}
@@ -59,6 +66,9 @@ public class QuestionCommentDao {
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, questionCommentNo);
 		row = stmt.executeUpdate();
+		//DB자원반납
+		stmt.close();
+		conn.close();
 		//end model code
 		return row;
 	}
@@ -76,6 +86,9 @@ public class QuestionCommentDao {
 		stmt.setString(1, comment.getComment());
 		stmt.setInt(2, comment.getQuestionCommentNo());
 		row = stmt.executeUpdate();
+		//DB자원반납
+		stmt.close();
+		conn.close();
 		//end model code
 		return row;
 	}

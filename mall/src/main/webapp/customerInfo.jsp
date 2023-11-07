@@ -175,9 +175,9 @@
 		function updateUserInfo(){
 			let newCustomerName = $('#newCustomerName').val();
             let newCustomerPhone = $('#newCustomerPhone').val();
-            $.post("cutomerApiController.jsp", // 변경정보 비동기 post요청
+            $.post("customerApiController.jsp", // 변경정보 비동기 post요청
             {
-            	customerRequestTitle : "updateUserInfo",
+            	customerRequestTitle : "updateCustomerInfo",
                 newCustomerName : newCustomerName,
                 newCustomerPhone : newCustomerPhone
             },function(){
@@ -200,7 +200,7 @@
         }		
 		//배송주소 (비어있음)을 하나 추가
         $('#createAddressEmptyBtn').click(function () {
-            $.post("cutomerApiController.jsp", //비동기 포스트요청
+            $.post("customerApiController.jsp", //비동기 포스트요청
             {
             	customerRequestTitle : "createAddressEmpty"
             },function(){
@@ -213,7 +213,7 @@
 			$(this).click(function(){
 				let addressNo = $(this).siblings().first().val();
 				let newAddress = $(this).parent().next().val();
-				$.post("cutomerApiController.jsp", // 변경정보 비동기 post요청
+				$.post("customerApiController.jsp", // 변경정보 비동기 post요청
 			            {
 			            	customerRequestTitle : "updateAddressOne",
 			            	addressNo : addressNo,
@@ -230,7 +230,7 @@
 		$('button[name=deleteAddressBtn]').each(function () {
 			$(this).click(function(){
 				let addressNo = $(this).siblings().first().val();
-				$.post("cutomerApiController.jsp", // 변경정보 비동기 post요청
+				$.post("customerApiController.jsp", // 변경정보 비동기 post요청
 			            {
 			            	customerRequestTitle : "deleteAddressOne",
 			            	addressNo : addressNo,
@@ -265,7 +265,7 @@
 						let newPw = $('#newPw').val();
 						let currentPw = $('#currentPw').val();
 						
-						$.post("cutomerApiController.jsp",{ // 비동기 post 수정요청
+						$.post("customerApiController.jsp",{ // 비동기 post 수정요청
 							customerRequestTitle : "updateCustomerPw",
 							currentPw: currentPw,
 							newPw: newPw
@@ -291,7 +291,7 @@
 			$('#customerInfoBtnForm').append('<button onclick="location.reload()" class="site-btn p-1" >취소</button>');
 			
 			$('#deleteCustomerAccountConfirmBtn').click(function () {
-				$.post("cutomerApiController.jsp",{
+				$.post("customerApiController.jsp",{
 					customerRequestTitle : "deleteCustomerAccount",
 					currentPw: $('#deleteCustomerCheckPw').val()
 				}, function () {

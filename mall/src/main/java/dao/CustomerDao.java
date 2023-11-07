@@ -81,7 +81,7 @@ public class CustomerDao {
 			conn.commit();
 			conn.close();
 			System.out.println("conn.commit()");
-			return genCustomerNo;
+			return 1;
 		}
 	}
 	
@@ -146,12 +146,13 @@ public class CustomerDao {
 	}
 	
 	//고객 주소 1개 제거
-	public int deleteCustomerAddr(int AddrNo) throws SQLException {
+	public int deleteCustomerAddr(int customerNo ,int AddressNo) throws SQLException {
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		String sql = """
-					DELETE FROM customer_addr WHERE customer_addr_no = ?""";
+					DELETE FROM customer_addr WHERE customer_addr_no = ? AND customer_no = ?""";
 		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, AddrNo);
+		stmt.setInt(1, AddressNo);
+		stmt.setInt(2, customerNo);
 		int updateCheck = stmt.executeUpdate();
 		stmt.close();
 		conn.close();
@@ -173,13 +174,14 @@ public class CustomerDao {
 	}
 	
 	//고객 주소 1개 수정
-	public int updateCustomerAddr(int addrNo, String newAddr) throws SQLException {
+	public int updateCustomerAddr(int customerNo, int addressNo, String newAddress) throws SQLException {
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		String sql = """
-					UPDATE customer_addr SET address = ?, updatedate = NOW() WHERE customer_addr_no = ?""";
+					UPDATE customer_addr SET address = ?, updatedate = NOW() WHERE customer_addr_no = ? AND customer_no = ?""";
 		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setString(1, newAddr);
-		stmt.setInt(2, addrNo);
+		stmt.setString(1, newAddress);
+		stmt.setInt(2, addressNo);
+		stmt.setInt(3, customerNo);
 		System.out.println(" stmt --> " + stmt);
 		int updateCheck = stmt.executeUpdate();
 		stmt.close();
@@ -255,7 +257,7 @@ public class CustomerDao {
 		stmt.setString(2, pw);
 		System.out.println(" stmt --> " + stmt);
 		ResultSet rs = stmt.executeQuery();
-		int customerNo = -1;
+		int customerNo = 0;
 		if(rs.next()) {
 			customerNo = rs.getInt("customerNo");
 		}

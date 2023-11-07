@@ -3,23 +3,6 @@
     pageEncoding="UTF-8"%>
 <% 
 	//작성자 : 정인호	
-	
-	CustomerDao dao = new CustomerDao();
-	String errorMsg = "";
-	
-	//로그인 시도요청을 감지
-	if(request.getParameter("customerId") != null && request.getParameter("customerPw")!= null){
-		int customerNo = dao.loginCustomer(request.getParameter("customerId"), request.getParameter("customerPw"));
-		if (customerNo != -1){
-			session.setAttribute("customerNo", customerNo);
-			System.out.println(" 로그인성공 customerNo  : " + customerNo);
-			response.sendRedirect("customerInfo.jsp"); // 성공시 상세페이지로
-			
-		}else{
-			errorMsg = "<span>*Log in fail</span>로그인정보가 일치하지 않습니다.";
-		}
-	}
-
 %>
 
 <!DOCTYPE html>
@@ -61,26 +44,24 @@
                         <div class="section-title">
                             <span>customer login </span>
                             <h2>로그인</h2>
-                            <p id="errorMsg"><%=errorMsg %></p>
+                            <p id="errorMsg"></p>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6">
                     <div class="contact__form">
-                        <form action="customerLogin.jsp" method="post">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <input type="text" name="customerId" placeholder="ID">
-                                </div>
-                                <div class="col-lg-12">
-                                    <input type="password" name="customerPw" placeholder="PW">
-                                    <button type="submit" class="site-btn mr-5">로그인</button>
-                                    <a href="customerCreate.jsp" class="site-btn">회 원 가 입</a>
-                                    <br>
-        							<button id="forgotPwBtn" type="button" class="btn btn-light my-5">I FORGOT PASSWORD</button>
-                                </div>
-                            </div>
-                        </form>
+                       <div class="row">
+                           <div class="col-lg-12">
+                               <input type="text" id="customerId" placeholder="ID">
+                           </div>
+                           <div class="col-lg-12">
+                               <input type="password" id="customerPw" placeholder="PW">
+                               <button id="loginBtn" type="button" class="site-btn mr-5">로그인</button>
+                               <a href="customerCreate.jsp" class="site-btn">회 원 가 입</a>
+                               <br>
+   							<button id="forgotPwBtn" type="button" class="btn btn-light my-5">I FORGOT PASSWORD</button>
+                           </div>
+                       </div>
                     </div>
                 </div>
             </div>
@@ -107,6 +88,24 @@
     	$('#forgotPwBtn').click(function () {
 			$('#errorMsg').text('비밀번호 분실시 관리자에게 문의바랍니다');
 		});
+    	
+    	//로그인 시도
+    	$('#loginBtn').click(function () {
+			let customerId = $('#customerId').val();
+			let customerPw = $('#customerPw').val();
+			$.post("./customerApiController.jsp", 
+				{
+            		customerRequestTitle : "login",
+            		customerId : customerId,
+            		customerPw : customerPw
+            	}, function() {
+					alert('로그인 성공');
+					location.href="./customerInfo.jsp"
+				}).fail(function () {
+					$('#errorMsg').text('로그인정보가 일치하지 않습니다.');
+				});
+		});
+    	
     </script>
 </body>
 

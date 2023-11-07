@@ -7,7 +7,7 @@
 	Integer seesionCustomerNo = (Integer)session.getAttribute("customerNo");
 	if(seesionCustomerNo != null){
 		loginBtnIncMenu = "Log out";
-		urlLoginBtnIncMenu = "./customerLogout.jsp";
+		urlLoginBtnIncMenu = "./customerApiController.jsp?customerRequestTitle=logout";
 	}
 
 %>	

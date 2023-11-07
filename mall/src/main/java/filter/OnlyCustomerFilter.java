@@ -21,7 +21,7 @@ import javax.websocket.Session;
 public class OnlyCustomerFilter implements Filter{
 	
 	public void init(FilterConfig filterConfig) throws ServletException{
-		System.out.println("log // filter init");
+		System.out.println("log // OnlyCustomerFilter init");
 	}
 	
 	@Override

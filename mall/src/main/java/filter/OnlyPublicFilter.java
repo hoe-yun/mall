@@ -21,7 +21,7 @@ import javax.websocket.Session;
 public class OnlyPublicFilter implements Filter{
 	
 	public void init(FilterConfig filterConfig) throws ServletException{
-		System.out.println("log // filter init");
+		System.out.println("log // OnlyPublicFilter init");
 	}
 	
 	@Override

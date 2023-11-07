@@ -97,6 +97,7 @@
 		                                <p>
 	                                        <input hidden="true" type="number" name="AddressNo" value="<%=addr.get("addrNo")%>">
 		                                	배송주소
+		                                	<button type="button" name="findAddressBtn" class="btn btn-light mx-5">주소찾기</button>
 		                                	<button class="btn btn-light ml-5" type="button" name="updateAddressBtn">수정하기</button>
 		                                	<button class="btn btn-light" type="button" name="deleteAddressBtn">삭제하기</button>
 		                                </p>
@@ -171,10 +172,21 @@
 		    $('#editCustomerPwBtn').remove();
 		    $('#deleteCustomerAccountBtn').remove();
 		};
-		//고객정보 수정 완료 버튼 누름
+		//고객정보 수정 완료 버튼 누름 ( 유효성검사)
 		function updateUserInfo(){
 			let newCustomerName = $('#newCustomerName').val();
             let newCustomerPhone = $('#newCustomerPhone').val();
+			let namePattern = /^[가-힣]{2,}$/;
+			let phonePattern = /^\d{4,}-?\d*$/;
+			if (!newCustomerName.match(namePattern)) {
+				$('#pwAlert').text('이름은 2자리 이상이며, 한글로만 입력해야 합니다.');
+				return;
+			}
+			if (!newCustomerPhone.match(phonePattern)) {
+				$('#pwAlert').text('전화번호는 4자리 이상이어야 하며, 숫자와 "-"만 입력 가능합니다.');
+				return;
+			}
+			
             $.post("customerApiController.jsp", // 변경정보 비동기 post요청
             {
             	customerRequestTitle : "updateCustomerInfo",
@@ -213,6 +225,11 @@
 			$(this).click(function(){
 				let addressNo = $(this).siblings().first().val();
 				let newAddress = $(this).parent().next().val();
+				let addressPattern = /^.{10,}$/;
+				if (!newAddress.match(addressPattern)) {
+			        alert('배송지 주소는 10자 이상이어야 합니다.');
+			        return;
+			    }
 				$.post("customerApiController.jsp", // 변경정보 비동기 post요청
 			            {
 			            	customerRequestTitle : "updateAddressOne",
@@ -264,7 +281,11 @@
 					}else{
 						let newPw = $('#newPw').val();
 						let currentPw = $('#currentPw').val();
-						
+						let pwPattern = /^.{4,}$/;
+						if (!newPw.match(pwPattern)) {
+							$('#pwAlert').text('패스워드는 4자리 이상이어야 합니다.');
+							return;
+					    }
 						$.post("customerApiController.jsp",{ // 비동기 post 수정요청
 							customerRequestTitle : "updateCustomerPw",
 							currentPw: currentPw,
@@ -303,6 +324,33 @@
 			});
         });
 </script>
+<script>
+		//배송주소 조회버튼클릭
+		console.log($('button[name = findAddressBtn]'));
+		$('button[name=findAddressBtn]').each(function () {
+			$(this).click(function(){
+				let address = '';
+				
+				new daum.Postcode({
+			        oncomplete: function(data) {
+			        	
+			        	console.log(data);
+			            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+			            // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
+			            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+			            var roadAddr = data.roadAddress; // 도로명 주소 변수
+			            // 우편번호와 주소 정보를 해당 필드에 넣는다.
+			            address += data.zonecode;
+			            address += roadAddr;
+			        }
+			    }).open();
+				
+			    $(this).parent().next().text(address);
+			
+			});
+		});
+	</script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </body>
 
 </html>

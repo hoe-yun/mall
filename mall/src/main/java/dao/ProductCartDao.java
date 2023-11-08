@@ -97,7 +97,7 @@ public class ProductCartDao {
 			String dbpw = "java1234";
 			Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 			//넘겨받은 goodsNo로 상품명,가격,수량,고객번호를 찾는 쿼리
-			String sql ="SELECT goods_no goodsNo, goods_title goodsTitle, goods_price goodsPrice, FROM goods ";
+			String sql ="SELECT goods_no goodsNo, goods_title goodsTitle, goods_price goodsPrice FROM goods ";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
@@ -139,6 +139,27 @@ public class ProductCartDao {
 			conn.close();
 			return insertCart(customerNo, goodsNo, quantity);
 		}
-		
+		public int deleteCart(int cartNo) throws Exception {
+			// model code
+						Class.forName("org.mariadb.jdbc.Driver");
+						String url = "jdbc:mariadb://localhost:3306/mall";
+						String dbuser = "root";
+						String dbpw = "java1234";
+						Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+			//cart페이지에서 상품 삭제 쿼리문
+			String sql ="DELETE FROM cart WHERE cart_no=?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, cartNo);
+			int row = stmt.executeUpdate();
+			if(row == 1 ) {
+				System.out.println("삭제성공");
+			}else {
+				System.out.println("삭제실패");
+			}
+			//DB자원 반납
+			stmt.close();
+			conn.close();
+			return row;
+		}
 	
 }

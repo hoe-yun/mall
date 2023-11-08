@@ -73,6 +73,8 @@
                         <table>
                             <thead>
                                 <tr>
+                                	<th>선택</th>
+                                	<th>번호</th>
                                     <th>상품</th>
                                     <th>수량</th>
                                     <th>소계</th>
@@ -80,26 +82,25 @@
                                 </tr>
                             </thead>
                             <tbody>
+                            <form action="./orderApiController.jsp" method="post">
                             <% for(ProductCart p : list) {%>
                                 <tr>
+                                	<td><input type="checkbox" name="checked" style="width: 50px; margin: 0 auto;"></td>
+                                	<td><%=p.getCartNo() %></td>	
                                     <td class="product__cart__item">
                                         <div class="product__cart__item__pic">
                                             <img src="img/product/<%=p.getGoodsTitle() %>.png" alt="" width="120" height="90">
                                         </div>
                                         <div class="product__cart__item__text">
-                                            <h6><%=p.getGoodsTitle() %></h6>
+                                            <h6><input name="goodsNo" hidden="true" value="<%=p.getGoodsNo()%>"><%=p.getGoodsNo()%>.<%=p.getGoodsTitle()%></h6>
                                             <h5><%=p.getGoodsPrice() %></h5>
                                         </div>
                                     </td>
                                     <td class="quantity__item">
-                                        <div class="quantity">
-                                            <div class="pro-qty-2">
-                                                <input type="text" value="1">
-                                            </div>
-                                        </div>
+                                                <input name="qantity" type="number" value="1" min="1" class="quantity-input" size="10">
                                     </td>
-                                    <td class="cart__price"><%=p.getGoodsPrice() %></td>
-                                    <td class="cart__close"><i class="fa fa-close"></i></td>
+                                    <td class="cart__price"><span class="subtotal"><%= p.getGoodsPrice() %></span></td>
+                                    <td class="cart__close"><a href="./deleteCartAction.jsp?cartNo=<%=p.getCartNo()%>" class="fa fa-close"></a></td>
                                 </tr>
                                 <%} %>
                                 
@@ -123,14 +124,15 @@
                     <div class="cart__total">
                         <h6>총 금액</h6>
                         <ul>
-                            <li>소계<span>$ 169.50</span></li>
-                            <li>총계<span>$ 169.50</span></li>
+                            <li>소계<span class="subtotal">0원</span></li>
+                            <li>총계<span id="total">0원</span></li>
                         </ul>
-                        <a href="#" class="primary-btn">장바구니 상품 주문하기</a>
+                        <button type="submit" class="primary-btn">장바구니 상품 주문하기</button>
                     </div>
                 </div>
             </div>
         </div>
+       </form>
     </section>
     <!-- Shopping Cart Section End -->
 
@@ -223,6 +225,44 @@
     <script src="js/mixitup.min.js"></script>
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/main.js"></script>
+<script>
+    // JavaScript를 사용하여 수량이 변경될 때 소계 업데이트
+    const quantityInputs = document.querySelectorAll(".quantity-input");
+    quantityInputs.forEach(input => {
+        input.addEventListener("input", function () {
+            const quantity = parseInt(this.value);
+            const price = parseInt(this.closest("tr").querySelector(".product__cart__item h5").innerText);
+            const subtotal = quantity * price;
+            this.closest("tr").querySelector(".subtotal").innerText = subtotal;
+            recalculateTotals();
+        });
+    });
+
+    // 체크박스에 체크된 제품만 총계에 출력하기
+    const checkboxes = document.querySelectorAll('input[name="checked"]');
+
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', recalculateTotals);
+    });
+
+    function recalculateTotals() {
+        let total = 0;
+
+        checkboxes.forEach(checkbox => {
+            if (checkbox.checked) {
+                const row = checkbox.parentElement.parentElement; // 해당 상품의 행
+                const quantity = row.querySelector('.pro-qty-2 input').value;
+                const price = parseFloat(row.querySelector('.cart__price').innerText.replace('', '원'));
+                const subtotal = quantity * price;
+                total += subtotal;
+            }
+        });
+
+        // 총계를 화면에 표시
+        const totalElement = document.getElementById('total');
+        totalElement.innerText = total.toFixed(0) + '원';
+    }
+</script>
 </body>
 
 </html>

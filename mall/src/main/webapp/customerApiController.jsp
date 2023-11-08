@@ -9,10 +9,9 @@
 request.setCharacterEncoding("utf-8");
 String customerRequestTitle = request.getParameter("customerRequestTitle");
 String referer = request.getHeader("Referer");
-CustomerDao dao = new CustomerDao();
 
 /** 세션 회원만 접근가능 **/
-//로그인세션 확인은 필터로 이관;
+//로그인세션 접근제어는 필터로 이관;
 Integer customerNo = (int)session.getAttribute("customerNo");// 세션정보 확인
 System.out.println(" 로그인 세션 customerNo   ::  " + customerNo);
 //요청 제목이 없는 경우 리턴
@@ -20,6 +19,9 @@ if(customerRequestTitle == null ){
 	response.sendRedirect(referer);
 	return;
 }
+
+CustomerDao dao = new CustomerDao();
+
 
 //로그아웃
 if(customerRequestTitle.equals("logout")){

@@ -170,7 +170,7 @@ function updateUserInfo(){
 	let newCustomerName = $('#newCustomerName').val();
 	let newCustomerPhone = $('#newCustomerPhone').val();
 	let namePattern = /^[가-힣]{2,}$/;
-	let phonePattern = /^\d{4,}-?\d*$/;
+	let phonePattern = /^\d+-?\d*-?\d*$/;
 	if (!newCustomerName.match(namePattern)) {
 		$('#pwAlert').text('이름은 2자리 이상이며, 한글로만 입력해야 합니다.');
 		return;

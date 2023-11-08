@@ -8,53 +8,16 @@
 
 request.setCharacterEncoding("utf-8");
 String customerRequestTitle = request.getParameter("customerRequestTitle");
+String referer = request.getHeader("Referer");
 CustomerDao dao = new CustomerDao();
-/** 세션 비회원만 접근가능 **/
-if(customerRequestTitle == null){
-	return;
-}
 
-//로그인
-if(customerRequestTitle.equals("login")){
-	String customerId = request.getParameter("customerId");
-	String customerPw = request.getParameter("customerPw");
-	
-	int customerNo = dao.loginCustomer(customerId,customerPw);
-	if (customerNo != 0){
-		System.out.println(" login 성공 customerNo  : " + customerNo);
-		session.setAttribute("customerNo", customerNo);
-		response.setStatus(200);
-		response.sendRedirect("customerInfo.jsp"); // 성공시 상세페이지로
-		return;
-	}else{
-		System.out.println(" login 실패");
-		response.setStatus(400);
-		return;
-	}
-}
-//회원가입
-if(customerRequestTitle.equals("createCustomerAccount")){
-	String id = request.getParameter("id");
-	String pw = request.getParameter("pw");
-	String name = request.getParameter("name");
-	String phone = request.getParameter("phone");
-	String address = request.getParameter("address");		
-	CustomerDomain.CreateCustomerVo vo = new CustomerDomain.CreateCustomerVo(id,pw,name,phone,address);
-	int validation = dao.createCumstomer(vo);
-	if(validation == 1){
-		System.out.println(" createCustomerAccount 성공");
-		response.setStatus(200);
-		return;
-	}else{
-		System.out.println(" createCustomerAccount 실패");
-		response.setStatus(400);
-		return;
-	}
-}	
 /** 세션 회원만 접근가능 **/
-//로그인세션이 없은 요청은 되돌림
+//로그인세션 확인은 필터로 이관;
 Integer customerNo = (int)session.getAttribute("customerNo");// 세션정보 확인
-if(customerNo == null ){
+System.out.println(" 로그인 세션 customerNo   ::  " + customerNo);
+//요청 제목이 없는 경우 리턴
+if(customerRequestTitle == null ){
+	response.sendRedirect(referer);
 	return;
 }
 
@@ -62,7 +25,7 @@ if(customerNo == null ){
 if(customerRequestTitle.equals("logout")){
 	session.removeAttribute("customerNo");
 	System.out.println(" logout 성공");
-	response.sendRedirect("./customerLogin.jsp"); // $.(post) 요청 아님
+	response.sendRedirect(referer);
 	return;
 }
 //고객정보 업데이트

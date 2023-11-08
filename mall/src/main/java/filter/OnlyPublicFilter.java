@@ -17,7 +17,7 @@ import javax.websocket.Session;
 
 // 작성자 : 정인호  C231106 U231106
 // 오직 로그아웃상태에서만 접근가능한 페이지
-@WebFilter(urlPatterns={"/customerLogin.jsp","/customerCreate.jsp"})
+@WebFilter(urlPatterns={"/customerLogin.jsp","/customerCreate.jsp","/publicApiController.jsp"})
 public class OnlyPublicFilter implements Filter{
 	
 	public void init(FilterConfig filterConfig) throws ServletException{
@@ -28,12 +28,14 @@ public class OnlyPublicFilter implements Filter{
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest)request; // HttpServletRequest는 ServletRequest를 상속한다. 예전엔 http가 없었음. 세션도 나중에 생김
+		String requestUrl = httpRequest.getRequestURI();
+		System.out.println(">>fiter ::  OnlyPublicFilter   >>  url :" +  requestUrl);
 		HttpSession session = httpRequest.getSession();
 		Integer customerNo = (Integer) session.getAttribute("customerNo");
 		//세션 로그인 여부체크
 		if(customerNo != null) {
 			HttpServletResponse httpResponse = (HttpServletResponse)response;// 마찬가지. sendredirect가 없음
-			httpResponse.sendRedirect("/mall/customerInfo.jsp"); // 페이지로 
+			httpResponse.sendRedirect("customerInfo.jsp"); // 페이지로 
 			return;
 		}
 		

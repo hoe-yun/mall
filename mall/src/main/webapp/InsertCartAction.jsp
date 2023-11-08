@@ -10,14 +10,14 @@
 </head>
 <body>
 	<%
-	int goodsNo = request.getParameter("goodsNo");
-	int quantity = request.getParameter("quantity");
+	int goodsNo = Integer.parseInt(request.getParameter("goodsNo"));
+	int quantity = Integer.parseInt(request.getParameter("quantity"));
 	Integer customerNo = (int)session.getAttribute("customerNo");// 세션에서 고객번호 확인
 	ProductCartDao dao = new ProductCartDao();
 	dao.selectCart(goodsNo);
-	dao.insertCart(goodsNo.customerNo.quantity);
+	dao.insertCart(customerNo, goodsNo, quantity);
 
-	
+	response.sendRedirect("./productCart.jsp");
 	%>
 </body>
 </html>

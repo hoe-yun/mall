@@ -13,6 +13,7 @@
 	GoodsDao goodsDao = new GoodsDao();
 	ProductCartDao dao = new ProductCartDao();
 	ProductCart Detail = dao.selectProductDetail(request.getParameter("goodsTitle"), goodsPrice, Integer.parseInt(request.getParameter("goodsNo")));
+	
 	QuestionDao questionDao = new QuestionDao();
 	ArrayList<HashMap<String,Object>> list = questionDao.selectQuestion(Integer.parseInt(request.getParameter("goodsNo")));
 	
@@ -164,16 +165,21 @@
                                     </label>
                                 </div>
                             </div>
+                            
+                          <form  type="submit" action="./InsertCartAction.jsp" method="get">
                             <div class="product__details__cart__option">
                                 <div class="quantity">
-                                    <div class="pro-qty">
-                                        <input type="text" name="quantity" value="1">
+                                    <div>
+                                        <input type="number" name="quantity" value="1">
+                                        <input type="number" name="goodsNo" value="<%=Detail.getGoodsNo()%>" readonly="readonly" hidden="true">
+                                       
                                     </div>
                                 </div>
-                                <a href="./InsertCartAction.jsp?goodsNo=<%=Detail.getGoodsNo()%>" class="primary-btn">장바구니 추가</a>
+                                <button class="primary-btn" type="submit">장바구니 추가</button>
                             </div>
+                            	</form>
                             <div class="product__details__btns__option">
-                                <a href="#"><i class="fa fa-heart"></i> add to wishlist</a>
+                                <a href="#"><i class="fa fa-heart"></i> 찜하기</a>
                                 <a href="#"><i class="fa fa-exchange"></i> Add To Compare</a>
                             </div>
                             <div class="product__details__last__option">

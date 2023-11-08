@@ -27,7 +27,7 @@ public class ProductCartDao {
 	Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 	
 	//상품명,가격,솔드아웃여부,메모 쿼리문
-	String sql = "SELECT g.goods_title AS goodsTitle, g.goods_price AS goodsPrice, c.cart_no AS cartNo, g.goods_no goodsNo, c.quantity FROM cart c inner join goods g on c.goods_no = g.goods_no WHERE c.cart_no = ?";
+	String sql = "SELECT g.goods_title goodsTitle, g.goods_price goodsPrice, c.cart_no cartNo, g.goods_memo goodsMemo, g.goods_no goodsNo, c.quantity FROM cart c inner join goods g on c.goods_no = g.goods_no";
 	PreparedStatement stmt = conn.prepareStatement(sql);
 	stmt.setInt(1,goodsNo);
 	ResultSet rs = stmt.executeQuery();
@@ -39,11 +39,9 @@ public class ProductCartDao {
 	c.setGoodsNo(rs.getInt("goodsNo"));
 	c.setQuantity(rs.getInt("quantity"));
 	c.setCartNo(rs.getInt("cartNo"));
-	c.setCustomerNo(rs.getInt("customerNo"));
 	c.setGoodsTitle(rs.getString("goodsTitle"));
 	c.setGoodsPrice(rs.getInt("goodsPrice"));
 	c.setGoodsMemo(rs.getString("goodsMemo"));
-	c.setSoldout(rs.getString("soldout"));
 	list.add(c);
 	
 	//DB자원반납
@@ -144,4 +142,3 @@ public class ProductCartDao {
 		
 	
 }
-

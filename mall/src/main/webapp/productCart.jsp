@@ -12,7 +12,7 @@
 	int cartNo = 0;
 	String goodsMemo = null;
 	ProductCartDao dao = new ProductCartDao();
-	ArrayList<ProductCart> list = dao.selectArrayList(request.getParameter("goodsTitle"), goodsPrice, Integer.parseInt(request.getParameter("goodsNo")), quantity, cartNo);
+	ArrayList<ProductCart> list = dao.selectArrayList(goodsTitle, goodsPrice, goodsNo, quantity, cartNo);
 	
 %>
 

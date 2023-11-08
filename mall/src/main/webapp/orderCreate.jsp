@@ -1,13 +1,26 @@
+<%@page import="vo.TransferCartToOrderVo"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.HashMap"%>
+<%@page import="dao.CustomerDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%
 // 1. get <goodsNo , quantity > List From Cart;
 // 2. retrieve goods price from db using with goodsNo;
 // 3. get session customerNo And retrieve customerDetail, address;
-// 4. make view with vlues gotten;
+// 4. make view with values gotten;
 // 5. $post and dao transaction init;
 
 request.setCharacterEncoding("utf-8");
+int customerNo = (int)session.getAttribute("customerNo");// 세션정보 확인
+CustomerDao dao = new CustomerDao();
+
+// 고객 상세정보 vo
+HashMap<String,Object> customerInfo = dao.retrieveCustomerInfo(customerNo);
+// 고객 주소 조회 vo
+ArrayList<HashMap<String, Object>> AddressList = dao.retrieveCustomerAddrList(customerNo); 
+
+ArrayList<TransferCartToOrderVo> goodsList = (ArrayList<TransferCartToOrderVo>)request.getAttribute("TransferCartToOrderVoList");
 
 %>
 
@@ -103,39 +116,45 @@ request.setCharacterEncoding("utf-8");
 				</div>
 				
 				<!-- 배송주소 출력 시작 -->
+				<%
+				for(HashMap<String, Object> address : AddressList ){
+				%>
 				<div class="rounded border p-3 mb-2">
 					<div class="checkout__input">
-						<input hidden="true" type="number" name="AddressNo" value="">
+						<input hidden="true" type="number" name="AddressNo" value="<%=address.get("addrNo")%>">
 						<span class="mx-3">배송주소</span>
-						<button type="button" name="findAddressBtn" class="btn btn-light btn-sm mb-2">선택하기</button>
-						<textarea class="form-control" rows="3" name="address" readonly="readonly"></textarea>
+						<button type="button" name="addressSelectionBtn" class="btn btn-light btn-sm mb-2">선택하기</button>
+						<textarea class="form-control" rows="3" name="address" readonly="readonly"><%=address.get("address")%></textarea>
 					</div>
 				</div>
+				<%
+				}
+				%>
 				<!-- 배송주소출력 종료 -->
 			</div>
 			<div class="col-lg-4 col-md-6">
 				<div class="checkout__order">
 					<h4 class="order__title">Your order</h4>
-					<div class="checkout__order__products">Product <span>Total</span></div>
 					<ul class="checkout__total__products">
-						<li>01. Vanilla salted caramel <span>$ 300.0</span></li>
-						<li>02. German chocolate <span>$ 170.0</span></li>
-						<li>03. Sweet autumn <span>$ 170.0</span></li>
-						<li>04. Cluten free mini dozen <span>$ 110.0</span></li>
+						<li>아이디 <span id="userId"><%=customerInfo.get("customerId") %></span></li>
+						<li>이름 <span id="customerName"><%=customerInfo.get("customerName") %></span></li>
+						<li>전화번호 <span id="customerPhone"><%=customerInfo.get("customerPhone") %></span></li>
 					</ul>
 					<ul class="checkout__total__all">
-						<li>Subtotal <span>$750.99</span></li>
-						<li>Total <span>$750.99</span></li>
+						<li>배송주소</li>
+						<li id="selectedAddress"></li>
+					</ul>
+					<ul class="checkout__total__all">
+						<li>결제총액 <span>$750.99</span></li>
 					</ul>
 					<div class="checkout__input__checkbox">
 						<label for="acc-or">
-							Create an account?
+							주문내역을 확인하였습니다
 							<input type="checkbox" id="acc-or">
 							<span class="checkmark"></span>
 						</label>
 					</div>
-					<p>Lorem ipsum dolor sit amet, consectetur adip elit, sed do eiusmod tempor incididunt
-					ut labore et dolore magna aliqua.</p>
+					<p>주문서 발행 </p>
 					<div class="checkout__input__checkbox">
 						<label for="payment">
 							Check Payment
@@ -176,15 +195,20 @@ request.setCharacterEncoding("utf-8");
 <script src="js/owl.carousel.min.js"></script>
 <script src="js/main.js"></script>
 <script type="text/javascript">
+let selectedAddressNo;
 
 $('i[name=closeBtn]').click(function () {
 	alert('clicked');
 })
 
-$(document).on('click', '#btn2', function() {
-				alert('btn2 클릭'); 
-			}
-		);
+$(document).on('click', 'button[name=addressSelectionBtn]', function() {
+	let selectedAddress = $(this).next().val();
+	$('#selectedAddress').html(selectedAddress);
+	
+	selectedAddressNo = $(this).siblings().first().val();
+	alert(selectedAddressNo);
+	}
+);
 </script>
 </body>
 

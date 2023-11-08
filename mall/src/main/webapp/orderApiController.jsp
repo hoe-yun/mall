@@ -1,3 +1,4 @@
+<%@page import="dao.CustomerDao"%>
 <%@page import="dao.OrderDao"%>
 <%@page import="vo.TransferCartToOrderVo"%>
 <%@page import="java.util.ArrayList"%>
@@ -23,7 +24,9 @@ if(customerRequestTitle == null ){
 	return;
 }
 
-OrderDao dao = new OrderDao();
+OrderDao orderDao = new OrderDao();
+CustomerDao customerDao = new CustomerDao();
+
 //장바구니를 주문서로 옮기는 경우 사용
 if(customerRequestTitle.equals("transferCartToOrder")){
 	ArrayList<TransferCartToOrderVo> transferList = new ArrayList<>();
@@ -41,12 +44,11 @@ if(customerRequestTitle.equals("transferCartToOrder")){
 	for(TransferCartToOrderVo vo : transferList){
 		System.out.println(vo.getGoodsNo());
 	}
-	dao.transferCartToOrder(transferList);
+	orderDao.transferCartToOrder(transferList);
 	for(TransferCartToOrderVo vo : transferList){
 		System.out.println(vo.getGoodsPrice());
 	}
-	
-	request.setAttribute("TransferCartToOrderVo", transferList);
+	request.setAttribute("TransferCartToOrderVoList", transferList);
 	request.getRequestDispatcher("orderCreate.jsp").forward(request, response);
 }
 

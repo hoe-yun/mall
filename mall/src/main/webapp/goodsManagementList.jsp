@@ -28,10 +28,22 @@
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
 <%
-	String goodsTitle = null;
-	int goodsPrice = 0;
-	GoodsDao goodsDao = new GoodsDao();
-	ArrayList<Goods> list = goodsDao.selectArrayList(goodsTitle, goodsPrice);
+	// controller code
+	int currentPage = 1;
+	if(request.getParameter("currentPage") != null){
+		currentPage = Integer.parseInt(request.getParameter("currentPage"));
+	}
+	int rowPerPage = 5;
+	int beginRow = (currentPage-1)*rowPerPage;
+	
+	GoodsDao gDao = new GoodsDao();
+	ArrayList<Goods> list = gDao.selectGoodsList(beginRow, rowPerPage);
+	Goods goods = new Goods();
+	int totalRow = gDao.goodsCNT();
+	int lastPage = totalRow / rowPerPage;
+	if(totalRow % rowPerPage != 0){
+		lastPage = lastPage + 1;
+	}
 %>
 </head>
 
@@ -99,17 +111,45 @@
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <a href="<%=request.getContextPath()%>/managerOne.jsp" class="primary-btn">Return Management</a>
                         </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div>
+                        	<span class="col-lg-2 col-md-6 col-sm-6">Page<%=currentPage %></span>
+                        </div>
+                        <div class="col-lg-5 col-md-6 col-sm-6">
                             <a href="<%=request.getContextPath()%>/insertGoodsForm.jsp" class="primary-btn" style=float:right>Add Goods</a>
                         </div>
                     </div>
                 </div>
-              
+              <div class="col-lg-12">
+        <div class="product__pagination">
+            <a href="<%=request.getContextPath()%>/goodsManagementList.jsp?currentPage=<% 
+            																			  out.print(currentPage-1);
+            																			  if(currentPage-1 < 1){
+            																				  out.print(currentPage);
+            																			  }
+            																										%>"><span class="arrow_left"></span></a>
+          	<a href="<%=request.getContextPath()%>/goodsManagementList.jsp?currentPage=1">First</a>
+          <%
+          	for(int i=1; i<= lastPage; i=i+1){
+          %>
+          	<a href="<%=request.getContextPath()%>/goodsManagementList.jsp?currentPage=<%=i %>"><%=i %></a>
+          <%
+          	}
+          %>
+          	<a href="<%=request.getContextPath()%>/goodsManagementList.jsp?currentPage=<%=lastPage %>">Last</a>
+            <a href="<%=request.getContextPath()%>/goodsManagementList.jsp?currentPage=<%
+            																			  if(currentPage+1 > lastPage){
+            																				  out.print(currentPage);
+            																			  }else{
+            																				  out.print(currentPage+1);
+            																			  }
+            																			  					%>"><span class="arrow_right"></span></a>
+        </div>
+    </div>
             </div>
         </div>
     </section>
     <!-- Shopping Cart Section End -->
-
+	
     <!-- Footer Section Begin -->
     <footer class="footer">
         <div class="container">

@@ -6,7 +6,7 @@ public class Goods {
 	private int goodsPrice;
 	private String soldout;
 	private String goodsMemo;
-	private String creatdate;
+	private String createdate;
 	private String updatedate;
 	
 	public int getGoodsNo() {
@@ -39,11 +39,11 @@ public class Goods {
 	public void setGoodsMemo(String goodsMemo) {
 		this.goodsMemo = goodsMemo;
 	}
-	public String getCreatdate() {
-		return creatdate;
+	public String getCreatedate() {
+		return createdate;
 	}
-	public void setCreatdate(String creatdate) {
-		this.creatdate = creatdate;
+	public void setCreatedate(String createdate) {
+		this.createdate = createdate;
 	}
 	public String getUpdatedate() {
 		return updatedate;

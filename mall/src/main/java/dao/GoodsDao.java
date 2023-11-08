@@ -102,7 +102,7 @@ public class GoodsDao {
 			g.setGoodsPrice(rs.getInt("goodsPrice"));
 			g.setSoldout(rs.getString("soldout"));
 			g.setGoodsMemo(rs.getString("goodsMemo"));
-			g.setCreatdate(rs.getString("createdate"));
+			g.setCreatedate(rs.getString("createdate"));;
 			g.setUpdatedate(rs.getString("updatedate"));
 		}
 		//DB자원반납
@@ -133,6 +133,59 @@ public class GoodsDao {
 		stmt.close();
 		conn.close();
 		//end model code
+		return row;
+	}
+	//controller : goodsMangementList.jsp
+	public ArrayList<Goods> selectGoodsList(int beginRow, int rowPerPage) throws Exception{
+		ArrayList<Goods> list = new ArrayList<>();
+		
+		// model code
+		Class.forName("org.mariadb.jdbc.Driver");
+		String url = "jdbc:mariadb://localhost:3306/mall";
+		String dbuser = "root";
+		String dbpw = "java1234";
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		
+		String sql = "SELECT goods_no goodsNo, goods_title goodsTitle, goods_Price goodsPrice, soldout, goods_memo goodsMemo,createdate,updatedate FROM goods order by goods_no DESC LIMIT ?,?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, beginRow);
+		stmt.setInt(2, rowPerPage);
+		ResultSet rs = stmt.executeQuery();
+		
+		while(rs.next()) {
+			Goods g = new Goods();
+			g.setGoodsNo(rs.getInt("goodsNo"));
+			g.setGoodsTitle(rs.getString("goodsTitle"));
+			g.setGoodsPrice(rs.getInt("goodsPrice"));
+			g.setGoodsMemo(rs.getString("goodsMemo"));
+			g.setSoldout(rs.getString("soldout"));
+			g.setCreatedate(rs.getString("createdate"));
+			g.setUpdatedate(rs.getString("updatedate"));
+			list.add(g);
+		}
+		//DB자원반납
+		rs.close();
+		stmt.close();
+		conn.close();
+		//end model code
+		return list;
+	}
+	//controller : goodsMangementList.jsp
+	public int goodsCNT() throws Exception{
+		int row = 0;
+		// model code
+		Class.forName("org.mariadb.jdbc.Driver");
+		String url = "jdbc:mariadb://localhost:3306/mall";
+		String dbuser = "root";
+		String dbpw = "java1234";
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		
+		String sql = "SELECT COUNT(*) FROM goods";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			row = rs.getInt("COUNT(*)");
+		}
 		return row;
 	}
 }

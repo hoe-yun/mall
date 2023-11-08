@@ -83,7 +83,12 @@
                                     <li><a href="./blog-details.html">Blog Details</a></li>
                                 </ul>
                             </li>
-                            <li><a href="./blog.html">게시판</a></li>
+                            <li><a href="#">게시판</a>
+                            	<ul class="dropdown">
+                            		<li><a href="./noticeList.jsp">Notice</a></li>
+                                    <li><a href="#">Review</a></li>
+                            	</ul>
+                            </li>
                         </ul>
                     </nav>
                 </div>

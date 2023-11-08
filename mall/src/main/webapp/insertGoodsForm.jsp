@@ -53,7 +53,7 @@
             <div class="row">
                 <div class="col-lg-12 col-md-6">
                     <div class="contact__form">
-                        <form action="insertGoodsAction.jsp">
+                        <form action="insertGoodsAction.jsp" method="post" enctype="multipart/form-data">
                             <div class="row">
                             	<div class="col-lg-12">
                             		<input type="file" value="goodsImg" name="goodsImg">

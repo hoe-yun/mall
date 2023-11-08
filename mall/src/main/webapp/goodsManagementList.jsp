@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="java.sql.*" %>
-
 <%@ page import="vo.*" %>
+<%@ page import="dao.*" %>
+<%@ page import="java.util.*" %>
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -12,7 +12,7 @@
     <meta name="keywords" content="Male_Fashion, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>관리자 페이지</title>
+    <title>상품 관리</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
@@ -27,72 +27,88 @@
     <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
- 
+<%
+	String goodsTitle = null;
+	int goodsPrice = 0;
+	GoodsDao goodsDao = new GoodsDao();
+	ArrayList<Goods> list = goodsDao.selectArrayList(goodsTitle, goodsPrice);
+%>
 </head>
+
 <body>
-<!-- 상단 메뉴바/ inc폴더안에 menu.jsp파일로 분리하여 불러오기  -->
-  <jsp:include page="/inc/menu.jsp"></jsp:include>
-  
-  <!-- Breadcrumb Section Begin -->
+	<!-- 상단 메뉴바/ inc폴더안에 menu.jsp파일로 분리하여 불러오기  -->
+  	<jsp:include page="/inc/menu.jsp"></jsp:include>
+  	
+  	<!-- Breadcrumb Section Begin -->
     <section class="breadcrumb-option">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb__text">
-                        <h4>Management Page</h4>
+                        <h4>Goods Management</h4>
                     </div>
                 </div>
             </div>
         </div>
     </section>
     <!-- Breadcrumb Section End -->
-  
-  	<!-- Management Section Begin -->
-    <section class="latest spad">
+
+    <!-- Shopping Cart Section Begin -->
+    <section class="shopping-cart spad">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="section-title">
-                        <h2>Welcome "ADMIN"</h2>
-                        <span>Choose Menu</span>
+                    <div class="shopping__cart__table">
+                        <table >
+                            <thead>
+                                <tr>
+                                    <th>Goods</th>
+                                    <th>Goods Memo</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <%
+                            	for(Goods g : list){
+                            %>
+                                <tr>
+                                    <td class="product__cart__item">
+                                        <div class="product__cart__item__pic" >
+                                            <img src="img/product/<%=g.getGoodsTitle() %>.png" alt="" width="100px" height="100px">
+                                        </div>
+                                        <div class="product__cart__item__text">
+                                            <h6><%=g.getGoodsTitle() %></h6>
+                                            <h5>$<%=g.getGoodsPrice() %></h5>
+                                        </div>
+                                    </td>
+                                    <td class="cart__close">
+                                    	<%=g.getGoodsMemo() %>
+                                    </td>
+                                    <td class="col-lg-3">
+                                    	<a href="<%=request.getContextPath()%>/delectGoodsAction.jsp?goodsNo=<%=g.getGoodsNo() %>" class="primary-btn">Delete</a>
+                                    	<a href="<%=request.getContextPath()%>/updateGoodsForm.jsp?goodsNo=<%=g.getGoodsNo() %>" class="primary-btn">Edit</a>
+                                    </td>
+                                </tr>
+                             <%
+                            	}
+                             %>
+                            </tbody>
+                        </table>
                     </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="blog__item">
-                        <div class="blog__item__pic set-bg" data-setbg="img/blog/blog-4.jpg"></div>
-                        <div class="blog__item__text">
-                            <span> Menu </span>
-                            <h3>Goods Management</h3>
-                            <a href="<%=request.getContextPath()%>/goodsManagementList.jsp"><span class="arrow_down"></span>Goods List</a>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <a href="<%=request.getContextPath()%>/managerOne.jsp" class="primary-btn">Return Management</a>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <a href="<%=request.getContextPath()%>/insertGoodsForm.jsp" class="primary-btn" style=float:right>Add Goods</a>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="blog__item">
-                        <div class="blog__item__pic set-bg" data-setbg="img/blog/blog-6.jpg"></div>
-                        <div class="blog__item__text">
-                            <span> Menu </span>
-                            <h3>Notice Management</h3>
-                         	<a href="<%=request.getContextPath()%>/noticeList.jsp"><span class="arrow_down"></span>Add Notice</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="blog__item">
-                        <div class="blog__item__pic set-bg" data-setbg="img/blog/blog-2.jpg"></div>
-                        <div class="blog__item__text">
-                            <span> Menu </span>
-                            <h3>Question Management</h3>
-                            <a href="#"><span class="arrow_down"></span>Add Comment</a>
-                        </div>
-                    </div>
-                </div>
+              
             </div>
         </div>
     </section>
-    <!-- Management Section End -->
+    <!-- Shopping Cart Section End -->
 
     <!-- Footer Section Begin -->
     <footer class="footer">
@@ -170,9 +186,9 @@
             </form>
         </div>
     </div>
-    <!-- Search End -->  
-  
- 	<!-- Js Plugins -->
+    <!-- Search End -->
+
+    <!-- Js Plugins -->
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery.nice-select.min.js"></script>
@@ -184,4 +200,5 @@
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/main.js"></script>
 </body>
+
 </html>

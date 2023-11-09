@@ -75,11 +75,12 @@ rel="stylesheet">
 					<table>
 						<thead>
 							<tr>
-								<th>Product</th>
-								<th>Quantity</th>
-								<th>Total</th>
-								<th>order date</th>
-								<th>Shipping address</th>
+								<th width=30%>Product</th>
+								<th width=10%>Quantity</th>
+								<th width=10%>Total</th>
+								<th width=15%>order date</th>
+								<th width=15%>Shipping address</th>
+								<th width=20%>Review</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -107,6 +108,7 @@ rel="stylesheet">
 								</td>
 								<td ><%=orderMap.get("createdate")%></td>
 								<td ><%=orderMap.get("address")%></td>
+								<td><a href="<%=request.getContextPath()%>/insertReviewForm.jsp?ordersNo=<%=orderMap.get("orderNo")%>" class="primary-btn" >리뷰 쓰기</a></td>
 							</tr>
 						<!-- 주문 상품 1개 end -->
 						<%

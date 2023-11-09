@@ -15,7 +15,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class ProductCartDao {
-	public ArrayList<ProductCart> selectArrayList(String goodsTitle, int goodsPrice, int goodsNo, int quantity, int cartNo) throws Exception {
+	public ArrayList<ProductCart> selectArrayList(int customerNo, String goodsTitle, int goodsPrice, int goodsNo, int quantity, int cartNo) throws Exception {
 		
 	ArrayList<ProductCart> list = new ArrayList<>();
 	
@@ -27,15 +27,16 @@ public class ProductCartDao {
 	Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 	
 	//상품명,가격,솔드아웃여부,메모 쿼리문
-	String sql = "SELECT g.goods_title goodsTitle, g.goods_price goodsPrice, c.cart_no cartNo, g.goods_memo goodsMemo, g.goods_no goodsNo, c.quantity FROM cart c inner join goods g on c.goods_no = g.goods_no";
+	String sql = "SELECT g.goods_title goodsTitle, g.goods_price goodsPrice, c.customer_no customerNo, c.cart_no cartNo, g.goods_memo goodsMemo, g.goods_no goodsNo, c.quantity FROM cart c inner join goods g on c.goods_no = g.goods_no WHERE c.customer_no= ?";
 	PreparedStatement stmt = conn.prepareStatement(sql);
-	stmt.setInt(1,goodsNo);
+	stmt.setInt(1, customerNo);
 	ResultSet rs = stmt.executeQuery();
 	
 	//ResultSet로 가져온 데이터를 새로운 ProductCart ArrayList에 담기
 	list = new ArrayList<>();
 	while(rs.next()) {
 	ProductCart c = new ProductCart();
+	c.setCustomerNo(rs.getInt("customerNo"));
 	c.setGoodsNo(rs.getInt("goodsNo"));
 	c.setQuantity(rs.getInt("quantity"));
 	c.setCartNo(rs.getInt("cartNo"));

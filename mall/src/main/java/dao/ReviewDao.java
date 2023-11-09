@@ -1,46 +1,89 @@
 package dao;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.sql.*;
+import java.util.*;
+import vo.*;
 
 public class ReviewDao {
-	public ArrayList<HashMap<String,Object>> selectReview(int ordersNo) throws Exception{
-		ArrayList<HashMap<String,Object>> rlist = new ArrayList<>();
+	public ArrayList<Review> selectReviewList(int beginRow, int rowPerPage) throws Exception{
+		ArrayList<Review> list = new ArrayList<>();
 		
-		//모델코드
-		//DB연결
+		// model code
 		Class.forName("org.mariadb.jdbc.Driver");
 		String url = "jdbc:mariadb://localhost:3306/mall";
 		String dbuser = "root";
 		String dbpw = "java1234";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
-		//쿼리문 작성
-		String sql ="SELECT o.orders_no ordersNo, r.review_no reviewNo, r.review_content reviewContent, r.createdate, r.updatedate FROM review r INNER JOIN orders o ON r.oders_no = o.orders_no WHERE= orders_no=? ";
+		// noticeList 출력을 위한 review DB SELECT QUERY
+		String sql = "SELECT review_no reviewNo, orders_no ordersNo, review_content reviewContent, createdate, updatedate FROM review order by review_no DESC LIMIT ?,?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, ordersNo);
+		stmt.setInt(1,beginRow);
+		stmt.setInt(2,rowPerPage);
 		ResultSet rs = stmt.executeQuery();
-		rlist = new ArrayList<>();
-		
-		while(rs.next()) {
-		HashMap<String,Object> r = new HashMap<String,Object>();
-		
-		r.put("reviewNo", rs.getInt("reviewNo"));
-		r.put("ordersNo", rs.getInt("ordersNo"));
-		r.put("reviewContent", rs.getString("reviewContent"));
-		r.put("reviewContent", rs.getString("reviewContent"));
-		r.put("createdate", rs.getString("createdate"));
-		r.put("updatedate", rs.getString("updatedate"));
-		rlist.add(r);
+		list = new ArrayList<>();
+		while(rs.next()){
+			Review r = new Review();
+			r.setReviewNo(rs.getInt("ReviewNo"));
+			r.setOrdersNo(rs.getInt("ordersNo"));
+			r.setReviewContent(rs.getString("reviewContent"));
+			r.setCreatedate(rs.getString("createdate"));
+			r.setUpdatedate(rs.getString("updatedate"));
+			list.add(r);
 		}
-			//DB자원반납
-				rs.close();
-				stmt.close();
-				conn.close();
-			//모델코드 끝
-				return rlist;
+		//end model code : model date >> ArrayList<Nostice> list
+		stmt.close();
+		conn.close();
+		rs.close();
+		return list;
 	}
+	public Review reviewOne(int reviewNo) throws Exception{
+		Review r = new Review();
+		// model code
+		Class.forName("org.mariadb.jdbc.Driver");
+		String url = "jdbc:mariadb://localhost:3306/mall";
+		String dbuser = "root";
+		String dbpw = "java1234";
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		// review 정보를 출력하기 위한 SELECT QUERY
+		String sql = "SELECT r.review_no reviewNo, o.orders_no ordersNo, r.review_content reviewContent,r.createdate,r.updatedate FROM review r INNER JOIN orders o ON r.orders_no = o.orders_no WHERE review_no = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, reviewNo);
+		ResultSet rs = stmt.executeQuery();
+		while(rs.next()) {
+			r = new Review();
+			r.setReviewNo(rs.getInt("reviewNo"));
+			r.setOrdersNo(rs.getInt("ordersNo"));
+			r.setReviewContent(rs.getString("reviewContent"));
+			r.setCreatedate(rs.getString("createdate"));
+			r.setUpdatedate(rs.getString("updatedate"));
+			
+		}
+		//DB자원반납
+		rs.close();
+		stmt.close();
+		conn.close();
+		//end model code
+		return r;
+	}
+		
+		public int insertReview(int ordersNo,String reviewContent) throws Exception{
+			int row = 0;
+			//모델코드
+			Class.forName("org.mariadb.jdbc.Driver");
+			String url = "jdbc:mariadb://localhost:3306/mall";
+			String dbuser = "root";
+			String dbpw = "java1234";
+			Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+			//리뷰 추가를 위한 쿼리문
+			String sql = "INSERT INTO review(orders_no,review_content,createdate,updatedate) VALUES(?, ?, NOW(),NOW())";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, ordersNo);
+			stmt.setString(2, reviewContent);
+			row = stmt.executeUpdate();
+			//DB자원반납
+			stmt.close();
+			conn.close();
+			//end model code
+			return row;
+			
+		}
 }

@@ -11,8 +11,9 @@
 	int quantity = 0;
 	int cartNo = 0;
 	String goodsMemo = null;
+	Integer customerNo = (int)session.getAttribute("customerNo");
 	ProductCartDao dao = new ProductCartDao();
-	ArrayList<ProductCart> list = dao.selectArrayList(goodsTitle, goodsPrice, goodsNo, quantity, cartNo);
+	ArrayList<ProductCart> list = dao.selectArrayList(customerNo, goodsTitle, goodsPrice, goodsNo, quantity, cartNo);
 	
 	
 %>

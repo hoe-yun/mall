@@ -14,8 +14,8 @@ public class CustomerDao {
 	
 	//생성자
 	public CustomerDao() throws ClassNotFoundException {
-		this.url = "jdbc:mariadb://localhost:3306/mall";
-		this.dbuser = "root";
+		this.url = "jdbc:mariadb://192.168.200.36:3306/mall";
+		this.dbuser = "user";
 		this.dbpw = "java1234";
 		Class.forName("org.mariadb.jdbc.Driver");
 	}

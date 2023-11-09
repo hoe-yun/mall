@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
-
+	String msg = request.getParameter("msg");
 %>
 
 <!DOCTYPE html>
@@ -44,24 +44,32 @@
 					<div class="section-title">
 						<span>manager login </span>
 						<h2>로그인</h2>
-						<p id="errorMsg"></p>
 					</div>
 				</div>
 			</div>
 			<div class="col-lg-5 col-md-5">
 				<div>
-					<div class="row">
-						<div class="col-lg-12">
-							<input class="form-control form-control-lg my-3" type="text"
-								id="managerId" placeholder="ManagerID">
+					<form action="./managerLoginAction.jsp">
+						<div class="row">
+							<div class="col-lg-12">
+								<input class="form-control form-control-lg my-3" type="text"
+									id="managerId" placeholder="ManagerID" name="id">
+							</div>
+							<div class="col-lg-12">
+								<input class="form-control form-control-lg mb-4" type="password"
+									id="managerPw" placeholder="ManagerPW" name="pw">
+								<button id="loginBtn" type="submit" class="site-btn my-2 mr-2">LOG
+									IN</button>
+							</div>
 						</div>
-						<div class="col-lg-12">
-							<input class="form-control form-control-lg mb-4" type="password"
-								id="managerPw" placeholder="ManagerPW">
-							<button id="loginBtn" type="button" class="site-btn my-2 mr-2">LOG
-								IN</button>
-						</div>
-					</div>
+					</form>
+					<%
+						if(msg != null){
+					%>
+							<h6 style="color:red">ID와 PW를 확인해주세요</h6>
+					<%
+						}
+					%>
 				</div>
 			</div>
 			<div class="col-lg-1 col-md-1"></div>

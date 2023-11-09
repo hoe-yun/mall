@@ -47,6 +47,7 @@
 						<h2>로그인</h2>
 						<p id="errorMsg"></p>
 					</div>
+					<br><br><a href="./managerLogin.jsp" class="primary-btn"><span class="arrow_right"></span>Manager Login</a>
 				</div>
 			</div>
 			<div class="col-lg-5 col-md-5">

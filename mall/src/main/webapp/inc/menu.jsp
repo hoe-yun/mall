@@ -5,11 +5,21 @@
 	String loginBtnIncMenu = "Log in";
 	String urlLoginBtnIncMenu = "./customerLogin.jsp";
 	Integer seesionCustomerNo = (Integer)session.getAttribute("customerNo");
+	Integer sessionManagerNo = (Integer)session.getAttribute("managerNo");
 	if(seesionCustomerNo != null){
 		loginBtnIncMenu = "Log out";
 		urlLoginBtnIncMenu = "./customerApiController.jsp?customerRequestTitle=logout";
+	}if(sessionManagerNo != null){
+		loginBtnIncMenu = "Log out";
+		urlLoginBtnIncMenu = "./managerLogoutAction.jsp";
 	}
-
+	/*세션에 따라 info버튼 스위칭 */
+	String infoBtn = "My Info";
+	String urlInfoBtn = "./customerInfo.jsp";
+	if(sessionManagerNo != null){
+		infoBtn = "Management";
+		urlInfoBtn = "./managerOne.jsp";
+	}
 %>	
   <!-- 정인호 수정 U231106 : 로그인링크, customerInfo링크 -->
 
@@ -54,7 +64,7 @@
                         <div class="header__top__right">
                             <div class="header__top__links">
                                 <a href="<%=urlLoginBtnIncMenu%>"><%=loginBtnIncMenu%></a>
-                                <a href="./customerInfo.jsp">My Info</a>
+                                <a href="<%=urlInfoBtn %>"><%=infoBtn %></a>
                                 <a href="#">FAQs</a>
                             </div>
                         </div>

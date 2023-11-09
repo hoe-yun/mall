@@ -4,14 +4,21 @@ import java.sql.*;
 import vo.*;
 
 public class GoodsImgDao {
+	//db접근용 데이터
+	final String url;
+	final String dbuser;
+	final String dbpw;
+	
+	//생성자
+	public GoodsImgDao() throws ClassNotFoundException {
+		this.url = "jdbc:mariadb://192.168.200.36:3306/mall";
+		this.dbuser = "user";
+		this.dbpw = "java1234";
+		Class.forName("org.mariadb.jdbc.Driver");
+	}
 	//controller : insertGoodsImgAction.jsp
 	public int insertGoodsImg(GoodsImg img) throws Exception{
 		int row = 0;
-		// model code
-		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
-		String dbuser = "root";
-		String dbpw = "java1234";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		
 		String sql = "INSERT INTO goods_img (goods_no,filename,origin_name,content_type,createdate,updatedate) VALUES(?,?,?,?,NOW(),NOW())";
@@ -30,10 +37,6 @@ public class GoodsImgDao {
 	//controller : deleteGoodsImgAction.jsp
 	public int deleteGoodsImg(int goodsNo) throws Exception {
 		int row = 0;
-		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
-		String dbuser = "root";
-		String dbpw = "java1234";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		// goods 삭제를 위한 DELETE QUERY
 		String sql ="DELETE FROM goods_img WHERE goods_no=?";
@@ -51,10 +54,6 @@ public class GoodsImgDao {
 	public GoodsImg selectGoodsImg(int goodsNo) throws Exception{
 		GoodsImg gi = new GoodsImg();
 		// model code
-		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
-		String dbuser = "root";
-		String dbpw = "java1234";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		// goodsImg 정보를 출력하기 위한 SELECT QUERY
 		String sql="SELECT goods_no goodsNo, filename, origin_name originName, content_type contentType, createdate, updatedate FROM goods_img WHERE goods_no = ?";
@@ -78,10 +77,6 @@ public class GoodsImgDao {
 	}
 	public int updateGoodsImg(GoodsImg img)throws Exception {
 		int row = 0;
-		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
-		String dbuser = "root";
-		String dbpw = "java1234";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		// 상품이미지 수정을 위한 UPDATE QUERY
 		String sql = "UPDATE goods_img SET filename = ?, origin_name = ?, content_type = ?, updatedate = NOW() WHERE goods_no = ?";

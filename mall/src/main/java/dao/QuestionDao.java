@@ -4,14 +4,22 @@ import java.util.*;
 import vo.*; 
 
 public class QuestionDao {
+	//db접근용 데이터
+	final String url;
+	final String dbuser;
+	final String dbpw;
+	
+	//생성자
+	public QuestionDao() throws ClassNotFoundException {
+		this.url = "jdbc:mariadb://192.168.200.36:3306/mall";
+		this.dbuser = "user";
+		this.dbpw = "java1234";
+		Class.forName("org.mariadb.jdbc.Driver");
+	}
 	// controller : productDetail.jsp
 	public ArrayList<HashMap<String,Object>> selectQuestion(int goodsNo) throws Exception{
 		ArrayList<HashMap<String,Object>> list = new ArrayList<>();
 		// model code
-		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
-		String dbuser = "root";
-		String dbpw = "java1234";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		//question 및 questionComment 정보 출력을 위한 SELETE QUERY
 		String sql ="SELECT q.question_no questionNo, q.goods_no goodsNo, q.customer_no customerNo, q.question_title questionTitle, q.question_content questionContent, qc.comment comment,q.createdate qCreatedate, q.updatedate qUpdatedate,qc.createdate qcCreatedate, qc.updatedate qcUpdatedate FROM question q LEFT JOIN question_comment qc ON q.question_no = qc.question_no WHERE goods_no = ?";
@@ -44,10 +52,6 @@ public class QuestionDao {
 	public Question questionOne(int questionNo) throws Exception{
 		Question q = new Question();
 		// model code
-		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
-		String dbuser = "root";
-		String dbpw = "java1234";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		//question 정보 출력을 위한 SELETE QUERY
 		String sql ="SELECT question_no questionNo, goods_no goodsNo, customer_no customerNo, question_title questionTitle, question_content questionContent,createdate,updatedate FROM question WHERE question_no = ?";
@@ -74,10 +78,6 @@ public class QuestionDao {
 	public int insertQuestion(Question question) throws Exception{
 		int row = 0;
 		// model code
-		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
-		String dbuser = "root";
-		String dbpw = "java1234";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		//question 추가를 위한 INSERT QUERY
 		String sql = "INSERT INTO question(goods_no,customer_no,question_title,question_content,createdate,updatedate) VALUES(?,?,?,?,NOW(),NOW())";
@@ -97,10 +97,6 @@ public class QuestionDao {
 	public int deleteQuestion(int questionNo) throws Exception{
 		int row = 0;
 		// model code
-		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
-		String dbuser = "root";
-		String dbpw = "java1234";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		// question 삭제를 위한 DELETE QUERY
 		String sql = "DELETE FROM question WHERE question_no = ?";
@@ -116,10 +112,6 @@ public class QuestionDao {
 	//controller : updateQuestionAction.jsp
 	public int updateQuestion(Question question)throws Exception{
 		int row = 0;
-		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
-		String dbuser = "root";
-		String dbpw = "java1234";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		// question 수정을 위한 UPDATE QUERY
 		String sql = "UPDATE question SET question_title = ?, question_content = ?, updatedate = NOW() WHERE question_no = ?";

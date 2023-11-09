@@ -4,15 +4,23 @@ import java.util.*;
 import vo.*;
 
 public class NoticeDao {
+	//db접근용 데이터
+	final String url;
+	final String dbuser;
+	final String dbpw;
+	
+	//생성자
+	public NoticeDao() throws ClassNotFoundException {
+		this.url = "jdbc:mariadb://192.168.200.36:3306/mall";
+		this.dbuser = "user";
+		this.dbpw = "java1234";
+		Class.forName("org.mariadb.jdbc.Driver");
+	}
 	// controller : noticeList.jsp
 	public ArrayList<Nostice> selectNoticeList(int beginRow, int rowPerPage) throws Exception{
 		ArrayList<Nostice> list = new ArrayList<>();
 		
 		// model code
-		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
-		String dbuser = "root";
-		String dbpw = "java1234";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		// noticeList 출력을 위한 nostice DB SELECT QUERY
 		String sql = "SELECT notice_no noticeNo, manager_no managerNo, notice_title noticeTitle, notice_content noticeContent,createdate,updatedate FROM nostice order by notice_no DESC LIMIT ?,?";
@@ -38,10 +46,6 @@ public class NoticeDao {
 	public Nostice noticeOne(int noticeNo) throws Exception{
 		Nostice n = new Nostice();
 		// model code
-		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
-		String dbuser = "root";
-		String dbpw = "java1234";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		// notice 정보를 출력하기 위한 SELECT QUERY
 		String sql = "SELECT notice_no noticeNo, manager_no managerNo, notice_title noticeTitle, notice_content noticeContent,createdate,updatedate FROM nostice WHERE notice_no = ?";
@@ -69,10 +73,6 @@ public class NoticeDao {
 	public int insertNotice(Nostice notice) throws Exception{
 		int row = 0;
 		// model code
-		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
-		String dbuser = "root";
-		String dbpw = "java1234";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		// notice 추가를 위한 INSERT QUERY
 		String sql = "INSERT INTO nostice(manager_no,notice_title,notice_content,createdate,updatedate) VALUES (?,?,?,NOW(),NOW())";
@@ -90,10 +90,6 @@ public class NoticeDao {
 	//controller : delectNoticeAction.jsp
 	public int deleteNotice(int noticeNo) throws Exception {
 		int row = 0;
-		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
-		String dbuser = "root";
-		String dbpw = "java1234";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		// notice 삭제를 위한 DELETE QUERY
 		String sql ="DELETE FROM nostice WHERE notice_no=?";
@@ -110,10 +106,6 @@ public class NoticeDao {
 	//controller : updateNoticeAction.jsp
 	public int updateNotice(Nostice notice)throws Exception {
 		int row = 0;
-		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
-		String dbuser = "root";
-		String dbpw = "java1234";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		// notice 수정을 위한 UPDATE QUERY
 		String sql = "UPDATE nostice SET notice_title = ?, notice_content = ?, updatedate = NOW() WHERE notice_no =?";

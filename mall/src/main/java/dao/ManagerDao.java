@@ -4,13 +4,21 @@ import java.sql.*;
 
 
 public class ManagerDao {
+	//db접근용 데이터
+		final String url;
+		final String dbuser;
+		final String dbpw;
+		
+	//생성자
+	public ManagerDao() throws ClassNotFoundException {
+		this.url = "jdbc:mariadb://192.168.200.36:3306/mall";
+		this.dbuser = "user";
+		this.dbpw = "java1234";
+		Class.forName("org.mariadb.jdbc.Driver");
+	}
 	public int managerLogin(String id,String pw) throws Exception{
 		
 		// model code
-		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
-		String dbuser = "root";
-		String dbpw = "java1234";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		// 매니저 정보를 출력하기 위한 SELECT QUERY
 		String sql= "SELECT manager_no managerNo FROM manager WHERE manager_id = ? AND manager_pw = PASSWORD(?)";

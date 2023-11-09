@@ -2,14 +2,22 @@ package dao;
 import java.sql.*;
 import vo.*;
 public class QuestionCommentDao {
+	//db접근용 데이터
+	final String url;
+	final String dbuser;
+	final String dbpw;
+	
+	//생성자
+	public QuestionCommentDao() throws ClassNotFoundException {
+		this.url = "jdbc:mariadb://192.168.200.36:3306/mall";
+		this.dbuser = "user";
+		this.dbpw = "java1234";
+		Class.forName("org.mariadb.jdbc.Driver");
+	}
 	//controller : productDetail.jsp
 	public QuestionComment questionCommentOne(int questionNo) throws Exception{
 		QuestionComment qc = new QuestionComment();
 		// model code
-		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
-		String dbuser = "root";
-		String dbpw = "java1234";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 	
 		String sql = "SELECT question_comment_no questionCommentNo, question_no questionNo, manager_no managerNo, comment,createdate,updatedate FROM question_comment WHERE question_no =?";
@@ -35,10 +43,6 @@ public class QuestionCommentDao {
 		public QuestionComment updateQuestionCommentOne(int questionCommentNo) throws Exception{
 			QuestionComment qc = new QuestionComment();
 			// model code
-			Class.forName("org.mariadb.jdbc.Driver");
-			String url = "jdbc:mariadb://localhost:3306/mall";
-			String dbuser = "root";
-			String dbpw = "java1234";
 			Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		
 			String sql = "SELECT question_comment_no questionCommentNo, question_no questionNo, manager_no managerNo, comment,createdate,updatedate FROM question_comment WHERE question_comment_no =?";
@@ -63,11 +67,6 @@ public class QuestionCommentDao {
 	//controller : insertQuestionCommentAction.jsp
 	public int insertQuestionComment(QuestionComment comment) throws Exception{
 		int row = 0;
-		// model code
-		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
-		String dbuser = "root";
-		String dbpw = "java1234";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		// comment 추가를 위한 INSERT QUERY
 		String sql = "INSERT INTO question_comment(question_no,manager_no,comment,createdate,updatedate)VALUES(?,?,?,NOW(),NOW())";
@@ -85,10 +84,6 @@ public class QuestionCommentDao {
 	//controller : deleteQuestionCommentAction.jsp
 	public int deleteQuestionComment(int questionCommentNo) throws Exception {
 		int row = 0;
-		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
-		String dbuser = "root";
-		String dbpw = "java1234";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		// comment 삭제를 위한 DELETE QUERY
 		String sql = "DELETE FROM question_comment WHERE question_comment_no=?";
@@ -104,10 +99,6 @@ public class QuestionCommentDao {
 	//controller : updateQuestionCommentAction.jsp
 	public int updateQuestionComment(QuestionComment comment) throws Exception {
 		int row = 0;
-		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
-		String dbuser = "root";
-		String dbpw = "java1234";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		// comment 수정을 위한 UPDATE QUERY
 		String sql = "UPDATE question_comment SET comment = ?, updatedate = NOW() WHERE question_comment_no = ?";

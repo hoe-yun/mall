@@ -78,7 +78,6 @@ rel="stylesheet">
 								<th>Product</th>
 								<th>Quantity</th>
 								<th>Total</th>
-								<th>delivery status</th>
 								<th>order date</th>
 								<th>Shipping address</th>
 							</tr>
@@ -87,14 +86,14 @@ rel="stylesheet">
 						<%
 						for(HashMap<String, Object> orderMap : orderList ){
 						%>
-						<!-- 주문 상품 1개 start-->
+						<!-- 주문 상품 1개 start--><!-- 주문번호는 orderMap.get("orderNo") 로 가져오면 됩니다.-->
 							<tr>
 								<td class="product__cart__item">
 									<div class="product__cart__item__pic">
 										<img src="img/shopping-cart/cart-1.jpg" >
 									</div>
 									<div class="product__cart__item__text">
-										<h6><%=orderMap.get("goodTitle")%></h6>
+										<h6><%=orderMap.get("goodTitle")%>  ( <%=orderMap.get("orderStatus")%> )</h6>
 										<h5><%=orderMap.get("goodPrice")%></h5>
 									</div> 
 								</td>
@@ -106,7 +105,6 @@ rel="stylesheet">
 								<td class="cart__price">
 									<span> <%=orderMap.get("totalPrice")%></span>
 								</td>
-								<td ><%=orderMap.get("orderStatus")%></td>
 								<td ><%=orderMap.get("createdate")%></td>
 								<td ><%=orderMap.get("address")%></td>
 							</tr>

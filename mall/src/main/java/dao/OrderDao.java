@@ -85,7 +85,7 @@ public class OrderDao {
 	public ArrayList<HashMap<String, Object>> retrieveOrderList(int customerNo) throws SQLException{
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		String sql = """
-				SELECT g.goods_title goodTitle, g.goods_price goodPrice, quantity, total_price totalPrice, orders_state orderStatus, o.createdate createdate, ca.address address
+				SELECT o.orders_no orderNo, g.goods_title goodTitle, g.goods_price goodPrice, quantity, total_price totalPrice, orders_state orderStatus, o.createdate createdate, ca.address address
 				 FROM orders o INNER JOIN goods g ON o.goods_no = g.goods_no inner join customer_addr ca ON o.customer_addr_no = ca.customer_addr_no
 				 WHERE o.customer_no = ? ORDER BY o.createdate DESC""";
 		PreparedStatement stmt = conn.prepareStatement(sql);
@@ -94,6 +94,7 @@ public class OrderDao {
 		ArrayList<HashMap<String, Object>> orderList = new ArrayList<>();
 		while(rs.next()) {
 			HashMap<String, Object> map = new HashMap<>();
+			map.put("orderNo", rs.getInt("orderNo"));
 			map.put("goodTitle", rs.getString("goodTitle"));
 			map.put("goodPrice", rs.getInt("goodPrice"));
 			map.put("quantity", rs.getInt("quantity"));

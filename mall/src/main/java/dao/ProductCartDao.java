@@ -21,8 +21,8 @@ public class ProductCartDao {
 	
 	//DB연결
 	Class.forName("org.mariadb.jdbc.Driver");
-	String url = "jdbc:mariadb://localhost:3306/mall";
-	String dbuser = "root";
+	String url = "jdbc:mariadb://192.168.200.36:3306/mall";
+	String dbuser = "user";
 	String dbpw = "java1234";
 	Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 	
@@ -58,8 +58,8 @@ public class ProductCartDao {
 		
 		//DB연결
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
-		String dbuser = "root";
+		String url = "jdbc:mariadb://192.168.200.36:3306/mall";
+		String dbuser = "user";
 		String dbpw = "java1234";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		
@@ -93,8 +93,8 @@ public class ProductCartDao {
 		int row =0;
 		// model code
 			Class.forName("org.mariadb.jdbc.Driver");
-			String url = "jdbc:mariadb://localhost:3306/mall";
-			String dbuser = "root";
+			String url = "jdbc:mariadb://192.168.200.36:3306/mall";
+			String dbuser = "user";
 			String dbpw = "java1234";
 			Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 			//넘겨받은 goodsNo로 상품명,가격,수량,고객번호를 찾는 쿼리
@@ -119,8 +119,8 @@ public class ProductCartDao {
 			
 			// model code
 			Class.forName("org.mariadb.jdbc.Driver");
-			String url = "jdbc:mariadb://localhost:3306/mall";
-			String dbuser = "root";
+			String url = "jdbc:mariadb://192.168.200.36:3306/mall";
+			String dbuser = "user";
 			String dbpw = "java1234";
 			Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 			//cart상품 insert 쿼리
@@ -143,8 +143,8 @@ public class ProductCartDao {
 		public int deleteCart(int cartNo) throws Exception {
 			// model code
 						Class.forName("org.mariadb.jdbc.Driver");
-						String url = "jdbc:mariadb://localhost:3306/mall";
-						String dbuser = "root";
+						String url = "jdbc:mariadb://192.168.200.36:3306/mall";
+						String dbuser = "user";
 						String dbpw = "java1234";
 						Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 			//cart페이지에서 상품 삭제 쿼리문

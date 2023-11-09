@@ -69,8 +69,8 @@ public class ReviewDao {
 			int row = 0;
 			//모델코드
 			Class.forName("org.mariadb.jdbc.Driver");
-			String url = "jdbc:mariadb://localhost:3306/mall";
-			String dbuser = "root";
+			String url = "jdbc:mariadb://192.168.200.36:3306/mall";
+			String dbuser = "user";
 			String dbpw = "java1234";
 			Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 			//리뷰 추가를 위한 쿼리문

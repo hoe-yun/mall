@@ -38,12 +38,15 @@
 	
 	GoodsDao gDao = new GoodsDao();
 	ArrayList<Goods> list = gDao.selectGoodsList(beginRow, rowPerPage);
-	Goods goods = new Goods();
+	
 	int totalRow = gDao.goodsCNT();
 	int lastPage = totalRow / rowPerPage;
 	if(totalRow % rowPerPage != 0){
 		lastPage = lastPage + 1;
 	}
+	
+	GoodsImgDao iDao = new GoodsImgDao();
+	
 %>
 </head>
 
@@ -86,7 +89,7 @@
                                 <tr>
                                     <td class="product__cart__item">
                                         <div class="product__cart__item__pic" >
-                                            <img src="img/product/<%=g.getGoodsTitle() %>.png" alt="" width="100px" height="100px">
+                                            <img src="img/product/<%=iDao.selectGoodsImg(g.getGoodsNo()).getFilename()%>" alt="" width="100px" height="100px">
                                         </div>
                                         <div class="product__cart__item__text">
                                             <h6><%=g.getGoodsTitle() %></h6>
@@ -97,7 +100,7 @@
                                     	<%=g.getGoodsMemo() %>
                                     </td>
                                     <td class="col-lg-3">
-                                    	<a href="<%=request.getContextPath()%>/delectGoodsImgAction.jsp?goodsNo=<%=g.getGoodsNo() %>" class="primary-btn">Delete</a>
+                                    	<a href="<%=request.getContextPath()%>/deleteGoodsImgAction.jsp?goodsNo=<%=g.getGoodsNo() %>" class="primary-btn">Delete</a>
                                     	<a href="<%=request.getContextPath()%>/updateGoodsForm.jsp?goodsNo=<%=g.getGoodsNo() %>" class="primary-btn">Edit</a>
                                     </td>
                                 </tr>

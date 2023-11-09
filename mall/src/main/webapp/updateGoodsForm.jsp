@@ -30,6 +30,9 @@
 	int goodsNo = Integer.parseInt(request.getParameter("goodsNo"));
 	GoodsDao gDao = new GoodsDao();
 	Goods g = gDao.goodsOne(goodsNo);
+	
+	GoodsImgDao iDao = new GoodsImgDao();
+	GoodsImg img = iDao.selectGoodsImg(goodsNo);
 %>
 <%
 	
@@ -58,10 +61,10 @@
     <section class="contact spad">
         <div class="container">
             <div class="col-lg-12">
-            	<form action="updateGoodsAction.jsp?goodsNo=<%=g.getGoodsNo() %>">
+            	<form action="updateGoodsAction.jsp?goodsNo=<%=g.getGoodsNo() %>" method="post" enctype="multipart/form-data">
 	                <div class="col-lg-4 col-md-6">
 	                    <div class="contact__text">
-	                    	<img src="img/product/<%=g.getGoodsTitle() %>.png" alt="" width="200px" height="200px">
+	                    	<img src="img/product/<%=img.getFilename() %>" alt="" width="200px" height="200px">
 	                    	<input type="file" value="goodsImg" name="goodsImg">
 	                    </div>  
 	                </div>

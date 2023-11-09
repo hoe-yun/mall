@@ -76,4 +76,25 @@ public class GoodsImgDao {
 		//end model code
 		return gi;	
 	}
+	public int updateGoodsImg(GoodsImg img)throws Exception {
+		int row = 0;
+		Class.forName("org.mariadb.jdbc.Driver");
+		String url = "jdbc:mariadb://localhost:3306/mall";
+		String dbuser = "root";
+		String dbpw = "java1234";
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		// 상품이미지 수정을 위한 UPDATE QUERY
+		String sql = "UPDATE goods_img SET filename = ?, origin_name = ?, content_type = ?, updatedate = NOW() WHERE goods_no = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1,img.getFilename());
+		stmt.setString(2,img.getOriginName());
+		stmt.setString(3,img.getContentType());
+		stmt.setInt(4,img.getGoodsNo());
+		row = stmt.executeUpdate();
+		//DB자원반납
+		stmt.close();
+		conn.close();
+		//end model code
+		return row;
+	}
 }

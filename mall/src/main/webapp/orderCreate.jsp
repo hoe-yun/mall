@@ -19,7 +19,7 @@ CustomerDao dao = new CustomerDao();
 HashMap<String,Object> customerInfo = dao.retrieveCustomerInfo(customerNo);
 // 고객 주소 조회 vo
 ArrayList<HashMap<String, Object>> AddressList = dao.retrieveCustomerAddrList(customerNo); 
-
+// 장바구니로부터 옮겨온 상품리스트
 ArrayList<TransferCartToOrderVo> goodsList = (ArrayList<TransferCartToOrderVo>)request.getAttribute("TransferCartToOrderVoList");
 
 %>
@@ -28,26 +28,26 @@ ArrayList<TransferCartToOrderVo> goodsList = (ArrayList<TransferCartToOrderVo>)r
 <html lang="zxx">
 	
 <head>
-	<meta charset="UTF-8">
-	<meta name="description" content="Male_Fashion Template">
-	<meta name="keywords" content="Male_Fashion, unica, creative, html">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Male-Fashion | Template</title>
+<meta charset="UTF-8">
+<meta name="description" content="Male_Fashion Template">
+<meta name="keywords" content="Male_Fashion, unica, creative, html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Male-Fashion | Template</title>
 
-	<!-- Google Font -->
-	<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
-	rel="stylesheet">
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
+rel="stylesheet">
 
-	<!-- Css Styles -->
-	<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-	<link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
-	<link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
-	<link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
-	<link rel="stylesheet" href="css/nice-select.css" type="text/css">
-	<link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
-	<link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
-	<link rel="stylesheet" href="css/style.css" type="text/css">
+<!-- Css Styles -->
+<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
+<link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
+<link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
+<link rel="stylesheet" href="css/nice-select.css" type="text/css">
+<link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
+<link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
+<link rel="stylesheet" href="css/style.css" type="text/css">
 </head>
 
 <body>
@@ -64,7 +64,7 @@ ArrayList<TransferCartToOrderVo> goodsList = (ArrayList<TransferCartToOrderVo>)r
 					<div class="breadcrumb__links">
 						<a href="./index.html">Home</a>
 						<a href="./shop.html">Shop</a>
-						<span>Shopping Cart</span>
+						<span>order create</span>
 					</div>
 				</div>
 			</div>
@@ -159,13 +159,13 @@ ArrayList<TransferCartToOrderVo> goodsList = (ArrayList<TransferCartToOrderVo>)r
 						</label>
 					</div>
 					<button id="orderCreateBtn" type="button" class="site-btn">Create Order</button>
+					<a href="productCart.jsp" type="button" class="site-btn"> *Return and edit my Cart List</a>
 				</div>
 			</div>
 		</div>
 	</div>
 </section>
 <!-- Shopping Cart Section End -->
-
 
 <!-- footer + searchbar -->
 <jsp:include page="/inc/footer.jsp"></jsp:include>
@@ -183,32 +183,31 @@ ArrayList<TransferCartToOrderVo> goodsList = (ArrayList<TransferCartToOrderVo>)r
 <script src="js/owl.carousel.min.js"></script>
 <script src="js/main.js"></script>
 <script type="text/javascript">
-
-
-
+/*변수선언부*/
 let selectedAddressNo;
 let totalPrice = 0;
-
-$('i[name=closeBtn]').click(function () {
-	alert('clicked');
-})
-
+//배송지중 하나를 선택하면 주문서에 배송지가 변경됨
 $(document).on('click', 'button[name=addressSelectionBtn]', function() {
 	let selectedAddress = $(this).next().val();
 	$('#selectedAddress').html(selectedAddress);
 	selectedAddressNo = $(this).siblings().first().val();
-	//alert(selectedAddressNo);
 	}
 );
+
+// 총 주문 금액을 계산함
 $('.cart__price').each(function() {
 	let eachPrice = Number($(this).text());
 	totalPrice += eachPrice;
 	//alert(totalPrice);
 });
+//총 주문 금액을 주문서에 옮김
 $('#totalprice').text(totalPrice);
+if($('#totalprice').text() == 0){
+	alert('장바구니에 상품이 없습니다')
+	location.href="productCart.jsp";
+}
 
-
-
+//주문하기 버튼을 누르면 밸리데이션 후 데이터를 정리하여 post 요청함
 $('#orderCreateBtn').click(function() {
 	if($('#selectedAddress').html() == '배송주소를 선택해주세요'){
 		alert('배송주소를 선택해주세요');
@@ -234,33 +233,20 @@ $('#orderCreateBtn').click(function() {
 		let value = $(this).text(); // 현재 요소의 텍스트 가져오기
 		totalPrices.push(value); // 배열에 텍스트 추가
 	});
-	
-	console.log(goodNos);
-	console.log(quantitys);
-	console.log(totalPrices);
-	
-	let data = 
-		{
-			customerRequestTitle : "createOrder",
-			CustomerAdrressNo : selectedAddressNo,
-			goodNos : goodNos,
-			quantitys : quantitys,
-			totalPrices : totalPrices
-			
-		};
-	
-	console.log(data);
+	let data = {
+		customerRequestTitle : "createOrder",
+		CustomerAdrressNo : selectedAddressNo,
+		goodNos : goodNos,
+		quantitys : quantitys,
+		totalPrices : totalPrices
+	};
 	$.post("orderApiController.jsp",data, function() {
 		alert('주문성공');
 		location.href="Home.jsp"
 		}).fail(function () {
 		alert('주문실패');
 	});
-	
 });
-
-
 </script>
 </body>
-
 </html>

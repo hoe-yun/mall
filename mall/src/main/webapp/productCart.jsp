@@ -88,7 +88,7 @@
                             <% for(ProductCart p : list) {%>
                                 <tr>
                                 	<td><input type="checkbox" style="width: 50px; margin: 0 auto;"></td>
-                                	<td><%=p.getCartNo()%></td>	
+                                	<td><%=p.getCartNo()%></td>
                                     <td class="product__cart__item">
                                     <div class="product__cart__item__pic">
                                         <img src="img/product/<%=p.getGoodsTitle() %>.png" alt="" width="120" height="90">

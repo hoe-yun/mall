@@ -218,5 +218,5 @@ public class GoodsDao {
 			row = rs.getInt("COUNT(*)");
 		}
 		return row;
-	}
+	}	
 }

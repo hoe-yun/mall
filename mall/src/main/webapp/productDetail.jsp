@@ -135,7 +135,7 @@
                             <div class="product__details__cart__option">
                                 <div class="quantity">
                                     <div>
-                                      <h6>수량 선택</h6><input type="number" name="quantity" value="1">
+                                       <h5>수량 선택</h5> <input type="number" name="quantity" value="1">
                                         <input type="number" name="goodsNo" value="<%=Detail.getGoodsNo()%>" readonly="readonly" hidden="true">
                                        
                                     </div>
@@ -143,18 +143,10 @@
                                 <button class="primary-btn" type="submit">장바구니 추가</button>
                             </div>
                             	</form>
-                            <div class="product__details__btns__option">
-                                <a href="#"><i class="fa fa-heart"></i> 찜하기</a>
-                                <a href="#"><i class="fa fa-exchange"></i> Add To Compare</a>
-                            </div>
                             <div class="product__details__last__option">
                                 <h5><span>Guaranteed Safe Checkout</span></h5>
                                 <img src="img/shop-details/details-payment.png" alt="">
-                                <ul>
-                                    <li><span>SKU:</span> 3812912</li>
-                                    <li><span>Categories:</span> Clothes</li>
-                                    <li><span>Tag:</span> Clothes, Skin, Body</li>
-                                </ul>
+                                
                             </div>
                         </div>
                     </div>
@@ -196,32 +188,31 @@
                                 <div class="tab-pane" id="tabs-6" role="tabpanel">
                                     <div class="product__details__tab__content">
                                         <div class="product__details__tab__content__item">
-                                        <a href="<%=request.getContextPath()%>/insertQuestionForm.jsp?goodsNo=<%=Detail.getGoodsNo() %>" class="primary-btn" style=float:left>리뷰 작성</a>
-                                  <table class="table col-lg-12">
-                                  <%
-                                  	for(HashMap<String,Object> q : list){
-                                  %>
-                                  		<tr>
-                                       		<td height="100px">
-                                        		<textarea class="col-lg-12" rows="3" readonly="readonly">Question - <%=q.get("questionTitle")%> : <%=q.get("questionContent")%>
-                                        		
-                                        																	</textarea>
-                                        	</td>
-                                        </tr>
-                                        <tr>
-                                        	<td>
-                                        		<a href="<%=request.getContextPath()%>/questionOne.jsp?questionNo=<%=q.get("questionNo") %>" class="primary-btn" style=float:right>자세히</a>
-                                        	</td>
-                                        </tr>
-                                        <tr>
-                                        	<td ></td>
-                                        </tr>
-                                  <%
-                                  	}
-                                  %>  
-                                  </table>
+                                            <h5>Products Infomation</h5>
+                                            <p>A Pocket PC is a handheld computer, which features many of the same
+                                                capabilities as a modern PC. These handy little devices allow
+                                                individuals to retrieve and store e-mail messages, create a contact
+                                                file, coordinate appointments, surf the internet, exchange text messages
+                                                and more. Every product that is labeled as a Pocket PC must be
+                                                accompanied with specific software to operate the unit and must feature
+                                            a touchscreen and touchpad.</p>
+                                            <p>As is the case with any new technology product, the cost of a Pocket PC
+                                                was substantial during it’s early release. For approximately $700.00,
+                                                consumers could purchase one of top-of-the-line Pocket PCs in 2003.
+                                                These days, customers are finding that prices have become much more
+                                                reasonable now that the newness is wearing off. For approximately
+                                            $350.00, a new Pocket PC can now be purchased.</p>
                                         </div>
-                                        
+                                        <div class="product__details__tab__content__item">
+                                            <h5>Material used</h5>
+                                            <p>Polyester is deemed lower quality due to its none natural quality’s. Made
+                                                from synthetic materials, not natural like wool. Polyester suits become
+                                                creased easily and are known for not being breathable. Polyester suits
+                                                tend to have a shine to them compared to wool and cotton suits, this can
+                                                make the suit look cheap. The texture of velvet is luxurious and
+                                                breathable. Velvet is a great choice for dinner party jacket and can be
+                                            worn all year round.</p>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="tab-pane" id="tabs-7" role="tabpanel">
@@ -343,11 +334,6 @@
                     <div class="product__item sale">
                         <div class="product__item__pic set-bg" data-setbg="img/product/product-3.jpg">
                             <span class="label">Sale</span>
-                            <ul class="product__hover">
-                                <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                                <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
-                                <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
-                            </ul>
                         </div>
                         <div class="product__item__text">
                             <h6>Multi-pocket Chest Bag</h6>
@@ -385,7 +371,7 @@
                         </div>
                         <div class="product__item__text">
                             <h6>Diagonal Textured Cap</h6>
-                            <a href="#" class="add-cart">+ Add To Cart</a>
+                            <a href="#" class="add-cart">상세설명 바로가기</a>
                             <div class="rating">
                                 <i class="fa fa-star-o"></i>
                                 <i class="fa fa-star-o"></i>

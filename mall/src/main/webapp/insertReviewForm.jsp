@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
 <% 
-    int goodsNo = Integer.parseInt(request.getParameter("goodsNo"));
+    int ordersNo = Integer.parseInt(request.getParameter("ordersNo"));
 %>
 </head>
 <body>
@@ -38,7 +38,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb__text">
-                        <h4>Question</h4>
+                        <h4>Review</h4>
                     </div>
                 </div>
             </div>

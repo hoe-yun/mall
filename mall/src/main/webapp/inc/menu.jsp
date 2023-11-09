@@ -74,15 +74,6 @@
                         <ul>
                             <li><a href="./Home.jsp">홈</a></li>
                             <li><a href="./productList.jsp">쇼핑</a></li>
-                            <li><a href="#">페이지</a>
-                                <ul class="dropdown">
-                                    <li><a href="./about.html">About Us</a></li>
-                                    <li><a href="./shop-details.html">Shop Details</a></li>
-                                    <li><a href="./shopping-cart.html">Shopping Cart</a></li>
-                                    <li><a href="./checkout.html">Check Out</a></li>
-                                    <li><a href="./blog-details.html">Blog Details</a></li>
-                                </ul>
-                            </li>
                             <li><a href="#">게시판</a>
                             	<ul class="dropdown">
                             		<li><a href="./noticeList.jsp">Notice</a></li>

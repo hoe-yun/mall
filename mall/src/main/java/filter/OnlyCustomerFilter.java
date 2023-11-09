@@ -17,7 +17,7 @@ import javax.websocket.Session;
 
 // 작성자 : 정인호  C231106 U231106
 // 오직 회원만 접근가능한 페이지
-@WebFilter(urlPatterns={"/customerInfo.jsp","/customerApiController.jsp"})
+@WebFilter(urlPatterns={"/customerInfo.jsp","/customerApiController.jsp","/productCart.jsp"})
 public class OnlyCustomerFilter implements Filter{
 	
 	public void init(FilterConfig filterConfig) throws ServletException{

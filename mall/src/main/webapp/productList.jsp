@@ -12,6 +12,7 @@
 	GoodsDao goodsDao = new GoodsDao();
 	ArrayList<Goods> list = goodsDao.selectArrayList(goodsTitle, goodsPrice);
 	
+	
 %>
 <!DOCTYPE html>
 <html lang="zxx">

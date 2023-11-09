@@ -97,7 +97,7 @@
                                     	<%=g.getGoodsMemo() %>
                                     </td>
                                     <td class="col-lg-3">
-                                    	<a href="<%=request.getContextPath()%>/delectGoodsAction.jsp?goodsNo=<%=g.getGoodsNo() %>" class="primary-btn">Delete</a>
+                                    	<a href="<%=request.getContextPath()%>/delectGoodsImgAction.jsp?goodsNo=<%=g.getGoodsNo() %>" class="primary-btn">Delete</a>
                                     	<a href="<%=request.getContextPath()%>/updateGoodsForm.jsp?goodsNo=<%=g.getGoodsNo() %>" class="primary-btn">Edit</a>
                                     </td>
                                 </tr>

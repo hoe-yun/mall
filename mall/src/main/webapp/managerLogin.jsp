@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
-	String msg = request.getParameter("msg");
+	String msg1 = request.getParameter("msg");
+	String msg2 = request.getParameter("msg2");
 %>
 
 <!DOCTYPE html>
@@ -49,6 +50,17 @@
 			</div>
 			<div class="col-lg-5 col-md-5">
 				<div>
+					<%
+						if(msg1 != null){
+					%>
+							<h6 style="color:red">ID와 PW를 확인해주세요</h6>
+					<%
+						}else if(msg2 != null){
+					%>
+							<h6 style="color:red">권한이 없습니다. 로그인 해주세요.</h6>
+					<%
+						}
+					%>
 					<form action="./managerLoginAction.jsp">
 						<div class="row">
 							<div class="col-lg-12">
@@ -63,13 +75,6 @@
 							</div>
 						</div>
 					</form>
-					<%
-						if(msg != null){
-					%>
-							<h6 style="color:red">ID와 PW를 확인해주세요</h6>
-					<%
-						}
-					%>
 				</div>
 			</div>
 			<div class="col-lg-1 col-md-1"></div>

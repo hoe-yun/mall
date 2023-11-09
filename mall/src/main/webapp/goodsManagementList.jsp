@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
+    
 <%
 	// controller code
 	int currentPage = 1;
@@ -47,6 +48,12 @@
 	
 	GoodsImgDao iDao = new GoodsImgDao();
 	
+
+	// session정보에 managerNo가 없으면 오류 메세지가 출력된 managerLogin.jsp로 이동
+	if(session.getAttribute("managerNo") == null){
+		String msg2 = "x";
+		response.sendRedirect("./managerLogin.jsp?msg2="+msg2);
+	}
 %>
 </head>
 

@@ -27,7 +27,13 @@
     <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
- 
+<%
+	// session정보에 managerNo가 없으면 오류 메세지가 출력된 managerLogin.jsp로 이동
+	if(session.getAttribute("managerNo") == null){
+		String msg2 = "x";
+		response.sendRedirect("./managerLogin.jsp?msg2="+msg2);
+	}
+%>
 </head>
 <body>
 <!-- 상단 메뉴바/ inc폴더안에 menu.jsp파일로 분리하여 불러오기  -->
@@ -84,8 +90,8 @@
                         <div class="blog__item__pic set-bg" data-setbg="img/blog/blog-2.jpg"></div>
                         <div class="blog__item__text">
                             <span> Menu </span>
-                            <h3>Question Management</h3>
-                            <a href="#"><span class="arrow_down"></span>Add Comment</a>
+                            <h3>Order Management</h3>
+                            <a href="./managementOrderList.jsp"><span class="arrow_down"></span>Order List</a>
                         </div>
                     </div>
                 </div>

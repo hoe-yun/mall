@@ -14,6 +14,7 @@
 	ProductCartDao dao = new ProductCartDao();
 	ArrayList<ProductCart> list = dao.selectArrayList(goodsTitle, goodsPrice, goodsNo, quantity, cartNo);
 	
+	
 %>
 
 <!DOCTYPE html>
@@ -83,21 +84,23 @@
                             </thead>
                             <tbody>
                             <form action="./orderApiController.jsp" method="post">
+                            	<input hidden="true" readonly="readonly" name="customerRequestTitle" value="transferCartToOrder">
                             <% for(ProductCart p : list) {%>
                                 <tr>
-                                	<td><input type="checkbox" name="checked" style="width: 50px; margin: 0 auto;"></td>
-                                	<td><%=p.getCartNo() %></td>	
+                                	<td><input type="checkbox" style="width: 50px; margin: 0 auto;"></td>
+                                	<td><%=p.getCartNo()%></td>	
                                     <td class="product__cart__item">
-                                        <div class="product__cart__item__pic">
-                                            <img src="img/product/<%=p.getGoodsTitle() %>.png" alt="" width="120" height="90">
-                                        </div>
-                                        <div class="product__cart__item__text">
-                                            <h6><input name="goodsNo" hidden="true" value="<%=p.getGoodsNo()%>"><%=p.getGoodsNo()%>.<%=p.getGoodsTitle()%></h6>
-                                            <h5><%=p.getGoodsPrice() %></h5>
-                                        </div>
+                                    <div class="product__cart__item__pic">
+                                        <img src="img/product/<%=p.getGoodsTitle() %>.png" alt="" width="120" height="90">
+                                    </div>
+                                    <div class="product__cart__item__text">
+                                        <h6><%=p.getGoodsNo()%>.<%=p.getGoodsTitle()%></h6>
+                                        <h5><%=p.getGoodsPrice() %></h5>
+                                    </div>
                                     </td>
                                     <td class="quantity__item">
-                                                <input name="qantity" type="number" value="1" min="1" class="quantity-input" size="10">
+                                        <input type="number" value="<%=p.getQuantity() %>" min="1" class="quantity-input" size="10">
+                                        <input name="<%=p.getGoodsNo()%>" value="<%=p.getQuantity() %>" hidden="true">
                                     </td>
                                     <td class="cart__price"><span class="subtotal"><%= p.getGoodsPrice() %></span></td>
                                     <td class="cart__close"><a href="./deleteCartAction.jsp?cartNo=<%=p.getCartNo()%>" class="fa fa-close"></a></td>
@@ -262,6 +265,15 @@
         const totalElement = document.getElementById('total');
         totalElement.innerText = total.toFixed(0) + '원';
     }
+    
+    
+    $('.quantity-input').each(function() {
+    	$(this).click(function() {
+    		//alert($(this).val());
+    		let quantity = $(this).val();
+    		$(this).next().val(quantity);
+    	});
+    })
 </script>
 </body>
 

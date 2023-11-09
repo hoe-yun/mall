@@ -4,6 +4,7 @@ public class TransferCartToOrderVo {
 	private int goodsNo;
 	private int quantity;
 	private int goodsPrice;
+	private String goodsTitle;
 	
 	public int getGoodsNo() {
 		return goodsNo;
@@ -23,6 +24,13 @@ public class TransferCartToOrderVo {
 	public void setGoodsPrice(int goodsPrice) {
 		this.goodsPrice = goodsPrice;
 	}
+	public String getGoodsTitle() {
+		return goodsTitle;
+	}
+	public void setGoodsTitle(String goodsTitle) {
+		this.goodsTitle = goodsTitle;
+	}
+	
 	
 	
 	

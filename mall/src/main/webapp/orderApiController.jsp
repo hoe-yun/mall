@@ -15,7 +15,8 @@
 //5. $post and dao transaction init;
 request.setCharacterEncoding("utf-8");
 String customerRequestTitle = request.getParameter("customerRequestTitle");
-Integer customerNo = (int)session.getAttribute("customerNo");// 세션정보 확인
+//Integer customerNo = (int)session.getAttribute("customerNo");// 세션정보 확인
+Integer customerNo = 1;
 String referer = request.getHeader("Referer");
 
 //요청 제목이 없는 경우 리턴
@@ -38,7 +39,7 @@ if(customerRequestTitle.equals("transferCartToOrder")){
 		}
 		TransferCartToOrderVo vo = new TransferCartToOrderVo();
 		vo.setGoodsNo(Integer.parseInt(K));
-		vo.setGoodsNo(Integer.parseInt(V[0]));
+		vo.setQuantity(Integer.parseInt(V[0]));
 		transferList.add(vo);
 		});
 	for(TransferCartToOrderVo vo : transferList){

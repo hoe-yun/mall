@@ -12,7 +12,8 @@
 // 5. $post and dao transaction init;
 
 request.setCharacterEncoding("utf-8");
-int customerNo = (int)session.getAttribute("customerNo");// 세션정보 확인
+//int customerNo = (int)session.getAttribute("customerNo");// 세션정보 확인
+int customerNo = 1;// 세션정보 확인
 CustomerDao dao = new CustomerDao();
 
 // 고객 상세정보 vo
@@ -89,6 +90,9 @@ ArrayList<TransferCartToOrderVo> goodsList = (ArrayList<TransferCartToOrderVo>)r
 							</tr>
 						</thead>
 						<tbody>
+						<%
+						for(TransferCartToOrderVo good : goodsList ){
+						%>
 						<!-- 주문 상품 1개 start-->
 							<tr>
 								<td class="product__cart__item">
@@ -96,21 +100,22 @@ ArrayList<TransferCartToOrderVo> goodsList = (ArrayList<TransferCartToOrderVo>)r
 										<img src="img/shopping-cart/cart-1.jpg" alt="">
 									</div>
 									<div class="product__cart__item__text">
-										<h6> 상품이름 : </h6>
-										<h5> 가격 </h5>
+										<span name="goodNo" hidden="true"><%=good.getGoodsNo()%></span>
+										<h6><%=good.getGoodsTitle()%></h6>
+										<h5 name="goodTitle"><%=good.getGoodsPrice()%></h5>
 									</div>
 								</td>
 								<td class="quantity__item">
 									<div class="quantity">
-										<div class="pro-qty-2">
-											<input type="number" name="goods"  value="1">
-										</div>
+										<div name="goodQuantity" class="pro-qty-2"><%= good.getQuantity()%></div>
 									</div>
 								</td>
-								<td class="cart__price">$ 30.00</td>
-								<td class="cart__close"><i name="closeBtn" class="fa fa-close"></i></td>
+								<td class="cart__price"><%=(good.getGoodsPrice()*good.getQuantity())%></td>
 							</tr>
 						<!-- 주문 상품 1개 end -->
+						<%
+						}
+						%>
 						</tbody>
 					</table>
 				</div>
@@ -195,6 +200,9 @@ ArrayList<TransferCartToOrderVo> goodsList = (ArrayList<TransferCartToOrderVo>)r
 <script src="js/owl.carousel.min.js"></script>
 <script src="js/main.js"></script>
 <script type="text/javascript">
+
+
+
 let selectedAddressNo;
 
 $('i[name=closeBtn]').click(function () {

@@ -22,14 +22,16 @@ public class OrderDao {
 	
 	public ArrayList<TransferCartToOrderVo> transferCartToOrder(ArrayList<TransferCartToOrderVo> voList) throws SQLException {
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
-		String sql = "SELECT goods_price goodsPrice FROM goods WHERE goods_no = ?";
+		String sql = "SELECT goods_price goodsPrice, goods_title goodsTitle FROM goods WHERE goods_no = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		
 		voList.forEach((vo) -> {
 			try {
 				stmt.setInt(1, vo.getGoodsNo());
 				ResultSet rs = stmt.executeQuery();
-				if(rs.next()) {	vo.setGoodsPrice(rs.getInt(1));	}
+				if(rs.next()) {	
+					vo.setGoodsPrice(rs.getInt("goodsPrice"));	}
+					vo.setGoodsTitle(rs.getString("goodsTitle"));
 				rs.close();
 			} catch (SQLException e) {e.printStackTrace();}
 		});

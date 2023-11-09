@@ -12,8 +12,7 @@
 // 5. $post and dao transaction init;
 
 request.setCharacterEncoding("utf-8");
-//int customerNo = (int)session.getAttribute("customerNo");// 세션정보 확인
-int customerNo = 1;// 세션정보 확인
+int customerNo = (int)session.getAttribute("customerNo");// 세션정보 확인
 CustomerDao dao = new CustomerDao();
 
 // 고객 상세정보 vo
@@ -107,10 +106,10 @@ ArrayList<TransferCartToOrderVo> goodsList = (ArrayList<TransferCartToOrderVo>)r
 								</td>
 								<td class="quantity__item">
 									<div class="quantity">
-										<div name="goodQuantity" class="pro-qty-2"><%= good.getQuantity()%></div>
+										<div name="goodQuantity" ><%= good.getQuantity()%></div>
 									</div>
 								</td>
-								<td class="cart__price"><%=(good.getGoodsPrice()*good.getQuantity())%></td>
+								<td class="cart__price" name="totalPrice"><%=(good.getGoodsPrice()*good.getQuantity())%></td>
 							</tr>
 						<!-- 주문 상품 1개 end -->
 						<%
@@ -147,10 +146,10 @@ ArrayList<TransferCartToOrderVo> goodsList = (ArrayList<TransferCartToOrderVo>)r
 					</ul>
 					<ul class="checkout__total__all">
 						<li>배송주소</li>
-						<li id="selectedAddress"></li>
+						<li id="selectedAddress">배송주소를 선택해주세요</li>
 					</ul>
 					<ul class="checkout__total__all">
-						<li>결제총액 <span>$750.99</span></li>
+						<li>결제총액 <span id="totalprice" ></span></li>
 					</ul>
 					<div class="checkout__input__checkbox">
 						<label for="acc-or">
@@ -159,22 +158,6 @@ ArrayList<TransferCartToOrderVo> goodsList = (ArrayList<TransferCartToOrderVo>)r
 							<span class="checkmark"></span>
 						</label>
 					</div>
-					<p>주문서 발행 </p>
-					<div class="checkout__input__checkbox">
-						<label for="payment">
-							Check Payment
-							<input type="checkbox" id="payment">
-							<span class="checkmark"></span>
-						</label>
-					</div>
-					<div class="checkout__input__checkbox">
-						<label for="paypal">
-							Paypal
-							<input type="checkbox" id="paypal">
-							<span class="checkmark"></span>
-						</label>
-					</div>
-					<button type="submit" class="site-btn">PLACE ORDER</button>
 					<button id="orderCreateBtn" type="button" class="site-btn">Create Order</button>
 				</div>
 			</div>
@@ -204,6 +187,7 @@ ArrayList<TransferCartToOrderVo> goodsList = (ArrayList<TransferCartToOrderVo>)r
 
 
 let selectedAddressNo;
+let totalPrice = 0;
 
 $('i[name=closeBtn]').click(function () {
 	alert('clicked');
@@ -212,11 +196,70 @@ $('i[name=closeBtn]').click(function () {
 $(document).on('click', 'button[name=addressSelectionBtn]', function() {
 	let selectedAddress = $(this).next().val();
 	$('#selectedAddress').html(selectedAddress);
-	
 	selectedAddressNo = $(this).siblings().first().val();
-	alert(selectedAddressNo);
+	//alert(selectedAddressNo);
 	}
 );
+$('.cart__price').each(function() {
+	let eachPrice = Number($(this).text());
+	totalPrice += eachPrice;
+	//alert(totalPrice);
+});
+$('#totalprice').text(totalPrice);
+
+
+
+$('#orderCreateBtn').click(function() {
+	if($('#selectedAddress').html() == '배송주소를 선택해주세요'){
+		alert('배송주소를 선택해주세요');
+		return;
+	}
+	if (!$('#acc-or').is(':checked')) {
+		alert('주문내역 확인을 체크해주세요');
+		return;
+	}
+	
+	let goodNos = [];
+	let quantitys = [];
+	let totalPrices = [];
+	$('*[name=goodNo]').each(function() {
+		let value = $(this).text(); // 현재 요소의 텍스트 가져오기
+		goodNos.push(value); // 배열에 텍스트 추가
+	});
+	$('*[name=goodQuantity]').each(function() {
+		let value = $(this).text(); // 현재 요소의 텍스트 가져오기
+		quantitys.push(value); // 배열에 텍스트 추가
+	});
+	$('*[name=totalPrice]').each(function() {
+		let value = $(this).text(); // 현재 요소의 텍스트 가져오기
+		totalPrices.push(value); // 배열에 텍스트 추가
+	});
+	
+	console.log(goodNos);
+	console.log(quantitys);
+	console.log(totalPrices);
+	
+	let data = 
+		{
+			customerRequestTitle : "createOrder",
+			CustomerAdrressNo : selectedAddressNo,
+			goodNos : goodNos,
+			quantitys : quantitys,
+			totalPrices : totalPrices
+			
+		};
+	
+	console.log(data);
+	$.post("orderApiController.jsp",data, function() {
+		alert('주문성공');
+		location.href="Home.jsp"
+		}).fail(function () {
+		alert('주문실패');
+	});
+	
+});
+
+
 </script>
 </body>
 

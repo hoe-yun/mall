@@ -65,6 +65,7 @@
                             <div class="header__top__links">
                                 <a href="<%=urlLoginBtnIncMenu%>"><%=loginBtnIncMenu%></a>
                                 <a href="<%=urlInfoBtn %>"><%=infoBtn %></a>
+                                <a href="orderList.jsp">My ORDER</a>
                                 <a href="#">FAQs</a>
                             </div>
                         </div>

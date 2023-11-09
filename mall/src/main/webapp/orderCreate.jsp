@@ -5,11 +5,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%
-// 1. get <goodsNo , quantity > List From Cart;
-// 2. retrieve goods price from db using with goodsNo;
-// 3. get session customerNo And retrieve customerDetail, address;
-// 4. make view with values gotten;
-// 5. $post and dao transaction init;
+// 작성자 : 정인호 
+// 주문서 작성
 
 request.setCharacterEncoding("utf-8");
 int customerNo = (int)session.getAttribute("customerNo");// 세션정보 확인
@@ -149,7 +146,7 @@ rel="stylesheet">
 						<li id="selectedAddress">배송주소를 선택해주세요</li>
 					</ul>
 					<ul class="checkout__total__all">
-						<li>결제총액 <span id="totalprice" ></span></li>
+						<li>주문금액 <span id="totalprice" ></span></li>
 					</ul>
 					<div class="checkout__input__checkbox">
 						<label for="acc-or">

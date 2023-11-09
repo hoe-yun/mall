@@ -137,7 +137,7 @@ public class ProductCartDao {
 			//DB자원 반납
 			stmt.close();
 			conn.close();
-			return insertCart(customerNo, goodsNo, quantity);
+			return row;
 		}
 		public int deleteCart(int cartNo) throws Exception {
 			// model code

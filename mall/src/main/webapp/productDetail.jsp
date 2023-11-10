@@ -218,7 +218,7 @@
                                 <div class="tab-pane" id="tabs-7" role="tabpanel">
                                   <div class="product__details__tab__content">
                                   <%
-									if(session.getAttribute("costomerNo") != null){
+									if(session.getAttribute("customerNo") != null){
 								  %>
                                  	 <a href="<%=request.getContextPath()%>/insertQuestionForm.jsp?goodsNo=<%=Detail.getGoodsNo() %>" class="primary-btn" style=float:left>add Question</a>
                                   <%

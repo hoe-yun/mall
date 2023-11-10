@@ -80,7 +80,7 @@
                <i class="fa fa-quote-left"></i>
                <p><%=q.getQuestionContent() %></p>
                <%
-				if(session.getAttribute("costomerNo") != null){
+				if(session.getAttribute("customerNo") != null){
 				%>
                <a href="<%=request.getContextPath()%>/deleteQuestionAction.jsp?questionNo=<%=q.getQuestionNo() %>" class="primary-btn" style=float:right>Delete Question</a>
                <a href="<%=request.getContextPath()%>/updateQuestionForm.jsp?questionNo=<%=q.getQuestionNo() %>" class="primary-btn" style=float:right>Edit Question</a>

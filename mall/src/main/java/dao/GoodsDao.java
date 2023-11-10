@@ -198,4 +198,29 @@ public class GoodsDao {
 		}
 		return row;
 	}	
+	public ArrayList<Goods> searchGoodsList(String searchTitle) throws Exception{
+		ArrayList<Goods> list = new ArrayList<>();
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		String sql = "SELECT goods_no goodsNo, goods_title goodsTitle, goods_price goodsPrice, soldout, goods_memo goodsMemo,createdate,updatedate FROM goods WHERE goods_title LIKE (?)";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1,"%"+searchTitle+"%");
+		ResultSet rs = stmt.executeQuery();
+		while(rs.next()) {
+			Goods g = new Goods();
+			g.setGoodsNo(rs.getInt("goodsNo"));
+			g.setGoodsTitle(rs.getString("goodsTitle"));
+			g.setGoodsPrice(rs.getInt("goodsPrice"));
+			g.setSoldout(rs.getString("soldout"));
+			g.setGoodsMemo(rs.getString("goodsMemo"));
+			g.setCreatedate(rs.getString("createdate"));
+			g.setUpdatedate(rs.getString("updatedate"));
+			list.add(g);
+		}
+		//DB자원반납
+		rs.close();
+		stmt.close();
+		conn.close();
+		//end model code
+		return list;
+	}
 }

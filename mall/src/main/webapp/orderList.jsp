@@ -91,7 +91,7 @@ rel="stylesheet">
 							<tr>
 								<td class="product__cart__item">
 									<div class="product__cart__item__pic">
-										<img src="img/shopping-cart/cart-1.jpg" >
+										<img src="img/product/<%=orderMap.get("filename")%>" width="120" height="90">
 									</div>
 									<div class="product__cart__item__text">
 										<h6><%=orderMap.get("goodTitle")%>  ( <%=orderMap.get("orderStatus")%> )</h6>
@@ -108,7 +108,7 @@ rel="stylesheet">
 								</td>
 								<td ><%=orderMap.get("createdate")%></td>
 								<td ><%=orderMap.get("address")%></td>
-								<td><a href="<%=request.getContextPath()%>/insertReviewForm.jsp?ordersNo=<%=orderMap.get("orderNo")%>" class="primary-btn" >리뷰 쓰기</a></td>
+								<td><a href="<%=request.getContextPath()%>/insertReviewForm.jsp?ordersNo=<%=orderMap.get("orderNo")%>" class="primary-btn ml-3 p-2" >리뷰 쓰기</a></td>
 							</tr>
 						<!-- 주문 상품 1개 end -->
 						<%

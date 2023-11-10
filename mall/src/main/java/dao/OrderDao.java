@@ -9,7 +9,7 @@ import vo.TransferCartToOrderVo;
 import vo.Orders;
 
 //작성자 : 정인호 
-// order처리용 DAO
+// order 처리용 DAO
 public class OrderDao {
 	//db접근용 데이터
 	final String url;
@@ -46,14 +46,14 @@ public class OrderDao {
 		return 1;
 	}
 	
-	//주문을 시도할 때 사용
+	//고객이 주문할 때 사용
 	public int CreateOrder(ArrayList<OrderCreateVo> voList) throws SQLException {
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		conn.setAutoCommit(false);
 		String sql1 = """
 				INSERT INTO orders(customer_no, customer_addr_no, goods_no, quantity, total_price, orders_state,createdate,updatedate)
 				VALUES(?,?,?,?,?,'주문완료',NOW(), NOW())""";
-		String sql2 = "DELETE FROM cart WHERE customer_no = ? AND goods_no = ?";
+		String sql2 = "DELETE FROM cart WHERE customer_no = ? AND goods_no = ? AND quantity = ?";
 		PreparedStatement stmt1 = conn.prepareStatement(sql1);
 		PreparedStatement stmt2 = conn.prepareStatement(sql2);
 		
@@ -65,12 +65,16 @@ public class OrderDao {
 			stmt1.setInt(3, vo.getGoodNo());
 			stmt1.setInt(4, vo.getQuantity());
 			stmt1.setInt(5, vo.getTotalPrice());
+			System.out.println(" stmt --> " + stmt1);
 			validation *= stmt1.executeUpdate();
 			stmt2.setInt(1, vo.getCustomerNo());
 			stmt2.setInt(2, vo.getGoodNo());
+			stmt2.setInt(3, vo.getQuantity());
 			validation *= stmt2.executeUpdate();
+			System.out.println(" stmt --> " + stmt2);
 		}
 		stmt1.close();
+		stmt2.close();
 		if (validation == 1) {
 			conn.commit();
 			conn.close();
@@ -82,7 +86,7 @@ public class OrderDao {
 		}
 	}
 	
-	//주문리스트를 확인할 때 사용
+	//고객이 주문리스트를 확인할 때 사용
 	public ArrayList<HashMap<String, Object>> retrieveOrderList(int customerNo) throws SQLException{
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		String sql = """
@@ -91,6 +95,7 @@ public class OrderDao {
 				 WHERE o.customer_no = ? ORDER BY o.createdate DESC""";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, customerNo);
+		System.out.println(" stmt --> " + stmt);
 		ResultSet rs = stmt.executeQuery();
 		ArrayList<HashMap<String, Object>> orderList = new ArrayList<>();
 		while(rs.next()) {

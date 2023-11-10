@@ -6,17 +6,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%
-// 작성자 : 정인호 
+
 // 주문리스트조회
 
-request.setCharacterEncoding("utf-8");
+	request.setCharacterEncoding("utf-8");
+	
+	Integer managerNo = (int)session.getAttribute("managerNo");// 세션정보 확인
+	OrderDao dao = new OrderDao();
+	ArrayList<HashMap<String, Object>> orderList = dao.managementOrderList(managerNo);
 
-Integer managerNo = (int)session.getAttribute("managerNo");// 세션정보 확인
-OrderDao dao = new OrderDao();
-ArrayList<HashMap<String, Object>> orderList = dao.managementOrderList(managerNo);
-
+	// session정보에 managerNo가 없으면 오류 메세지가 출력된 managerLogin.jsp로 이동
+	if(session.getAttribute("managerNo") == null){
+		String msg2 = "x";
+		response.sendRedirect("./managerLogin.jsp?msg2="+msg2);
+	}
 %>
-
 <!DOCTYPE html>
 <html lang="zxx">
 	
@@ -78,7 +82,7 @@ rel="stylesheet">
 								<tr>
 									<th>No&nbsp;</th>
 									<th>Product</th>
-									<th>Quantity</th>
+									<th>Quantity&nbsp;&nbsp;</th>
 									<th>Total</th>
 									<th>delivery status</th>
 									<th>order date</th>
@@ -103,8 +107,8 @@ rel="stylesheet">
 											<h5><%=orderMap.get("goodPrice")%></h5>
 										</div> 
 									</td>
-									<td class="quantity__item">
-										<div class="quantity">
+									<td >
+										<div>
 											<div ><%=orderMap.get("quantity")%></div>
 										</div>
 									</td>
@@ -112,8 +116,10 @@ rel="stylesheet">
 										<span> <%=orderMap.get("totalPrice")%></span>
 									</td>
 									<td ><%=orderMap.get("orderStatus")%><br>
-										<input type="radio" name="orderStatus" value="주문완료">주문완료<br>
-										<input type="radio" name="orderStatus" value="배송완료">배송완료
+										<select	name="orderStatus">
+											<option value="주문완료">주문완료</option>
+											<option value="배송완료">배송완료</option>
+										</select>
 									</td>
 									<td ><%=orderMap.get("createdate")%></td>
 									<td ><%=orderMap.get("address")%></td>

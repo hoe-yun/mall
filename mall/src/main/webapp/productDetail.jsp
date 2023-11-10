@@ -217,7 +217,13 @@
                                 </div>
                                 <div class="tab-pane" id="tabs-7" role="tabpanel">
                                   <div class="product__details__tab__content">
-                                  <a href="<%=request.getContextPath()%>/insertQuestionForm.jsp?goodsNo=<%=Detail.getGoodsNo() %>" class="primary-btn" style=float:left>add Question</a>
+                                  <%
+									if(session.getAttribute("costomerNo") != null){
+								  %>
+                                 	 <a href="<%=request.getContextPath()%>/insertQuestionForm.jsp?goodsNo=<%=Detail.getGoodsNo() %>" class="primary-btn" style=float:left>add Question</a>
+                                  <%
+									}
+								  %>
                                   <table class="table col-lg-12">
                                   <%
                                   	for(HashMap<String,Object> q : list){

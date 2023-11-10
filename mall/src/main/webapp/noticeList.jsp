@@ -74,7 +74,7 @@
 							<th width=60%>Title</th>
 							<th width=15%>CREATE</th>
 							<th width=15%>UPDATE</th>
-							<th width=5%>X</th>
+							<th width=5%></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -86,7 +86,15 @@
 							<td><a class="text-dark" href="<%=request.getContextPath()%>/noticeOne.jsp?noticeNo=<%=notice.getNoticeNo() %>"><%=notice.getNoticeTitle() %></a></td>
 							<td><%=notice.getCreatedate() %></td>
 							<td><%=notice.getUpdatedate() %></td>
-							<td><a class="btn btn-danger" href="<%=request.getContextPath()%>/delectNoticeAction.jsp?noticeNo=<%=notice.getNoticeNo() %>">X</a></td>
+							<td>
+							<%
+							if(session.getAttribute("managerNo") != null){
+							%>
+								<a class="btn btn-danger" href="<%=request.getContextPath()%>/delectNoticeAction.jsp?noticeNo=<%=notice.getNoticeNo() %>">X</a>
+							<%
+							}
+							%>
+							</td>
 						</tr>
 					<%
 						}
@@ -94,8 +102,14 @@
 					</tbody>
 				</table>
 				<br>
-				<a href="<%=request.getContextPath()%>/managerOne.jsp" class="primary-btn" style=float:left>return to Management</a>
-				<a href="<%=request.getContextPath()%>/insertNoticeForm.jsp" class="primary-btn" style=float:right>add notice</a>
+				<%
+				if(session.getAttribute("managerNo") != null){
+				%>
+					<a href="<%=request.getContextPath()%>/managerOne.jsp" class="primary-btn" style=float:left>return to Management</a>
+					<a href="<%=request.getContextPath()%>/insertNoticeForm.jsp" class="primary-btn" style=float:right>add notice</a>
+				<%
+				}
+				%>
 				<div class="row">
                     <div class="col-lg-12">
                         <div class="product__pagination">

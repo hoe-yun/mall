@@ -79,16 +79,28 @@
           <div class="blog__details__quote">
                <i class="fa fa-quote-left"></i>
                <p><%=q.getQuestionContent() %></p>
+               <%
+				if(session.getAttribute("costomerNo") != null){
+				%>
                <a href="<%=request.getContextPath()%>/deleteQuestionAction.jsp?questionNo=<%=q.getQuestionNo() %>" class="primary-btn" style=float:right>Delete Question</a>
                <a href="<%=request.getContextPath()%>/updateQuestionForm.jsp?questionNo=<%=q.getQuestionNo() %>" class="primary-btn" style=float:right>Edit Question</a>
+           		<%
+				}
+				%>
            </div>
            <br>
            <div class="blog__details__quote">
                <i class="fa fa-quote-right"></i>
                <p><%=qc.getComment() %></p>
                <h6>_ ADMIN _<%=qc.getCreatedate() %></h6>
+               <%
+				if(session.getAttribute("managerNo") != null){
+				%>
                <a href="<%=request.getContextPath()%>/deleteQuestionCommentAction.jsp?questionCommentNo=<%=qc.getQuestionCommentNo() %>" class="primary-btn" style=float:right>Delete Comment</a>
                <a href="<%=request.getContextPath()%>/updateQuestionCommentForm.jsp?questionCommentNo=<%=qc.getQuestionCommentNo() %>" class="primary-btn" style=float:right>Edit Comment</a>
+           		<%
+				}
+				%>
            </div>
            <div class="blog__details__option">
                <div class="row">
@@ -109,12 +121,17 @@
                 	<div>
                 		<a href="<%=request.getContextPath()%>/productDetail.jsp?goodsNo=<%=q.getGoodsNo() %>" class="primary-btn" style=float:left>Product</a>
           	 		</div>
+          	 		<%
+					if(session.getAttribute("managerNo") != null){
+					%>
           	 		<div>	
           	 			<a href="<%=request.getContextPath()%>/insertQuestionCommentForm.jsp?questionNo=<%=q.getQuestionNo() %>" class="primary-btn" style=float:right>Add Comment</a>
 					</div>
+           			<%
+					}
+					%>
            </div>
-           
-        </div>
+         </div>
     </section>
 	<!-- Notice One section End -->
 	

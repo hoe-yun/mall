@@ -11,7 +11,9 @@
 	int goodsPrice = 0;
 	GoodsDao goodsDao = new GoodsDao();
 	ArrayList<Goods> list = goodsDao.selectArrayList(goodsTitle, goodsPrice);
-	
+	//이미지 출력을위해 GoodsImgDao연결
+	GoodsImgDao goodsImg = new GoodsImgDao();
+	goodsImg.selectGoodsImg(goodsNo);
 	
 %>
 <!DOCTYPE html>
@@ -253,13 +255,13 @@
                    
                         <div class="col-lg-4 col-md-6 col-sm-6" >
                             <div class="product__item">
-                                <div class="product__item__pic set-bg" data-setbg="img/product/<%=g.getGoodsTitle() %>.png"
+                                <div class="product__item__pic set-bg" data-setbg="img/product/<%=goodsImg.selectGoodsImg(g.getGoodsNo()).getFilename() %>"
                                 style="background-image: url(&quot;img/product/<%=g.getGoodsTitle() %>.png&quot;);">
                                     
                                 </div>
                                 <div class="product__item__text">
                                     <h6><%=g.getGoodsNo()%>.<%=g.getGoodsTitle() %></h6><span>품절여부 :<%=g.getSoldout()%></span>
-                                    <a href="./productDetail.jsp?goodsNo=<%=g.getGoodsNo()%>" class="add-cart" action="<%=request.getContextPath()%>/productDetail.jsp">+ 상세정보 보기</a>
+                                    <a href="./productDetail.jsp?goodsNo=<%=g.getGoodsNo()%>" class="add-cart" action="<%=request.getContextPath()%>/productDetail.jsp?goodsNo=<%=g.getGoodsNo()%>">+ 상세정보 보기</a>
                                     <div class="rating">
                                         <i class="fa fa-star-o"></i>
                                         <i class="fa fa-star-o"></i>

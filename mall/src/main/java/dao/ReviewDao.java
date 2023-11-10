@@ -9,8 +9,8 @@ public class ReviewDao {
 		
 		// model code
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
-		String dbuser = "root";
+		String url = "jdbc:mariadb://192.168.200.36:3306/mall";
+		String dbuser = "user";
 		String dbpw = "java1234";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		// noticeList 출력을 위한 review DB SELECT QUERY
@@ -39,8 +39,8 @@ public class ReviewDao {
 		Review r = new Review();
 		// model code
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
-		String dbuser = "root";
+		String url = "jdbc:mariadb://192.168.200.36:3306/mall";
+		String dbuser = "user";
 		String dbpw = "java1234";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		// review 정보를 출력하기 위한 SELECT QUERY
@@ -82,8 +82,55 @@ public class ReviewDao {
 			//DB자원반납
 			stmt.close();
 			conn.close();
-			//end model code
+			//모델코드 끝
 			return row;
 			
 		}
+		
+		public int deleteReview(int reviewNo) throws Exception{
+			int row = 0;
+			//모델코드
+			Class.forName("org.mariadb.jdbc.Driver");
+			String url = "jdbc:mariadb://192.168.200.36:3306/mall";
+			String dbuser = "user";
+			String dbpw = "java1234";
+			Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+			//리뷰 삭제를 위한 쿼리문
+			String sql = "DELETE FROM review WHERE review_no=?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, reviewNo);
+			row = stmt.executeUpdate();
+			//DB자원 반납
+			stmt.close();
+			conn.close();
+			//모델코드 끝
+			return row;
+		}
+		public Review reviewDetail(int goodsNo) throws Exception{
+			Review review = new Review();
+			//모델코드 시작 DB연결
+			Class.forName("org.mariadb.jdbc.Driver");
+			String url = "jdbc:mariadb://192.168.200.36:3306/mall";
+			String dbuser = "user";
+			String dbpw = "java1234";
+			Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+			//상품번호에 맞는 리뷰를 출력하기위한 쿼리문
+			String sql = "SELECT r.review_no reviewNo, r.review_content reviewContent, r.createdate, r.updatedate, o.orders_no ordersNo FROM review r inner join orders o on r.orders_no = o.orders_no LEFT OUTER JOIN goods g ON o.goods_no = g.goods_no WHERE o.goods_no=?;";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, goodsNo);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+			review.setReviewNo(rs.getInt("reviewNo"));
+			review.setReviewContent(rs.getString("reviewContent"));
+			review.setCreatedate(rs.getString("createdate"));
+			review.setUpdatedate(rs.getString("updatedate"));
+			
+			}
+			//DB자원 반납
+			stmt.close();
+			conn.close();
+			//모델코드 끝
+			return review;
+		}
+		
 }

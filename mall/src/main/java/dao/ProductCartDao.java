@@ -2,6 +2,7 @@ package dao;
 import vo.*;
 import java.util.ArrayList;
 
+import javax.naming.directory.SearchControls;
 import javax.servlet.ServletRequest;
 
 import org.eclipse.jdt.internal.compiler.ast.ReturnStatement;
@@ -124,7 +125,7 @@ public class ProductCartDao {
 			String dbpw = "java1234";
 			Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 			//cart상품 insert 쿼리
-			String sql ="INSERT INTO cart(goods_no, customer_no, quantity, createdate, updatedate) VALUES(?,?,?,NOW(),NOW())";
+			String sql ="UPDATE INTO cart(goods_no, customer_no, quantity, createdate, updatedate) VALUES(?,?,?,NOW(),NOW())";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, goodsNo); 
 			stmt.setInt(2, customerNo);
@@ -162,5 +163,32 @@ public class ProductCartDao {
 			conn.close();
 			return row;
 		}
-	
+		public Cart SearchCart(int goodsNo, int customerNo) throws Exception{
+		
+			// model code
+			Class.forName("org.mariadb.jdbc.Driver");
+			String url = "jdbc:mariadb://192.168.200.36:3306/mall";
+			String dbuser = "user";
+			String dbpw = "java1234";
+			Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+			//cart테이블에 해당 상품이 등록되어있는지 확인하는 쿼리문
+			String sql = "SELECT cart_no cartNo, customer_no customerNo, goods_no goodsNo FROM cart WHERE goods_no=?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, goodsNo);
+			ResultSet rs = stmt.executeQuery();
+			Cart c = new Cart();
+			while(rs.next()) {
+				
+				c.setCartNo(rs.getInt("cartNo"));
+				c.setCustomerNo(rs.getInt("customerNo"));
+				c.setGoodsNo(rs.getInt("goodsNo"));
+				
+			}
+			//자원반납
+			rs.close();
+			stmt.close();
+			conn.close();
+			return c;
+		}
+		
 }

@@ -20,7 +20,8 @@ import javax.websocket.Session;
 @WebFilter(urlPatterns={
 	"/customerInfo.jsp","/customerApiController.jsp",
 	"/productCart.jsp",
-	"/orderApiController.jsp","/orderCreate.jsp", "/orderList.jsp"
+	"/orderApiController.jsp","/orderCreate.jsp", "/orderList.jsp",
+	"/InsertCartAction.jsp"
 	})
 public class OnlyCustomerFilter implements Filter{
 	

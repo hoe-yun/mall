@@ -40,7 +40,10 @@
 	// model 호출코드 
 	ReviewDao reviewDao = new ReviewDao();
 	ArrayList<Review> list = reviewDao.selectReviewList(beginRow,rowPerPage);
+	
+	
 	// end controller code
+	
 %>
 </head>
 <body>
@@ -72,7 +75,7 @@
 						<tr>
 							<th width=10%>번호</th>
 							<th width=40%>상품사진</th>
-							<th width=20%>제목</th>
+							<th width=20%>내용</th>
 							<th width=10%>생성일자</th>
 							<th width=10%>업데이트</th>
 							<th width=10%>삭제</th>
@@ -84,6 +87,7 @@
 					%>
 						<tr>
 							<td><%=review.getReviewNo() %></td>
+							<td><img src=></td>
 							<td><a class="text-dark" href="<%=request.getContextPath()%>/reviewOne.jsp?reviewNo=<%=review.getReviewNo() %>"><%=review.getReviewContent()%></a></td>
 							<td><%=review.getCreatedate() %></td>
 							<td><%=review.getUpdatedate() %></td>

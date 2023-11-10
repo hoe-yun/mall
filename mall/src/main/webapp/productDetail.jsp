@@ -6,17 +6,20 @@
 <%@ page import="java.util.*" %>
 
 <%
-	int goodsNo=0;
+	int customerNo = (Integer)session.getAttribute("customerNo");
+	int goodsNo=Integer.parseInt(request.getParameter("goodsNo"));
 	String goodsTitle = null;
 	int goodsPrice = 0;
 	String goodsMemo = null;
 	GoodsDao goodsDao = new GoodsDao();
 	ProductCartDao dao = new ProductCartDao();
 	ProductCart Detail = dao.selectProductDetail(request.getParameter("goodsTitle"), goodsPrice, Integer.parseInt(request.getParameter("goodsNo")));
-	
+	//문의글 출력하기위한 DAO호출
 	QuestionDao questionDao = new QuestionDao();
 	ArrayList<HashMap<String,Object>> list = questionDao.selectQuestion(Integer.parseInt(request.getParameter("goodsNo")));
-	
+	//리뷰글 출력하기 위한 DAo호출
+	ReviewDao reviewDao = new ReviewDao();
+	Review r = reviewDao.reviewDetail(goodsNo);
 	
 %>
 <!DOCTYPE html>
@@ -188,30 +191,17 @@
                                 <div class="tab-pane" id="tabs-6" role="tabpanel">
                                     <div class="product__details__tab__content">
                                         <div class="product__details__tab__content__item">
-                                            <h5>Products Infomation</h5>
-                                            <p>A Pocket PC is a handheld computer, which features many of the same
-                                                capabilities as a modern PC. These handy little devices allow
-                                                individuals to retrieve and store e-mail messages, create a contact
-                                                file, coordinate appointments, surf the internet, exchange text messages
-                                                and more. Every product that is labeled as a Pocket PC must be
-                                                accompanied with specific software to operate the unit and must feature
-                                            a touchscreen and touchpad.</p>
-                                            <p>As is the case with any new technology product, the cost of a Pocket PC
-                                                was substantial during it’s early release. For approximately $700.00,
-                                                consumers could purchase one of top-of-the-line Pocket PCs in 2003.
-                                                These days, customers are finding that prices have become much more
-                                                reasonable now that the newness is wearing off. For approximately
-                                            $350.00, a new Pocket PC can now be purchased.</p>
-                                        </div>
-                                        <div class="product__details__tab__content__item">
-                                            <h5>Material used</h5>
-                                            <p>Polyester is deemed lower quality due to its none natural quality’s. Made
-                                                from synthetic materials, not natural like wool. Polyester suits become
-                                                creased easily and are known for not being breathable. Polyester suits
-                                                tend to have a shine to them compared to wool and cotton suits, this can
-                                                make the suit look cheap. The texture of velvet is luxurious and
-                                                breathable. Velvet is a great choice for dinner party jacket and can be
-                                            worn all year round.</p>
+                                         <a href="<%=request.getContextPath()%>/reviewList.jsp" class="primary-btn" style=float:left>리뷰 목록으로</a>
+                                         <table class="table col-lg-12">
+                                         	<th>번호</th>
+                                         	<th>내용</th>
+                                         	<th>업데이트</th>
+                                         	<tr>
+                                         	<td><%=r.getReviewNo() %></td>
+                                         	<td><%=r.getReviewContent() %></td>
+                                         	<td><%=r.getUpdatedate()%></td>   
+                                            </tr>
+                                            </table> 
                                         </div>
                                     </div>
                                 </div>

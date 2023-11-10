@@ -14,7 +14,9 @@
 	Integer customerNo = (int)session.getAttribute("customerNo");
 	ProductCartDao dao = new ProductCartDao();
 	ArrayList<ProductCart> list = dao.selectArrayList(customerNo, goodsTitle, goodsPrice, goodsNo, quantity, cartNo);
-	
+	//이미지 출력을위해 GoodsImgDao연결
+		GoodsImgDao goodsImg = new GoodsImgDao();
+		goodsImg.selectGoodsImg(goodsNo);
 	
 %>
 
@@ -92,7 +94,7 @@
                                 	<td><%=p.getCartNo()%></td>
                                     <td class="product__cart__item">
                                     <div class="product__cart__item__pic">
-                                        <img src="img/product/<%=p.getGoodsTitle() %>.png" alt="" width="120" height="90">
+                                        <img src="img/product/<%=goodsImg.selectGoodsImg(p.getGoodsNo()).getFilename() %>" alt="" width="120" height="90">
                                     </div>
                                     <div class="product__cart__item__text">
                                         <h6><%=p.getGoodsNo()%>.<%=p.getGoodsTitle()%></h6>

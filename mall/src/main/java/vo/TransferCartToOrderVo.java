@@ -5,6 +5,7 @@ public class TransferCartToOrderVo {
 	private int quantity;
 	private int goodsPrice;
 	private String goodsTitle;
+	private String filename;
 	
 	public int getGoodsNo() {
 		return goodsNo;
@@ -29,6 +30,12 @@ public class TransferCartToOrderVo {
 	}
 	public void setGoodsTitle(String goodsTitle) {
 		this.goodsTitle = goodsTitle;
+	}
+	public String getFilename() {
+		return filename;
+	}
+	public void setFilename(String filename) {
+		this.filename = filename;
 	}
 	
 	

@@ -93,7 +93,7 @@ rel="stylesheet">
 							<tr>
 								<td class="product__cart__item">
 									<div class="product__cart__item__pic">
-										<img src="img/shopping-cart/cart-1.jpg" alt="">
+										<img src="img/product/<%=good.getFilename()%>" width="120" height="90">
 									</div>
 									<div class="product__cart__item__text">
 										<span name="goodNo" hidden="true"><%=good.getGoodsNo()%></span>

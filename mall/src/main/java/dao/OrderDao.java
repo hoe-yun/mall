@@ -27,7 +27,7 @@ public class OrderDao {
 	//장바구니를 주문서로 옮김
 	public int transferCartToOrder(ArrayList<TransferCartToOrderVo> voList) throws SQLException {
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
-		String sql = "SELECT goods_price goodsPrice, goods_title goodsTitle FROM goods WHERE goods_no = ?";
+		String sql = "SELECT goods_price goodsPrice, goods_title goodsTitle, filename FROM goods g INNER JOIN goods_img gi ON g.goods_no = gi.goods_no WHERE g.goods_no  = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		
 		for(TransferCartToOrderVo vo : voList) {
@@ -36,6 +36,7 @@ public class OrderDao {
 			if(rs.next()) {
 				vo.setGoodsPrice(rs.getInt("goodsPrice"));	
 				vo.setGoodsTitle(rs.getString("goodsTitle"));
+				vo.setFilename(rs.getString("filename"));
 			}else {
 				return 0;
 			}

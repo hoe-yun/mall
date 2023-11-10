@@ -120,4 +120,16 @@ public class NoticeDao {
 		//end model code
 		return row;
 	}
+	public int noticeCNT() throws Exception{
+		int row = 0;
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		
+		String sql = "SELECT COUNT(*) FROM nostice";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			row = rs.getInt("COUNT(*)");
+		}
+		return row;
+	}	
 }	

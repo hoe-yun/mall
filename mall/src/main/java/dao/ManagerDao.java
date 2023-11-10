@@ -37,4 +37,31 @@ public class ManagerDao {
 		//end model code
 		return managerNo;
 	}
+	public int managerPw(int managerPw,int newManagerPw) throws Exception{
+		int row = 0;
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		String sql = "UPDATE manager SET manager_pw = PASSWORD(?) WHERE manager_pw = PASSWORD(?)";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, newManagerPw);
+		stmt.setInt(2, managerPw);
+		row = stmt.executeUpdate();
+		//DB자원반납
+		stmt.close();
+		conn.close();
+		//end model code
+		return row;
+	}
+	public int managerPwHistory(int newManagerPw) throws Exception{
+		int row = 0;
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		String sql = "INSERT INTO manager_pw_history (manager_no,manager_pw,createdate) VALUES (1,PASSWORD(?),NOW())";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, newManagerPw);
+		row = stmt.executeUpdate();
+		//DB자원반납
+		stmt.close();
+		conn.close();
+		//end model code
+		return row;
+	}
 }

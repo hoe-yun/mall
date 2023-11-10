@@ -40,6 +40,13 @@
 	// model 호출코드 
 	NoticeDao noticeDao = new NoticeDao();
 	ArrayList<Nostice> list = noticeDao.selectNoticeList(beginRow,rowPerPage);
+	
+	int totalRow = noticeDao.noticeCNT();
+	int lastPage = totalRow/rowPerPage;
+	if(totalRow % rowPerPage != 0){
+		lastPage = lastPage + 1;
+	}
+	
 	// end controller code
 %>
 </head>
@@ -113,9 +120,20 @@
 				<div class="row">
                     <div class="col-lg-12">
                         <div class="product__pagination">
-                            <a href="<%=request.getContextPath()%>/noticeList.jsp?currentPage=<%=currentPage-1%>"><span class="arrow_left"></span></a>
+                            <a href="<%=request.getContextPath()%>/noticeList.jsp?currentPage=<% 
+		            																			  out.print(currentPage-1);
+		            																			  if(currentPage-1 < 1){
+		            																				  out.print(currentPage);
+		            																			  }
+		            																										%>"><span class="arrow_left"></span></a>
                             <a href="<%=request.getContextPath()%>/noticeList.jsp?currentPage=<%=currentPage %>"><%=currentPage %></a>
-                            <a href="<%=request.getContextPath()%>/noticeList.jsp?currentPage=<%=currentPage+1%>"><span class="arrow_right"></span></a>
+                            <a href="<%=request.getContextPath()%>/noticeList.jsp?currentPage=<%
+		            																			  if(currentPage+1 > lastPage){
+		            																				  out.print(currentPage);
+		            																			  }else{
+		            																				  out.print(currentPage+1);
+		            																			  }
+		            																			  					%>"><span class="arrow_right"></span></a>
                         </div>
                     </div>
                 </div>

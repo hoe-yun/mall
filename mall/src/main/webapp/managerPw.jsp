@@ -1,8 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="java.sql.*" %>
-
-<%@ page import="vo.*" %>
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -33,6 +30,10 @@
 		String msg2 = "x";
 		response.sendRedirect("./managerLogin.jsp?msg2="+msg2);
 	}
+	
+	int managerNo = (Integer)session.getAttribute("managerNo");
+	
+	String msg = request.getParameter("msg");
 %>
 </head>
 <body>
@@ -52,56 +53,51 @@
         </div>
     </section>
     <!-- Breadcrumb Section End -->
-  	
-  	<!-- Management Section Begin -->
-    <section class="latest spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="section-title">
-                        <h2>Welcome "ADMIN"</h2>
-                        <span>Choose Menu</span>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="blog__item">
-                        <div class="blog__item__pic set-bg" data-setbg="img/blog/blog-4.jpg"></div>
-                        <div class="blog__item__text">
-                            <span> Menu </span>
-                            <h3>Goods Management</h3>
-                            <a href="<%=request.getContextPath()%>/goodsManagementList.jsp"><span class="arrow_down"></span>Goods List</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="blog__item">
-                        <div class="blog__item__pic set-bg" data-setbg="img/blog/blog-6.jpg"></div>
-                        <div class="blog__item__text">
-                            <span> Menu </span>
-                            <h3>Notice Management</h3>
-                         	<a href="<%=request.getContextPath()%>/noticeList.jsp"><span class="arrow_down"></span>Notice List</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="blog__item">
-                        <div class="blog__item__pic set-bg" data-setbg="img/blog/blog-2.jpg"></div>
-                        <div class="blog__item__text">
-                            <span> Menu </span>
-                            <h3>Order Management</h3>
-                            <a href="./managementOrderList.jsp"><span class="arrow_down"></span>Order List</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <a href="./managerPw.jsp" class="primary-btn" style=float:right><span class="arrow_right"></span>Change Pw here</a>
-        </div>
-    </section>
-    <!-- Management Section End -->
-
-    <!-- footer + searchbar -->
+    <br>
+	<!-- managerPw Section Begin -->
+	<div class="col-lg-4 col-md-6" style="margin: 0 auto;">
+	    <div class="checkout__order">
+	    	<form action="managerPwAction.jsp">
+		        <h4 class="order__title">Password</h4>
+		        	<table >
+		        		<tr>
+		        			<th width="200px">현재 비밀번호</th>
+		        			<td width="350px"><input type="password" name="managerPw" id="pw" style=float:right></td>
+		        		</tr>
+		        		<tr>
+		        			<th height="30px"></th>
+		        			<td><span id="pwMsg" class="msg" style=color:red;float:right>
+		        			<%
+		        				if(msg != null){
+		        					out.print(msg);
+		        				}
+		        			%>
+		        			</span></td>
+		        		</tr>
+		        		<tr>
+		        			<th>새로운 비밀번호</th>
+		        			<td><input type="password" name="newManagerPw" id="newPw" style=float:right></td>
+		        		</tr>
+		        		<tr>
+		        			<th height="30px"></th>
+		        			<td><span id="newPwMsg" class="msg" style=color:red;float:right></span></td>
+		        		</tr>
+		        		<tr>
+		        			<th>새로운 비밀번호 확인</th>
+		        			<td><input type="password" name="newManagerPwC" id="newPwC" style=float:right></td>
+		        		</tr>
+		        		<tr>
+		        			<th height="30px"></th>
+		        			<td><span id="newPwCMsg" class="msg" style=color:red;float:right></span></td>
+		        		</tr>
+		        	</table>
+		        <button type="submit" class="site-btn" id="btn">PLACE ORDER</button>
+	   		</form>
+	    </div>
+ 	</div>
+	<!-- managerPw Section End -->
+	<br>
+	<!-- footer + searchbar -->
 	<jsp:include page="/inc/footer.jsp"></jsp:include>
 	<!-- footer + searchbar -->
   
@@ -116,5 +112,28 @@
     <script src="js/mixitup.min.js"></script>
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/main.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+    // 비밀번호 유효성 체크
+    $('#newPw').blur(function(){
+    	if($('#pw').val() == $('#newPw').val()){
+    		$('#newPwMsg').text('동일한 Pw로 바꿀 수 없습니다.');
+    		$('#newPw').focus();
+    	}else{
+    		$('#newPwMsg').text('');
+    		$('#newPwC').focus;
+    	}
+    });
+    
+    $('#newPwC').blur(function(){
+    	if($('#newPwC').val() != $('#newPw').val()){
+    		$('#newPwCMsg').text('Pw가 같지 않습니다.');
+    		$('#newPw').focus();
+    	}else{
+    		$('#newPwCMsg').text('');
+    		$('#btn').focus;
+    	}
+    });
+    </script>
 </body>
 </html>

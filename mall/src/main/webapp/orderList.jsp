@@ -79,8 +79,8 @@ rel="stylesheet">
 								<th width=10%>Quantity</th>
 								<th width=10%>Total</th>
 								<th width=15%>order date</th>
-								<th width=15%>Shipping address</th>
-								<th width=20%>Review</th>
+								<th width=20%>Shipping address</th>
+								<th width=15%>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Review</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -106,9 +106,9 @@ rel="stylesheet">
 								<td class="cart__price">
 									<span> <%=orderMap.get("totalPrice")%></span>
 								</td>
-								<td ><%=orderMap.get("createdate")%></td>
+								<td ><%=String.valueOf(orderMap.get("createdate")).substring(0, 10)%></td>
 								<td ><%=orderMap.get("address")%></td>
-								<td><a href="<%=request.getContextPath()%>/insertReviewForm.jsp?ordersNo=<%=orderMap.get("orderNo")%>" class="primary-btn ml-3 p-2" >리뷰 쓰기</a></td>
+								<td><a href="<%=request.getContextPath()%>/insertReviewForm.jsp?ordersNo=<%=orderMap.get("orderNo")%>" class="primary-btn ml-4 p-2" >리뷰 쓰기</a></td>
 							</tr>
 						<!-- 주문 상품 1개 end -->
 						<%

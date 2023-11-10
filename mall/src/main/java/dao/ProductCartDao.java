@@ -10,6 +10,7 @@ import org.eclipse.jdt.internal.compiler.ast.ReturnStatement;
 import vo.ProductCart;
 
 import java.io.Console;
+import java.security.interfaces.RSAKey;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -31,6 +32,7 @@ public class ProductCartDao {
 	String sql = "SELECT g.goods_title goodsTitle, g.goods_price goodsPrice, c.customer_no customerNo, c.cart_no cartNo, g.goods_memo goodsMemo, g.goods_no goodsNo, c.quantity FROM cart c inner join goods g on c.goods_no = g.goods_no WHERE c.customer_no= ?";
 	PreparedStatement stmt = conn.prepareStatement(sql);
 	stmt.setInt(1, customerNo);
+	stmt.setInt(2, goodsNo);
 	ResultSet rs = stmt.executeQuery();
 	
 	//ResultSet로 가져온 데이터를 새로운 ProductCart ArrayList에 담기
@@ -90,30 +92,28 @@ public class ProductCartDao {
 		return c; 
 	  }	
 	// controller
-	public int selectCart(int goodsNo) throws Exception{
-		int row =0;
-		// model code
-			Class.forName("org.mariadb.jdbc.Driver");
-			String url = "jdbc:mariadb://192.168.200.36:3306/mall";
-			String dbuser = "user";
-			String dbpw = "java1234";
-			Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
-			//넘겨받은 goodsNo로 상품명,가격,수량,고객번호를 찾는 쿼리
-			String sql ="SELECT goods_no goodsNo, goods_title goodsTitle, goods_price goodsPrice FROM goods ";
-			PreparedStatement stmt = conn.prepareStatement(sql);
-			ResultSet rs = stmt.executeQuery();
-			while(rs.next()) {
-				Goods g = new Goods();
-				g.setGoodsNo(rs.getInt("goodsNo"));
-				g.setGoodsTitle(rs.getString("goodsTitle"));
-				g.setGoodsPrice(rs.getInt("goodsPrice"));
-		
-			}
-			//DB자원반납
-			rs.close();
-			stmt.close();
-			conn.close();
-			return row;
+	public int selectCart(int goodsNo, int customerNo) throws Exception {
+	    // model code
+	    Class.forName("org.mariadb.jdbc.Driver");
+	    String url = "jdbc:mariadb://192.168.200.36:3306/mall";
+	    String dbuser = "user";
+	    String dbpw = "java1234";
+	    Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+	    // 넘겨받은 goodsNo와 customerNo로 장바구니 정보를 찾는 쿼리
+	    String sql = "SELECT COUNT(*) FROM cart WHERE goods_no=? AND customer_no=?";
+	    PreparedStatement stmt = conn.prepareStatement(sql);
+	    stmt.setInt(1, goodsNo);
+	    stmt.setInt(2, customerNo);
+	    ResultSet rs = stmt.executeQuery();
+	    int cartItemCount = 0;
+	    if (rs.next()) {
+	        cartItemCount = rs.getInt(1);
+	    }
+	    // DB 자원 반납
+	    rs.close();
+	    stmt.close();
+	    conn.close();
+	    return cartItemCount;
 	}
 	// controller : insertCartAction.jsp
 		public int insertCart(int customerNo, int goodsNo, int quantity) throws Exception{
@@ -125,7 +125,7 @@ public class ProductCartDao {
 			String dbpw = "java1234";
 			Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 			//cart상품 insert 쿼리
-			String sql ="UPDATE INTO cart(goods_no, customer_no, quantity, createdate, updatedate) VALUES(?,?,?,NOW(),NOW())";
+			String sql ="INSERT INTO cart(goods_no, customer_no, quantity, createdate, updatedate) VALUES(?,?,?,NOW(),NOW())";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, goodsNo); 
 			stmt.setInt(2, customerNo);
@@ -189,6 +189,30 @@ public class ProductCartDao {
 			stmt.close();
 			conn.close();
 			return c;
+		}
+		public int updateCart(int goodsNo, int quantity, int customerNo) throws Exception{
+			// model code
+			Class.forName("org.mariadb.jdbc.Driver");
+			String url = "jdbc:mariadb://192.168.200.36:3306/mall";
+			String dbuser = "user";
+			String dbpw = "java1234";
+			Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+			//cart페이지에서 상품 삭제 쿼리문
+			String sql ="UPDATE cart SET quantity= quantity + ? WHERE goods_no = ? AND customer_no=?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, quantity);
+			stmt.setInt(2, goodsNo);
+			stmt.setInt(3, customerNo);
+			int row = stmt.executeUpdate();
+			if(row == 1 ) {
+				System.out.println("업데이트성공");
+			}else {
+				System.out.println("업데이트실패");
+			}
+			//DB자원 반납
+			stmt.close();
+			conn.close();
+			return row;
 		}
 		
 }

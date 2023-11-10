@@ -4,8 +4,7 @@ import java.util.*;
 import vo.*;
 
 public class ReviewDao {
-	public ArrayList<Review> selectReviewList(int beginRow, int rowPerPage) throws Exception{
-		ArrayList<Review> list = new ArrayList<>();
+	public ArrayList<HashMap<String, Object>> selectReviewList(int beginRow, int rowPerPage) throws Exception{
 		
 		// model code
 		Class.forName("org.mariadb.jdbc.Driver");
@@ -13,27 +12,29 @@ public class ReviewDao {
 		String dbuser = "user";
 		String dbpw = "java1234";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
-		// noticeList 출력을 위한 review DB SELECT QUERY
-		String sql = "SELECT review_no reviewNo, orders_no ordersNo, review_content reviewContent, createdate, updatedate FROM review order by review_no DESC LIMIT ?,?";
+		// reviewList 출력을 위한 review DB SELECT QUERY
+		String sql = "SELECT i.filename AS filename, i.goods_no AS goodsNo, r.review_no AS reviewNo, o.orders_no AS ordersNo, r.review_content AS reviewContent, r.createdate, r.updatedate FROM review r INNER JOIN orders o ON r.orders_no = o.orders_no INNER JOIN goods_img i ON o.goods_no = i.goods_no ORDER BY review_no DESC LIMIT ?,?;";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1,beginRow);
 		stmt.setInt(2,rowPerPage);
 		ResultSet rs = stmt.executeQuery();
-		list = new ArrayList<>();
+		ArrayList<HashMap<String, Object>> reviewList = new ArrayList<>();
 		while(rs.next()){
-			Review r = new Review();
-			r.setReviewNo(rs.getInt("ReviewNo"));
-			r.setOrdersNo(rs.getInt("ordersNo"));
-			r.setReviewContent(rs.getString("reviewContent"));
-			r.setCreatedate(rs.getString("createdate"));
-			r.setUpdatedate(rs.getString("updatedate"));
-			list.add(r);
+			HashMap<String, Object> map = new HashMap<>();
+			map.put("goodsNo", rs.getInt("goodsNo"));
+			map.put("reviewNo", rs.getInt("reviewNo"));
+			map.put("ordersNo", rs.getString("ordersNo"));
+			map.put("reviewContent", rs.getString("reviewContent"));
+			map.put("updatedate", rs.getString("updatedate"));
+			map.put("createdate", rs.getString("createdate"));
+			map.put("filename", rs.getString("filename"));
+			reviewList.add(map);
 		}
 		//end model code : model date >> ArrayList<Nostice> list
 		stmt.close();
 		conn.close();
 		rs.close();
-		return list;
+		return reviewList;
 	}
 	public Review reviewOne(int reviewNo) throws Exception{
 		Review r = new Review();

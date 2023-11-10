@@ -17,6 +17,7 @@
 	//이미지 출력을위해 GoodsImgDao연결
 		GoodsImgDao goodsImg = new GoodsImgDao();
 		goodsImg.selectGoodsImg(goodsNo);
+	//총계 계산을위해 메소드 추가 생성
 	
 %>
 
@@ -77,7 +78,6 @@
                         <table>
                             <thead>
                                 <tr>
-                                	<th>선택</th>
                                 	<th>번호</th>
                                     <th>상품</th>
                                     <th>수량</th>
@@ -90,11 +90,10 @@
                             	<input hidden="true" readonly="readonly" name="customerRequestTitle" value="transferCartToOrder">
                             <% for(ProductCart p : list) {%>
                                 <tr>
-                                	<td><input type="checkbox" style="width: 50px; margin: 0 auto;"></td>
                                 	<td><%=p.getCartNo()%></td>
                                     <td class="product__cart__item">
                                     <div class="product__cart__item__pic">
-                                        <img src="img/product/<%=goodsImg.selectGoodsImg(p.getGoodsNo()).getFilename() %>" alt="" width="120" height="90">
+                                       <a href="./productDetail.jsp?goodsNo=<%=p.getGoodsNo()%>"><img src="img/product/<%=goodsImg.selectGoodsImg(p.getGoodsNo()).getFilename() %>" alt="" width="120" height="90"></a>
                                     </div>
                                     <div class="product__cart__item__text">
                                         <h6><%=p.getGoodsNo()%>.<%=p.getGoodsTitle()%></h6>
@@ -102,8 +101,12 @@
                                     </div>
                                     </td>
                                     <td class="quantity__item">
-                                        <input type="number" value="<%=p.getQuantity() %>" min="1" class="quantity-input" size="10">
-                                        <input name="<%=p.getGoodsNo()%>" value="<%=p.getQuantity() %>" hidden="true">
+                                        <div class="quantity">
+                                            <div class="pro-qty-2">
+                                                <input type="text" value="<%=p.getQuantity()%>">
+                                            </div>
+                                        </div>
+                                     
                                     </td>
                                     <td class="cart__price"><span class="subtotal"><%= p.getGoodsPrice() %></span></td>
                                     <td class="cart__close"><a href="./deleteCartAction.jsp?cartNo=<%=p.getCartNo()%>" class="fa fa-close"></a></td>
@@ -121,7 +124,7 @@
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="continue__btn update__btn">
-                                <a href="productCart.jsp"><i class="fa fa-spinner"></i> 업데이트</a>
+                                <a href="productCart.jsp"><i class="fa fa-spinner"></i> 새로고침</a>
                             </div>
                         </div>
                     </div>
@@ -130,8 +133,7 @@
                     <div class="cart__total">
                         <h6>총 금액</h6>
                         <ul>
-                            <li>소계<span class="subtotal">0원</span></li>
-                            <li>총계<span id="total">0원</span></li>
+                            <li>총계<span id="total">??</span></li>
                         </ul>
                         <button type="submit" class="primary-btn">장바구니 상품 주문하기</button>
                     </div>
@@ -157,53 +159,7 @@
     <script src="js/mixitup.min.js"></script>
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/main.js"></script>
-<script>
-    // JavaScript를 사용하여 수량이 변경될 때 소계 업데이트
-    const quantityInputs = document.querySelectorAll(".quantity-input");
-    quantityInputs.forEach(input => {
-        input.addEventListener("input", function () {
-            const quantity = parseInt(this.value);
-            const price = parseInt(this.closest("tr").querySelector(".product__cart__item h5").innerText);
-            const subtotal = quantity * price;
-            this.closest("tr").querySelector(".subtotal").innerText = subtotal;
-            recalculateTotals();
-        });
-    });
 
-    // 체크박스에 체크된 제품만 총계에 출력하기
-    const checkboxes = document.querySelectorAll('input[name="checked"]');
-
-    checkboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', recalculateTotals);
-    });
-
-    function recalculateTotals() {
-        let total = 0;
-
-        checkboxes.forEach(checkbox => {
-            if (checkbox.checked) {
-                const row = checkbox.parentElement.parentElement; // 해당 상품의 행
-                const quantity = row.querySelector('.pro-qty-2 input').value;
-                const price = parseFloat(row.querySelector('.cart__price').innerText.replace('', '원'));
-                const subtotal = quantity * price;
-                total += subtotal;
-            }
-        });
-
-        // 총계를 화면에 표시
-        const totalElement = document.getElementById('total');
-        totalElement.innerText = total.toFixed(0) + '원';
-    }
-    
-    
-    $('.quantity-input').each(function() {
-    	$(this).click(function() {
-    		//alert($(this).val());
-    		let quantity = $(this).val();
-    		$(this).next().val(quantity);
-    	});
-    })
-</script>
 </body>
 
 </html>

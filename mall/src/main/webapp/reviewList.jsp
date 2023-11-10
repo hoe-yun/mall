@@ -39,7 +39,7 @@
 	int beginRow = (currentPage-1)*rowPerPage;
 	// model 호출코드 
 	ReviewDao reviewDao = new ReviewDao();
-	ArrayList<Review> list = reviewDao.selectReviewList(beginRow,rowPerPage);
+	ArrayList<HashMap<String, Object>> reviewlist = reviewDao.selectReviewList(beginRow,rowPerPage);
 	
 	
 	// end controller code
@@ -73,9 +73,9 @@
 				<table class="col-lg-12 table table-hover">
 					<thead>
 						<tr>
-							<th width=10%>번호</th>
-							<th width=40%>상품사진</th>
-							<th width=20%>내용</th>
+							<th width=5%>NO</th>
+							<th width=20%>상품사진</th>
+							<th width=45%>내용</th>
 							<th width=10%>생성일자</th>
 							<th width=10%>업데이트</th>
 							<th width=10%>삭제</th>
@@ -83,15 +83,15 @@
 					</thead>
 					<tbody>
 					<% 
-						for(Review review : list){
+						for(HashMap<String, Object> map : reviewlist ){
 					%>
 						<tr>
-							<td><%=review.getReviewNo() %></td>
-							<td><img src=></td>
-							<td><a class="text-dark" href="<%=request.getContextPath()%>/reviewOne.jsp?reviewNo=<%=review.getReviewNo() %>"><%=review.getReviewContent()%></a></td>
-							<td><%=review.getCreatedate() %></td>
-							<td><%=review.getUpdatedate() %></td>
-							<td><a class="btn btn-danger" href="<%=request.getContextPath()%>/delectReviewAction.jsp?reviewNo=<%=review.getReviewNo() %>">X</a></td>
+							<td><%=map.get("reviewNo") %></td>
+							<td><img src="img/product/<%=map.get("filename") %>"></td>
+							<td><a class="text-dark" href="<%=request.getContextPath()%>/reviewOne.jsp?reviewNo=<%=map.get("reviewNo") %>"><%=map.get("reviewContent")%></a></td>
+							<td><%=map.get("createdate") %></td>
+							<td><%=map.get("updatedate") %></td>
+							<td><a class="btn btn-danger" href="<%=request.getContextPath()%>/delectReviewAction.jsp?reviewNo=<%=map.get("reviewNo") %>">X</a></td>
 						</tr>
 					<%
 						}
@@ -103,7 +103,10 @@
 				<div class="row">
                     <div class="col-lg-12">
                         <div class="product__pagination">
-                            <a href="<%=request.getContextPath()%>/reviewList.jsp?currentPage=<%=currentPage-1%>"><span class="arrow_left"></span></a>
+                            <a href="<%=request.getContextPath()%>/reviewList.jsp?currentPage=<%out.print(currentPage-1);
+   																							if(currentPage-1 < 1){
+            																				 	 out.print(currentPage);}
+            																					%>"><span class="arrow_left"></span></a>
                             <a href="<%=request.getContextPath()%>/reviewList.jsp?currentPage=<%=currentPage %>"><%=currentPage %></a>
                             <a href="<%=request.getContextPath()%>/reviewList.jsp?currentPage=<%=currentPage+1%>"><span class="arrow_right"></span></a>
                         </div>

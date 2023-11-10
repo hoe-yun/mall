@@ -2,7 +2,7 @@
 <%@page import="vo.TransferCartToOrderVo"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.HashMap"%>
-<%@page import="dao.CustomerDao"%>
+<%@page import="dao.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%
@@ -14,6 +14,8 @@
 	Integer managerNo = (int)session.getAttribute("managerNo");// 세션정보 확인
 	OrderDao dao = new OrderDao();
 	ArrayList<HashMap<String, Object>> orderList = dao.managementOrderList(managerNo);
+	
+	GoodsImgDao iDao = new GoodsImgDao();
 
 	// session정보에 managerNo가 없으면 오류 메세지가 출력된 managerLogin.jsp로 이동
 	if(session.getAttribute("managerNo") == null){
@@ -100,7 +102,7 @@ rel="stylesheet">
 									<td ><input type="hidden" name="orderNo" value="<%=orderMap.get("orderNo")%>"><%=orderMap.get("orderNo")%></td>
 									<td class="product__cart__item">
 										<div class="product__cart__item__pic">
-											<img src="img/shopping-cart/cart-1.jpg" >
+											<img src="img/product/<%=iDao.selectGoodsImg((Integer)orderMap.get("goodsNo")).getFilename()%>" width="100px" height="100px" >
 										</div>
 										<div class="product__cart__item__text">
 											<h6><%=orderMap.get("goodTitle")%></h6>
@@ -134,6 +136,7 @@ rel="stylesheet">
 							</tbody>
 						</form>
 					</table>
+					<a href="<%=request.getContextPath()%>/managerOne.jsp" class="primary-btn">Return Management</a>
 				</div>
 			</div>
 		</div>

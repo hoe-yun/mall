@@ -1,6 +1,7 @@
 package dao;
 import vo.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.naming.directory.SearchControls;
 import javax.servlet.ServletRequest;
@@ -215,27 +216,30 @@ public class ProductCartDao {
 			conn.close();
 			return row;
 		}
-		public ProductCart totalCart(int goodsNo, int customerNo, int quantity) throws Exception{
-			// model code
+		public ArrayList<HashMap<String, Object>> totalCart(int customerNo) throws Exception{
+			//DB연결
 			Class.forName("org.mariadb.jdbc.Driver");
 			String url = "jdbc:mariadb://192.168.200.36:3306/mall";
 			String dbuser = "user";
 			String dbpw = "java1234";
 			Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
-			//cart테이블에 저장된 데이터와 goods테이블에 저장된 가격 검색 쿼리문
-			String sql = "SELECT (g.goods_price*ca.quantity) AS cartTotal, g.goods_no goodsNo FROM goods g INNER JOIN cart ca ON g.goods_no=ca.goods_no INNER JOIN customer c ON ca.customer_no = c.customer_no WHERE ca.goods_no=? AND c.customer_no=?";
-			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setInt(1, goodsNo);
-			stmt.setInt(2, customerNo);
-			ResultSet rs = stmt.executeQuery();
-			//DB에서 셀렉한 데이터를 새로운 객체에 저장
-			ProductCart c = new ProductCart();
-			while(rs.next()) {
 			
-			c.setGoodsNo(rs.getInt("goodsNo"));
-			c.setCartTotal(rs.getInt("cartTotal"));
-			c.setGoodsPrice(rs.getInt("goodsPrice"));
-			c.setSoldout(rs.getString("soldout"));
+			//상품명,가격,솔드아웃여부,메모 쿼리문
+			String sql = "SELECT SUM(g.goods_price * c.quantity) from goods g inner JOIN cart c ON g.goods_no = c.goods_no WHERE customer_no = ?;";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, customerNo);
+			ResultSet rs = stmt.executeQuery();
+			ArrayList<HashMap<String, Object>> totalCart = new ArrayList<>();
+			while(rs.next()) {
+			HashMap<String, Object> map = new HashMap<>();
+			map.put("customerNo",rs.getInt("customerNo"));
+			map.put("goodsNo",rs.getInt("goodsNo"));
+			map.put("quantity",rs.getInt("quantity"));
+			map.put("cartNo",rs.getInt("cartNo"));
+			map.put("goodsTitle",rs.getString("goodsTitle"));
+			map.put("goodsPrice",rs.getInt("goodsPrice"));
+			map.put("goodsMemo",rs.getString("goodsMemo"));
+			totalCart.add(map);
 			
 			//DB자원반납
 			rs.close();
@@ -243,7 +247,24 @@ public class ProductCartDao {
 			conn.close();
 			
 			}
-			return c; 
+			return totalCart; 
 			
 		}
+		public int sum(int customerNo) throws Exception{
+		      int row = 0;
+		        Class.forName("org.mariadb.jdbc.Driver");
+				String url = "jdbc:mariadb://192.168.200.36:3306/mall";
+				String dbuser = "user";
+				String dbpw = "java1234";
+		      Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		      
+		      String sql = "SELECT SUM(g.goods_price * c.quantity) SUM from goods g inner JOIN cart c ON g.goods_no = c.goods_no WHERE customer_no = ?";
+		      PreparedStatement stmt = conn.prepareStatement(sql);
+		      stmt.setInt(1, customerNo);
+		      ResultSet rs = stmt.executeQuery();
+		      if(rs.next()) {
+		         row = rs.getInt("SUM");
+		      }
+		      return row;
+		   }   
 }

@@ -18,8 +18,10 @@
 		GoodsImgDao goodsImg = new GoodsImgDao();
 		goodsImg.selectGoodsImg(goodsNo);
 	//총계 계산을위해 메소드 추가 생성
-	ProductCartDao dao1 = new ProductCartDao();
-	dao1.totalCart(goodsNo, customerNo, quantity);
+	
+	int sum = dao.sum(customerNo);
+	
+	
 %>
 
 <!DOCTYPE html>
@@ -81,7 +83,7 @@
                                 <tr>
                                 	<th>번호</th>
                                     <th>상품</th>
-                                    <th>수량</th>
+                                    <th>선택 수량</th>
                                     <th>소계</th>
                                     <th></th>
                                 </tr>
@@ -89,7 +91,7 @@
                             <tbody>
                             <form action="./orderApiController.jsp" method="post">
                             	<input hidden="true" readonly="readonly" name="customerRequestTitle" value="transferCartToOrder">
-                            <% for(ProductCart p : list) {%>
+                        <% for(ProductCart p : list) {%>
                                 <tr>
                                 	<td><%=p.getCartNo()%></td>
                                     <td class="product__cart__item">
@@ -101,15 +103,10 @@
                                         <h5><%=p.getGoodsPrice() %></h5>
                                     </div>
                                     </td>
-                                    <td class="quantity__item">
-                                        <div class="quantity">
-                                            <div class="pro-qty-2">
-                                                <input type="text" value="<%=p.getQuantity()%>">
-                                            </div>
-                                        </div>
-                                     
+                                    <td>
+                                       <span><%=p.getQuantity()%></span>
                                     </td>
-                                    <td class="cart__price"><span class="subtotal"><%= p.getGoodsPrice() %></span></td>
+                                    <td class="cart__price"><span class="subtotal"><%= p.getGoodsPrice()*p.getQuantity() %></span></td>
                                     <td class="cart__close"><a href="./deleteCartAction.jsp?cartNo=<%=p.getCartNo()%>" class="fa fa-close"></a></td>
                                 </tr>
                                 <%} %>
@@ -134,7 +131,7 @@
                     <div class="cart__total">
                         <h6>총 금액</h6>
                         <ul>
-                            <li>총계<span id="total"><%= dao1.cartTotal(getgoodsNo(),getQuantity(),getcustomerNo()).getCartTotal() %></span></li>
+                            <li>총계<span id="total"><%=sum %></span></li>
                         </ul>
                         <button type="submit" class="primary-btn">장바구니 상품 주문하기</button>
                     </div>

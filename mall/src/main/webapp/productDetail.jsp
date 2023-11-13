@@ -59,7 +59,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="product__details__breadcrumb">
-                            <a href="./Home.jsp">홈으로</a></t>
+                            <a href="./home.jsp">홈으로</a></t>
                             <a href="./productList.jsp">목록으로</a>
                             <span>상품 디테일</span>
                         </div>

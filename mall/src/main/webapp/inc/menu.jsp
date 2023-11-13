@@ -77,13 +77,13 @@
             <div class="row">
                 <div class="col-lg-3 col-md-3">
                     <div class="header__logo">
-                        <a href="./Home.jsp"><img src="img/logo.png" alt=""></a>
+                        <a href="./home.jsp"><img src="img/logo.png" alt=""></a>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6">
                     <nav class="header__menu mobile-menu">
                         <ul>
-                            <li><a href="./Home.jsp">홈</a></li>
+                            <li><a href="./home.jsp">홈</a></li>
                             <li><a href="./productList.jsp">쇼핑</a></li>
                             <li><a href="#">게시판</a>
                             	<ul class="dropdown">

@@ -53,7 +53,7 @@
 				<div class="breadcrumb__text">
 					<h4>Customer Info</h4>
 					<div class="breadcrumb__links">
-						<a href="./index.html">Home</a>
+						<a href="./home.jsp">Home</a>
 						<a href="./shop.html">Customer</a>
 						<span>Info</span>
 					</div>

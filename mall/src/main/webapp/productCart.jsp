@@ -61,7 +61,7 @@
                     <div class="breadcrumb__text">
                         <h4>장바구니</h4>
                         <div class="breadcrumb__links">
-                            <a href="./Home.jsp">홈으로</a>
+                            <a href="./home.jsp">홈으로</a>
                             <a href="./productList.jsp">쇼핑</a>
                             <span>장바구니</span>
                         </div>

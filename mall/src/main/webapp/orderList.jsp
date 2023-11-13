@@ -55,7 +55,7 @@ rel="stylesheet">
 				<div class="breadcrumb__text">
 					<h4>주문목록</h4>
 					<div class="breadcrumb__links">
-						<a href="./index.html">Home</a>
+						<a href="./home.jsp">Home</a>
 						<a href="./shop.html">Shop</a>
 						<span>order list</span>
 					</div>

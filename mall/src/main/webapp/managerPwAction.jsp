@@ -4,8 +4,8 @@
 <%@ page import="vo.*"%>
 <%@ page import="java.net.URLEncoder"%>
 <%
-	int managerPw = Integer.parseInt(request.getParameter("managerPw"));
-	int newManagerPw = Integer.parseInt(request.getParameter("newManagerPw"));
+	String managerPw = request.getParameter("managerPw");
+	String newManagerPw = request.getParameter("newManagerPw");
 	System.out.println(request.getParameter("managerPw")+"<-emanagerPw");
 	System.out.println(managerPw+"<-managerPw");
 	System.out.println(newManagerPw+"<-newManagerPw");

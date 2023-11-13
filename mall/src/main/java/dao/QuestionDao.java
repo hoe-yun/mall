@@ -99,6 +99,10 @@ public class QuestionDao {
 		// model code
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		// question 삭제를 위한 DELETE QUERY
+		String sql1 = "DELETE FROM question_comment WHERE question_no = ?";
+		PreparedStatement stmt1 = conn.prepareStatement(sql1);
+		stmt1.setInt(1, questionNo);
+		row = stmt1.executeUpdate();
 		String sql = "DELETE FROM question WHERE question_no = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, questionNo);

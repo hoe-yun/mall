@@ -2,5 +2,5 @@
     pageEncoding="UTF-8"%>
 <% 
 	session.invalidate();		// 세션 초기화
-	response.sendRedirect("./Home.jsp");
+	response.sendRedirect("./home.jsp");
 %>

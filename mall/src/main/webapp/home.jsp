@@ -137,22 +137,22 @@
             %>
             </div>
             <div class="product__pagination">
-            <a href="<%=request.getContextPath()%>/Home.jsp?currentPage=<% 
+            <a href="<%=request.getContextPath()%>/home.jsp?currentPage=<% 
             																			  out.print(currentPage-1);
             																			  if(currentPage-1 < 1){
             																				  out.print(currentPage);
             																			  }
             																										%>"><span class="arrow_left"></span></a>
-          	<a href="<%=request.getContextPath()%>/Home.jsp?currentPage=1">First</a>
+          	<a href="<%=request.getContextPath()%>/home.jsp?currentPage=1">First</a>
           <%
           	for(int i=1; i<= lastPage; i=i+1){
           %>
-          	<a href="<%=request.getContextPath()%>/Home.jsp?currentPage=<%=i %>"><%=i %></a>
+          	<a href="<%=request.getContextPath()%>/home.jsp?currentPage=<%=i %>"><%=i %></a>
           <%
           	}
           %>
-          	<a href="<%=request.getContextPath()%>/Home.jsp?currentPage=<%=lastPage %>">Last</a>
-            <a href="<%=request.getContextPath()%>/Home.jsp?currentPage=<%
+          	<a href="<%=request.getContextPath()%>/home.jsp?currentPage=<%=lastPage %>">Last</a>
+            <a href="<%=request.getContextPath()%>/home.jsp?currentPage=<%
             																			  if(currentPage+1 > lastPage){
             																				  out.print(currentPage);
             																			  }else{

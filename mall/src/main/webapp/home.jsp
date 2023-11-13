@@ -8,6 +8,7 @@
 <html lang="">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="description" content="Male_Fashion Template">
     <meta name="keywords" content="Male_Fashion, unica, creative, html">
@@ -63,11 +64,10 @@
                     <div class="row">
                         <div class="col-xl-5 col-lg-7 col-md-8">
                             <div class="hero__text">
-                                <h6>Summer Collection</h6>
-                                <h2>Fall - Winter Collections 2030</h2>
-                                <p>A specialist label creating luxury essentials. Ethically crafted with an unwavering
-                                commitment to exceptional quality.</p>
-                                <a href="./productList.jsp" class="primary-btn">Shop now <span class="arrow_right"></span></a>
+                                <h6>GDJ72 - 정인호, 정회윤, 정택민</h6>
+                                <h2>JAVA를 이용한 쇼핑몰 프로젝트</h2>
+                                <p></p>
+                                <a href="./productList.jsp" class="primary-btn">상품리스트로 <span class="arrow_right"></span></a>
                             </div>
                         </div>
                     </div>

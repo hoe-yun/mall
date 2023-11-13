@@ -185,6 +185,37 @@ public class GoodsDao {
 		//end model code
 		return list;
 	}
+	//productList.jsp 페이징 메소드
+	public ArrayList<Goods> selectproductList(int beginRow, int rowPerPage) throws Exception{
+		ArrayList<Goods> list = new ArrayList<>();
+		
+		// model code
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		
+		String sql = "SELECT goods_no goodsNo, goods_title goodsTitle, goods_Price goodsPrice, soldout, goods_memo goodsMemo,createdate,updatedate FROM goods order by goods_no LIMIT ?,?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, beginRow);
+		stmt.setInt(2, rowPerPage);
+		ResultSet rs = stmt.executeQuery();
+		
+		while(rs.next()) {
+			Goods g = new Goods();
+			g.setGoodsNo(rs.getInt("goodsNo"));
+			g.setGoodsTitle(rs.getString("goodsTitle"));
+			g.setGoodsPrice(rs.getInt("goodsPrice"));
+			g.setGoodsMemo(rs.getString("goodsMemo"));
+			g.setSoldout(rs.getString("soldout"));
+			g.setCreatedate(rs.getString("createdate"));
+			g.setUpdatedate(rs.getString("updatedate"));
+			list.add(g);
+		}
+		//DB자원반납
+		rs.close();
+		stmt.close();
+		conn.close();
+		//end model code
+		return list;
+	}
 	//controller : goodsMangementList.jsp
 	public int goodsCNT() throws Exception{
 		int row = 0;

@@ -9,6 +9,8 @@ public class ProductCart {
 	private String updatedate;
 	private String goodsTitle;
 	private int goodsPrice;
+	private int cartTotal;
+	
 	public int getCartNo() {
 		return cartNo;
 	}
@@ -56,6 +58,12 @@ public class ProductCart {
 	}
 	public void setGoodsPrice(int goodsPrice) {
 		this.goodsPrice = goodsPrice;
+	}
+	public int getCartTotal() {
+		return cartTotal;
+	}
+	public void setCartTotal(int cartTotal) {
+		this.cartTotal = cartTotal;
 	}
 	public String getSoldout() {
 		return soldout;

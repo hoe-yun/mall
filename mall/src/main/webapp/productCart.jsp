@@ -18,7 +18,8 @@
 		GoodsImgDao goodsImg = new GoodsImgDao();
 		goodsImg.selectGoodsImg(goodsNo);
 	//총계 계산을위해 메소드 추가 생성
-	
+	ProductCartDao dao1 = new ProductCartDao();
+	dao1.totalCart(goodsNo, customerNo, quantity);
 %>
 
 <!DOCTYPE html>
@@ -133,7 +134,7 @@
                     <div class="cart__total">
                         <h6>총 금액</h6>
                         <ul>
-                            <li>총계<span id="total">??</span></li>
+                            <li>총계<span id="total"><%= dao1.cartTotal(getgoodsNo(),getQuantity(),getcustomerNo()).getCartTotal() %></span></li>
                         </ul>
                         <button type="submit" class="primary-btn">장바구니 상품 주문하기</button>
                     </div>

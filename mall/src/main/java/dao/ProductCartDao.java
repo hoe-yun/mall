@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.naming.directory.SearchControls;
 import javax.servlet.ServletRequest;
+import javax.sql.rowset.JoinRowSet;
 
 import org.eclipse.jdt.internal.compiler.ast.ReturnStatement;
 
@@ -213,5 +214,36 @@ public class ProductCartDao {
 			stmt.close();
 			conn.close();
 			return row;
+		}
+		public ProductCart totalCart(int goodsNo, int customerNo, int quantity) throws Exception{
+			// model code
+			Class.forName("org.mariadb.jdbc.Driver");
+			String url = "jdbc:mariadb://192.168.200.36:3306/mall";
+			String dbuser = "user";
+			String dbpw = "java1234";
+			Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+			//cart테이블에 저장된 데이터와 goods테이블에 저장된 가격 검색 쿼리문
+			String sql = "SELECT (g.goods_price*ca.quantity) AS cartTotal, g.goods_no goodsNo FROM goods g INNER JOIN cart ca ON g.goods_no=ca.goods_no INNER JOIN customer c ON ca.customer_no = c.customer_no WHERE ca.goods_no=? AND c.customer_no=?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, goodsNo);
+			stmt.setInt(2, customerNo);
+			ResultSet rs = stmt.executeQuery();
+			//DB에서 셀렉한 데이터를 새로운 객체에 저장
+			ProductCart c = new ProductCart();
+			while(rs.next()) {
+			
+			c.setGoodsNo(rs.getInt("goodsNo"));
+			c.setCartTotal(rs.getInt("cartTotal"));
+			c.setGoodsPrice(rs.getInt("goodsPrice"));
+			c.setSoldout(rs.getString("soldout"));
+			
+			//DB자원반납
+			rs.close();
+			stmt.close();
+			conn.close();
+			
+			}
+			return c; 
+			
 		}
 }

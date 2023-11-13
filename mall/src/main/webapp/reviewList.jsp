@@ -87,7 +87,7 @@
 					%>
 						<tr>
 							<td><%=map.get("reviewNo") %></td>
-							<td><img src="img/product/<%=map.get("filename") %>"></td>
+							<td><a href="./productDetail.jsp?goodsNo=<%=map.get("goodsNo")%>"><img src="img/product/<%=map.get("filename") %>"></a></td>
 							<td><a class="text-dark" href="<%=request.getContextPath()%>/reviewOne.jsp?reviewNo=<%=map.get("reviewNo") %>"><%=map.get("reviewContent")%></a></td>
 							<td><%=map.get("createdate") %></td>
 							<td><%=map.get("updatedate") %></td>

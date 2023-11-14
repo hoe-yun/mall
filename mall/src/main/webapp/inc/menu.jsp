@@ -63,10 +63,9 @@
                     <div class="col-lg-6 col-md-5">
                         <div class="header__top__right">
                             <div class="header__top__links">
-                                <a href="<%=urlLoginBtnIncMenu%>"><%=loginBtnIncMenu%></a>
                                 <a href="<%=urlInfoBtn %>"><%=infoBtn %></a>
                                 <a href="orderList.jsp">My ORDER</a>
-                                <a href="#">FAQs</a>
+                                <a href="<%=urlLoginBtnIncMenu%>"><%=loginBtnIncMenu%></a>
                             </div>
                         </div>
                     </div>

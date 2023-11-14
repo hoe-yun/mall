@@ -53,9 +53,9 @@
 				<div class="breadcrumb__text">
 					<h4>Customer Info</h4>
 					<div class="breadcrumb__links">
-						<a href="./home.jsp">Home</a>
-						<a href="./shop.html">Customer</a>
-						<span>Info</span>
+						<a href="./home.jsp">홈으로</a>
+						<a href="./productList.jsp">상품목록으로</a>
+						<span>마이페이지</span>
 					</div>
 				</div>
 			</div>

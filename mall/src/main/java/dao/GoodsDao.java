@@ -154,7 +154,7 @@ public class GoodsDao {
 		//end model code
 		return row;
 	}
-	//controller : goodsMangementList.jsp
+	//controller : productList.jsp
 	public ArrayList<Goods> selectGoodsList(int beginRow, int rowPerPage) throws Exception{
 		ArrayList<Goods> list = new ArrayList<>();
 		
@@ -243,6 +243,36 @@ public class GoodsDao {
 			g.setGoodsPrice(rs.getInt("goodsPrice"));
 			g.setSoldout(rs.getString("soldout"));
 			g.setGoodsMemo(rs.getString("goodsMemo"));
+			g.setCreatedate(rs.getString("createdate"));
+			g.setUpdatedate(rs.getString("updatedate"));
+			list.add(g);
+		}
+		//DB자원반납
+		rs.close();
+		stmt.close();
+		conn.close();
+		//end model code
+		return list;
+	}
+	public ArrayList<Goods> selectGoodsManagementList(int beginRow, int rowPerPage) throws Exception{
+		ArrayList<Goods> list = new ArrayList<>();
+		
+		// model code
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		
+		String sql = "SELECT goods_no goodsNo, goods_title goodsTitle, goods_Price goodsPrice, soldout, goods_memo goodsMemo,createdate,updatedate FROM goods order by goods_no DESC LIMIT ?,?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, beginRow);
+		stmt.setInt(2, rowPerPage);
+		ResultSet rs = stmt.executeQuery();
+		
+		while(rs.next()) {
+			Goods g = new Goods();
+			g.setGoodsNo(rs.getInt("goodsNo"));
+			g.setGoodsTitle(rs.getString("goodsTitle"));
+			g.setGoodsPrice(rs.getInt("goodsPrice"));
+			g.setGoodsMemo(rs.getString("goodsMemo"));
+			g.setSoldout(rs.getString("soldout"));
 			g.setCreatedate(rs.getString("createdate"));
 			g.setUpdatedate(rs.getString("updatedate"));
 			list.add(g);

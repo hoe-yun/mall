@@ -38,7 +38,7 @@
 	int beginRow = (currentPage-1)*rowPerPage;
 	
 	GoodsDao gDao = new GoodsDao();
-	ArrayList<Goods> list = gDao.selectGoodsList(beginRow, rowPerPage);
+	ArrayList<Goods> list = gDao.selectGoodsManagementList(beginRow, rowPerPage);
 	
 	int totalRow = gDao.goodsCNT();
 	int lastPage = totalRow / rowPerPage;
@@ -81,11 +81,12 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="shopping__cart__table">
-                        <table >
+                        <table>
                             <thead>
                                 <tr>
                                     <th>Goods</th>
                                     <th>Goods Memo</th>
+                                    <th>Sold Out</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -106,6 +107,7 @@
                                     <td class="cart__close">
                                     	<%=g.getGoodsMemo() %>
                                     </td>
+                                    <td><%=g.getSoldout() %></td>
                                     <td class="col-lg-3">
                                     	<a href="<%=request.getContextPath()%>/deleteGoodsImgAction.jsp?goodsNo=<%=g.getGoodsNo() %>" class="primary-btn">Delete</a>
                                     	<a href="<%=request.getContextPath()%>/updateGoodsForm.jsp?goodsNo=<%=g.getGoodsNo() %>" class="primary-btn">Edit</a>

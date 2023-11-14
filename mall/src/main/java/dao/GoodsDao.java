@@ -26,7 +26,7 @@ public class GoodsDao {
 	Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 	
 	//상품명,가격,솔드아웃여부,메모 쿼리문
-	String sql = "SELECT goods_no goodsNo, goods_title goodsTitle, goods_Price goodsPrice, soldout, goods_memo goodsMemo, soldout FROM goods";
+	String sql = "SELECT goods_no goodsNo, goods_title goodsTitle, goods_Price goodsPrice, soldout, goods_memo goodsMemo, soldout FROM goods WHERE soldout='N'";
 	PreparedStatement stmt = conn.prepareStatement(sql);
 	ResultSet rs = stmt.executeQuery();
 	
@@ -161,7 +161,7 @@ public class GoodsDao {
 		// model code
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		
-		String sql = "SELECT goods_no goodsNo, goods_title goodsTitle, goods_Price goodsPrice, soldout, goods_memo goodsMemo,createdate,updatedate FROM goods order by goods_no DESC LIMIT ?,?";
+		String sql = "SELECT goods_no goodsNo, goods_title goodsTitle, goods_Price goodsPrice, soldout, goods_memo goodsMemo,createdate,updatedate FROM goods WHERE soldout='N' order by goods_no DESC LIMIT ?,?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, beginRow);
 		stmt.setInt(2, rowPerPage);
@@ -192,7 +192,7 @@ public class GoodsDao {
 		// model code
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		
-		String sql = "SELECT goods_no goodsNo, goods_title goodsTitle, goods_Price goodsPrice, soldout, goods_memo goodsMemo,createdate,updatedate FROM goods order by goods_no LIMIT ?,?";
+		String sql = "SELECT goods_no goodsNo, goods_title goodsTitle, goods_Price goodsPrice, soldout, goods_memo goodsMemo,createdate,updatedate FROM goods WHERE soldout='N' order by goods_no  LIMIT ?,? ";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, beginRow);
 		stmt.setInt(2, rowPerPage);

@@ -104,6 +104,7 @@
                                     </div>
                                     </td>
                                     <td>
+                                        <input type="number" readonly="readonly" hidden="true" name="<%=p.getGoodsNo()%>" value="<%=p.getQuantity()%>">
                                        <span><%=p.getQuantity()%></span>
                                     </td>
                                     <td class="cart__price"><span class="subtotal"><%= p.getGoodsPrice()*p.getQuantity() %></span></td>

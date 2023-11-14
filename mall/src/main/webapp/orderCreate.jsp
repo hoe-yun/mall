@@ -239,7 +239,7 @@ $('#orderCreateBtn').click(function() {
 	};
 	$.post("orderApiController.jsp",data, function() {
 		alert('주문성공');
-		location.href="Home.jsp"
+		location.href="home.jsp"
 		}).fail(function () {
 		alert('주문실패');
 	});

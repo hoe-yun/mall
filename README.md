@@ -11,7 +11,8 @@ Java-17, JSP, JavaScript, j-query, bootstrap-5, HTML, CSS, Git, Git-hub
 ### Role & Responsibility
 
 - 개발자 정회윤 :
-- 개발자 정택민 : 
+- 개발자 정택민 : Goods 도메인 담당
+- 상품관련 productList.jsp에서 템플릿에 맞게 상품사진,정보를 제대로 출력하는데 중점을두어 개발을 진행했습니다. 
 - 개발자 정인호 : CUSTOMER 도메인 담당
   - 고객관련 CRUD + SPA에 초점을 둔 화면개발을 했습니다.(customerInfo.jsp)
   - Controller의 기능의 응집도를 높이려 시도했습니다.(customerApiController, orderApiController.jsp)

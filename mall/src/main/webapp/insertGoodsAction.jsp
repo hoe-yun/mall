@@ -29,7 +29,17 @@
 	
 	int goodsNo = go.getGoodsNo();
 	
+	GoodsDao gdao = new GoodsDao();
 	
-	response.sendRedirect("insertGoodsImgAction.jsp?goodsNo="+goodsNo+"&filename="+filename+"&originName="+originName+"&contentType="+contentType);
+	GoodsImg img = new GoodsImg();
+	img.setGoodsNo(goodsNo);
+	img.setFilename(filename);
+	img.setOriginName(originName);
+	img.setContentType(contentType);
+	
+	GoodsImgDao iDao = new GoodsImgDao();
+	iDao.insertGoodsImg(img);
+	
+	response.sendRedirect("goodsManagementList.jsp");
 	
 %>

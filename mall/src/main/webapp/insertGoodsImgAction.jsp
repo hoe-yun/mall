@@ -2,7 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ page import="vo.*" %>
 <%@ page import="dao.*" %>
+
 <%
+	request.setCharacterEncoding("utf-8");
 	int goodsNo = Integer.parseInt(request.getParameter("goodsNo"));
 	String filename = request.getParameter("filename");
 	String originName = request.getParameter("originName");

@@ -108,7 +108,10 @@ rel="stylesheet">
 								</td>
 								<td ><%=String.valueOf(orderMap.get("createdate")).substring(0, 10)%></td>
 								<td ><%=orderMap.get("address")%></td>
+								<%if(orderMap.get("orderStatus").equals("배송완료")){
+									%>
 								<td><a href="<%=request.getContextPath()%>/insertReviewForm.jsp?ordersNo=<%=orderMap.get("orderNo")%>" class="primary-btn ml-4 p-2" >리뷰 쓰기</a></td>
+								<%} %>
 							</tr>
 						<!-- 주문 상품 1개 end -->
 						<%

@@ -78,7 +78,6 @@
           <div class="blog__details__quote">
                <i class="fa fa-quote-left"></i>
                <p><%=review.getReviewContent() %></p>
-               <h6>_ ADMIN _</h6>
            </div>
            <div class="blog__details__option">
                <div class="row">
@@ -115,7 +114,7 @@
 																							  out.print(preReview.getReviewNo());
 																					   }
                        																 %>" class="blog__details__btns__item">
-                           <p><span class="arrow_left"></span> 이전 공지 </p>
+                           <p><span class="arrow_left"></span> 이전 리뷰 </p>
                            <h5><%
 	                          	 if(preReview.getReviewContent() == null){
 	                      			out.print("(이전 리뷰가 없습니다.)");
@@ -134,7 +133,7 @@
                        																  }
                     	   															%> class="blog__details__btns__item blog__details__btns__item--next">
                        
-                           <p> 다음 공지 <span class="arrow_right"></span></p>
+                           <p> 다음 리뷰 <span class="arrow_right"></span></p>
                            <h5><%
                            		 if(nextReview.getReviewContent() == null){
                            			out.print("(다음 리뷰가 없습니다.)");

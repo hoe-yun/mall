@@ -107,9 +107,8 @@
                                     <td class="cart__close">
                                     	<%=g.getGoodsMemo() %>
                                     </td>
-                                    <td><%=g.getSoldout() %></td>
-                                    <td class="col-lg-3">
-                                    	<a href="<%=request.getContextPath()%>/deleteGoodsImgAction.jsp?goodsNo=<%=g.getGoodsNo() %>" class="primary-btn">Delete</a>
+                                    <td class="col-lg-1"><%=g.getSoldout() %></td>
+                                    <td class="col-lg-2">
                                     	<a href="<%=request.getContextPath()%>/updateGoodsForm.jsp?goodsNo=<%=g.getGoodsNo() %>" class="primary-btn">Edit</a>
                                     </td>
                                 </tr>

@@ -134,4 +134,25 @@ public class ReviewDao {
 			return review;
 		}
 		
+		public int updateReview(Review review) throws Exception{
+			int row = 0;
+			//모델코드
+			Class.forName("org.mariadb.jdbc.Driver");
+			String url = "jdbc:mariadb://192.168.200.36:3306/mall";
+			String dbuser = "user";
+			String dbpw = "java1234";
+			Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+			//리뷰 삭제를 위한 쿼리문
+			String sql = "UPDATE review SET review_content = ?, updatedate = NOW() WHERE review_no= ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, review.getReviewContent());
+			stmt.setInt(2, review.getReviewNo());
+			row = stmt.executeUpdate();
+			//DB자원 반납
+			stmt.close();
+			conn.close();
+			//모델코드 끝
+			return row;
+		}
+		
 }

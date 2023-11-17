@@ -88,7 +88,7 @@
                                <img src="img/blog/details/blog-author.jpg" alt="">
                            </div>
                            <div class="blog__details__author__text">
-                               <h5>ID:</h5>
+                               <h5>리뷰번호: <%=reviewNo %> </h5>
                            </div>
                        </div>
                    </div>

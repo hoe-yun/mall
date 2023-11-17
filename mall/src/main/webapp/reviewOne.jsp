@@ -108,7 +108,7 @@
            <div class="blog__details__btns">
                <div class="row">
                    <div class="col-lg-6 col-md-6 col-sm-6">
-                       <a href="<%=request.getContextPath()%>/noticeOne.jsp?noticeNo=<%
+                       <a href="<%=request.getContextPath()%>/reviewOne.jsp?reviewNo=<%
 														                    		   if(preReview.getReviewContent() == null ){
 																							  out.print(review.getReviewNo());
 																					   }else{
@@ -126,7 +126,7 @@
                        </a>
                    </div>
                    <div class="col-lg-6 col-md-6 col-sm-6">
-                       <a href=<%=request.getContextPath()%>/noticeOne.jsp?noticeNo=<%
+                       <a href=<%=request.getContextPath()%>/reviewOne.jsp?reviewNo=<%
                        																  if(nextReview.getReviewContent() == null ){
                     	   																  out.print(review.getReviewNo());
                        																  }else{

@@ -120,7 +120,7 @@
                                 <i class="fa fa-star-o"></i>
                                 <span> - 5 Reviews</span>
                             </div>
-                            <h3><%=Detail.getGoodsPrice() %> <span><%=(Detail.getGoodsPrice()+20000)%></span></h3>
+                            <h3><%=Detail.getGoodsPrice() %> <span><%=(Detail.getGoodsPrice()*1.3)%></span></h3>
                             <p><%=Detail.getGoodsMemo() %></p>
                             
                           <form  type="submit" action="./InsertCartAction.jsp" method="get">

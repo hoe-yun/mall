@@ -122,7 +122,7 @@
                                     
                                 </div>
                                 <div class="product__item__text">
-                                    <h6><%=g.getGoodsNo()%>.<%=g.getGoodsTitle() %></h6><span>품절여부 :<%=g.getSoldout()%></span>
+                                    <h6><%=g.getGoodsNo()%>.<%=g.getGoodsTitle() %></h6><span>품절여부 : <%=g.getSoldout()%></span>
                                     <a href="./productDetail.jsp?goodsNo=<%=g.getGoodsNo()%>" class="add-cart" action="<%=request.getContextPath()%>/productDetail.jsp?goodsNo=<%=g.getGoodsNo()%>">+ 상세정보 보기</a>
                                     <div class="rating">
                                         <i class="fa fa-star-o"></i>
